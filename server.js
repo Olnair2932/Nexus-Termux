@@ -217,6 +217,8 @@ async function registrarAprendizadoAutomatico(frase, acao) {
 
 async function processarIntencao(promptUsuario) {
 
+    let contextoRAG = "";
+
     // AUTO_CONHECIMENTO_GENERATIVO
 
     try {
@@ -326,11 +328,11 @@ async function processarIntencao(promptUsuario) {
 
             // RAG_CONSOLIDADO_STOP_AUTOBUILD
 
-            return {
-                acao: "conversar",
-                msg: consultaConsolidada,
-                ragLocal: true
-            };
+            contextoRAG = consultaConsolidada;
+            console.log("RAG enviado como contexto para IA.");
+
+            // Não retorna aqui.
+            // O contexto será usado junto com a pergunta do usuário.
 
         }
 
@@ -488,10 +490,7 @@ async function processarIntencao(promptUsuario) {
         )
     ) {
 
-        return {
-            acao: "conversar",
-            msg: contextoLocal
-        };
+        console.log("RAG local mantido como contexto para IA.");
 
     }
 
@@ -511,9 +510,13 @@ BASE DE CONHECIMENTO LOCAL
 
 ${contextoLocal}
 
-Utilize primeiro o conhecimento local acima.
-Se ele não responder a pergunta,
-complemente utilizando seu conhecimento geral.
+BASE DE CONHECIMENTO CONSOLIDADO
+
+${contextoRAG}
+
+Use o conhecimento local e consolidado como contexto auxiliar.
+Não responda apenas copiando a base de conhecimento.
+Explique a resposta naturalmente, combinando o contexto recuperado com seu conhecimento geral quando necessário.
 
 
 MISSÃO
