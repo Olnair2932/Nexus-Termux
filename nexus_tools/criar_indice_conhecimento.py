@@ -4,7 +4,7 @@
 from pathlib import Path
 import json
 
-ROOT = Path("/data/data/com.termux/files/home/sentinela_dev")
+ROOT = Path(__file__).resolve().parent.parent
 PASTA = ROOT / "conhecimento"
 INDICE = ROOT / "conhecimento" / "indice.json"
 

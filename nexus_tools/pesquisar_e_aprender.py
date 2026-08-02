@@ -9,9 +9,9 @@ from pathlib import Path
 from datetime import datetime
 from dotenv import load_dotenv
 
-ROOT = Path("/data/data/com.termux/files/home/sentinela_dev")
+ROOT = Path(__file__).resolve().parent.parent
 
-load_dotenv("/data/data/com.termux/files/home/sentinela_dev_backup/.env")
+load_dotenv(str(Path(__file__).resolve().parent.parent / ".env"))
 
 API_KEY = os.getenv("GEMINI_API_KEY")
 

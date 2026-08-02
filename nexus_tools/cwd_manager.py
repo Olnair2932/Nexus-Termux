@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 ARQ = Path("/data/data/com.termux/files/home/sentinela_dev/cwd_state.json")
-ROOT = "/data/data/com.termux/files/home/sentinela_dev"
+ROOT = str(Path(__file__).resolve().parent.parent)
 
 def carregar():
     if ARQ.exists():
