@@ -784,6 +784,23 @@ switch (intent.acao) {
 
         break;
 
+    case "listar_arquivos":
+        try {
+            const resultado = await shell(
+                "ls -lah " + (intent.params || CONFIG.ROOT)
+            );
+
+            respostaFinal =
+                resultado.stdout ||
+                resultado.stderr ||
+                "Nenhum arquivo encontrado.";
+
+        } catch(e) {
+            respostaFinal =
+                "Erro ao listar arquivos: " + e.message;
+        }
+        break;
+
     default:
         try {
             const { execSync } = require("child_process");
