@@ -833,70 +833,17 @@ switch (intent.acao) {
 
                     execResult = resultado;
 
-                    switch (resultado.executor) {
+                    
+respostaFinal =
+    resultado.stdout ||
+    resultado.stderr ||
+    resultado.erro ||
+    "Comando executado.";
 
-                        case "termux-battery-status": {
-                            const bateria = JSON.parse(resultado.stdout);
-                            respostaFinal =
-                                `Bateria: ${bateria.percentage}%
-\n` +
-                                `Temperatura: ${bateria.temperature}°C\n` +
-                                `Estado: ${bateria.status}`;
-                            break;
-                        }
-
-                        case "termux-volume": {
-                            const volumes = JSON.parse(resultado.stdout);
-                            respostaFinal = volumes
-                                .map(v => `${v.stream}: ${v.volume}/${v.max_volume}`)
-                                .join("\n");
-                            break;
-                        }
-
-                        case "termux-torch":
-                            respostaFinal = "Lanterna acionada com sucesso.";
-                            break;
-
-                        default:
-                            
-switch (resultado.executor) {
-
-    case "termux-battery-status": {
-        const bateria = JSON.parse(resultado.stdout);
-        respostaFinal =
-            `Bateria: ${bateria.percentage}%
-` +
-            `Temperatura: ${bateria.temperature}°C
-` +
-            `Estado: ${bateria.status}`;
-        break;
-    }
-
-    case "termux-volume": {
-        const volumes = JSON.parse(resultado.stdout);
-        respostaFinal = volumes
-            .map(v => `${v.stream}: ${v.volume}/${v.max_volume}`)
-            .join("\n");
-        break;
-    }
-
-    case "termux-torch":
-        respostaFinal = "Lanterna acionada com sucesso.";
-        break;
-
-    default:
-        respostaFinal =
-            resultado.stdout ||
-            resultado.stderr ||
-            resultado.erro ||
-            "Comando executado.";
-}
-
-                    }
-
-                    break;
+break;
 
 if (
+
                         resultado.executor === "termux-battery-status"
                     ) {
 
