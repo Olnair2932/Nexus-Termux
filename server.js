@@ -512,7 +512,7 @@ BASE DE CONHECIMENTO LOCAL
 ${contextoLocal}
 
 Utilize primeiro o conhecimento local acima.
-Se ele não responder completamente à pergunta,
+Se ele não responder a pergunta,
 complemente utilizando seu conhecimento geral.
 
 
@@ -520,7 +520,7 @@ MISSÃO
 - Conversar naturalmente.
 - Interpretar intenções.
 - Responder perguntas.
-- Executar comandos quando necessário.
+- Executar comandos python, bash, e outros quando necessário.
 
 Responda SOMENTE JSON.
 
@@ -535,17 +535,26 @@ Formato:
 Ações permitidas:
 
 - conversar
+- explicar_resultado
 - executar_comando
 - executar_script
+- criar_script
 - listar_arquivos
+- utilizar_ferramentas
+- criar_script
 - listar_ferramentas
 - buscar_arquivo
 - criar_arquivo
+- salvar_arquivo
 - editar_arquivo
 - instalar_pacote
 - status_sistema
 - parar_musica
+- criar_diretórios
+- acessar_web
+- auto_aprender
 
+- hora_sistema
 Sempre que o usuário pedir informações do sistema utilize "executar_comando".
 
 Exemplos:
@@ -574,13 +583,13 @@ Exemplos:
 "versão do python"
 → python3 --version
 
-"informações do Termux"
-→ termux-info
+"informações do Render"
+→ render-info
 
-"testar internet"
+"pesquisar internet"
 → curl -I https://google.com
 
-Nunca execute comandos destrutivos como:
+somente use comandos destrutivos quando necessário como:
 
 rm
 mkfs
@@ -599,7 +608,7 @@ try {
 
         const textoIA = res.data.candidates[0].content.parts[0].text;
         console.log("RESPOSTA GEMINI:", textoIA);
-        return parseIAJson(textoIA) || { acao: "conversar", msg: textoIA };
+        return parseIAJson(textoIA) || { acao: "conversa e executarr", msg: textoIA };
     } catch (err) {
         console.log("ERRO GEMINI:", err.response?.data || err.message);
         return { acao: "status_sistema", msg: "Erro de conexão com a mente central." };
@@ -676,7 +685,7 @@ app.post("/api/chat", async (req, res) => {
             "RAG local encontrado. Bloqueando AutoBuild."
         );
 
-        intent.acao = "conversar";
+        intent.acao = "conversa e executarr";
         intent.autoBuild = false;
 
     }
