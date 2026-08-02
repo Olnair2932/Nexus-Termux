@@ -756,7 +756,24 @@ app.post("/api/chat", async (req, res) => {
 switch (intent.acao) {
 
     case "status_sistema":
-        respostaFinal = intent.msg || "Sistema operacional pronto.";
+        try {
+            const os = require("os");
+
+            respostaFinal = JSON.stringify({
+                sistema: os.type(),
+                plataforma: os.platform(),
+                ambiente: process.env.RENDER ? "render" : "local",
+                root: CONFIG.ROOT,
+                hostname: os.hostname(),
+                memoria_total: os.totalmem(),
+                memoria_livre: os.freemem(),
+                uptime: os.uptime()
+            }, null, 2);
+
+        } catch (e) {
+            respostaFinal =
+                "Erro ao obter status: " + e.message;
+        }
         break;
 
     case "buscar_arquivo":
