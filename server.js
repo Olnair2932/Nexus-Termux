@@ -495,7 +495,17 @@ async function processarIntencao(promptUsuario) {
 
     }
 
-    const systemPrompt = `Você é o NEXUS SRE, um sistema operacional inteligente para Termux/Linux.
+    const systemPrompt = `Você é o NEXUS SRE, um sistema operacional inteligente.
+
+AMBIENTE DETECTADO
+- Tipo: ${AMBIENTE.ambiente}
+- Sistema: ${AMBIENTE.sistema || process.platform}
+- Root: ${AMBIENTE.root}
+
+REGRAS
+- Se o ambiente for "render", nunca utilize comandos exclusivos do Termux (termux-info, termux-battery-status, termux-tts-speak).
+- Se o ambiente for "termux", utilize normalmente os comandos do Termux.
+
 
 BASE DE CONHECIMENTO LOCAL
 
