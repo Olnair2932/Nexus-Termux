@@ -11,7 +11,7 @@ const { execSync } = require("child_process");
 function registrarAprendizado(frase, acao) {
     try {
         execSync(
-            `python3 nexus_tools/learning_memory.py`,
+            `python3 ${CONFIG.ROOT}/nexus_tools/learning_memory.py`,
             {
                 cwd: CONFIG.ROOT,
                 encoding: "utf8"
@@ -60,7 +60,7 @@ if (process.env.private_key) {
 function detectarAmbiente() {
     try {
         const resultado = execSync(
-            "python3 nexus_tools/detectar_ambiente.py",
+            "python3 ${CONFIG.ROOT}/nexus_tools/detectar_ambiente.py",
             {
                 encoding: "utf8"
             }
@@ -112,7 +112,7 @@ function shell(cmd) {
     console.log(`[SHELL] Executando: ${cmd}`);
     return new Promise((resolve) => {
         const cwdAtual = execSync(
-            "python3 nexus_tools/cwd_manager.py get",
+            "python3 ${CONFIG.ROOT}/nexus_tools/cwd_manager.py get",
             {
                 cwd: CONFIG.ROOT,
                 encoding: "utf8"
@@ -261,7 +261,7 @@ async function processarIntencao(promptUsuario) {
             const consulta = promptUsuario.substring(9).trim();
 
             const contexto = execSync(
-                `python3 nexus_tools/auto_conhecimento_generativo.py "${consulta.replace(/"/g,'\\"')}"`,
+                `python3 ${CONFIG.ROOT}/nexus_tools/auto_conhecimento_generativo.py "${consulta.replace(/"/g,'\\"')}"`,
                 {
                     cwd: CONFIG.ROOT,
                     encoding: "utf8",
@@ -306,7 +306,7 @@ async function processarIntencao(promptUsuario) {
             const { execSync } = require("child_process");
 
             const respostaLocal = execSync(
-                `python3 nexus_tools/auto_conhecimento_generativo.py "${promptUsuario.replace(/"/g,'\\"')}"`,
+                `python3 ${CONFIG.ROOT}/nexus_tools/auto_conhecimento_generativo.py "${promptUsuario.replace(/"/g,'\\"')}"`,
                 {
                     cwd: CONFIG.ROOT,
                     encoding: "utf8",
@@ -343,7 +343,7 @@ async function processarIntencao(promptUsuario) {
         const { execSync } = require("child_process");
 
         const consultaConsolidada = execSync(
-            `python3 nexus_tools/consolidar_conhecimento.py "${promptUsuario.replace(/"/g,'\\"')}"`,
+            `python3 ${CONFIG.ROOT}/nexus_tools/consolidar_conhecimento.py "${promptUsuario.replace(/"/g,'\\"')}"`,
             {
                 cwd: CONFIG.ROOT,
                 encoding: "utf8",
@@ -399,7 +399,7 @@ async function processarIntencao(promptUsuario) {
         ) {
 
             const resposta = execSync(
-                `python3 nexus_tools/auto_conhecimento_generativo.py "${promptUsuario.replace(/"/g,'\\"')}"`,
+                `python3 ${CONFIG.ROOT}/nexus_tools/auto_conhecimento_generativo.py "${promptUsuario.replace(/"/g,'\\"')}"`,
                 {
                     cwd: CONFIG.ROOT,
                     encoding: "utf8",
@@ -434,7 +434,7 @@ async function processarIntencao(promptUsuario) {
         const { execSync } = require("child_process");
 
         const memoria = execSync(
-            `python3 nexus_tools/memory_lookup.py "${promptUsuario.replace(/"/g, '\"')}"`,
+            `python3 ${CONFIG.ROOT}/nexus_tools/memory_lookup.py "${promptUsuario.replace(/"/g, '\"')}"`,
             {
                 cwd: CONFIG.ROOT,
                 encoding: "utf8"
@@ -495,7 +495,7 @@ async function processarIntencao(promptUsuario) {
     try {
 
         contextoLocal = execSync(
-            `python3 nexus_tools/auto_conhecimento_generativo.py "${promptUsuario.replace(/"/g,'\\"')}"`,
+            `python3 ${CONFIG.ROOT}/nexus_tools/auto_conhecimento_generativo.py "${promptUsuario.replace(/"/g,'\\"')}"`,
             {
                 cwd: CONFIG.ROOT,
                 encoding: "utf8",
@@ -783,7 +783,7 @@ switch (intent.acao) {
             const { execSync } = require("child_process");
 
             respostaFinal = execSync(
-                `python3 nexus_tools/auto_conhecimento_generativo.py "${intent.params || promptUsuario}"`,
+                `python3 ${CONFIG.ROOT}/nexus_tools/auto_conhecimento_generativo.py "${intent.params || promptUsuario}"`,
                 {
                     cwd: CONFIG.ROOT,
                     encoding: "utf8",
@@ -838,7 +838,7 @@ switch (intent.acao) {
                         .trim();
 
                     execSync(
-                        `python3 nexus_tools/cwd_manager.py set "${destino}"`,
+                        `python3 ${CONFIG.ROOT}/nexus_tools/cwd_manager.py set "${destino}"`,
                         {
                             cwd: CONFIG.ROOT,
                             encoding: "utf8"
@@ -856,7 +856,7 @@ switch (intent.acao) {
                 try {
 
                     const retorno = execSync(
-                        `python3 shell_executor.py ${JSON.stringify(intent.params)}`,
+                        `python3 ${CONFIG.ROOT}/shell_executor.py ${JSON.stringify(intent.params)}`,
                         {
                             cwd: CONFIG.ROOT,
                             encoding: "utf8"
@@ -1024,7 +1024,7 @@ if (
                     );
 
                     execSync(
-                        `python3 nexus_tools/file_creator.py criar_tool ${novaTool} "Ferramenta criada automaticamente pelo Nexus" "${texto}" "print('Ferramenta ${novaTool} criada automaticamente pelo Nexus')"`,
+                        `python3 ${CONFIG.ROOT}/nexus_tools/file_creator.py criar_tool ${novaTool} "Ferramenta criada automaticamente pelo Nexus" "${texto}" "print('Ferramenta ${novaTool} criada automaticamente pelo Nexus')"`,
                         {
                             cwd: CONFIG.ROOT,
                             encoding: "utf8"
@@ -1057,7 +1057,7 @@ if (
 intent.acao = chave;
 
             const retorno = execSync(
-                `python3 nexus_tools/command_router.py ${chave}`,
+                `python3 ${CONFIG.ROOT}/nexus_tools/command_router.py ${chave}`,
                 {
                     cwd: CONFIG.ROOT,
                     encoding: "utf8"
