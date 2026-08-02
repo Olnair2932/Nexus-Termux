@@ -60,7 +60,7 @@ if (process.env.private_key) {
 function detectarAmbiente() {
     try {
         const resultado = execSync(
-            "python3 ${CONFIG.ROOT}/nexus_tools/detectar_ambiente.py",
+            `python3 ${CONFIG.ROOT}/nexus_tools/detectar_ambiente.py`,
             {
                 encoding: "utf8"
             }
@@ -112,7 +112,7 @@ function shell(cmd) {
     console.log(`[SHELL] Executando: ${cmd}`);
     return new Promise((resolve) => {
         const cwdAtual = execSync(
-            "python3 ${CONFIG.ROOT}/nexus_tools/cwd_manager.py get",
+            `python3 ${CONFIG.ROOT}/nexus_tools/cwd_manager.py get`,
             {
                 cwd: CONFIG.ROOT,
                 encoding: "utf8"
