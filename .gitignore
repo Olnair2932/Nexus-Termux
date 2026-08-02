@@ -7,3 +7,7 @@ public/playlist/player_state.json
 public/playlist/queue.txt
 public/playlist/rename_log.txt
 public/playlist/tmp.json
+
+# Backups locais
+*.bak
+*.bak_*
