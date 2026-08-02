@@ -11,3 +11,4 @@ public/playlist/tmp.json
 # Backups locais
 *.bak
 *.bak_*
+nexus_tools_backup_render/
