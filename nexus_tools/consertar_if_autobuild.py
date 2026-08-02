@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from pathlib import Path
 
-ARQ = Path("/data/data/com.termux/files/home/sentinela_dev/server.js")
+ARQ = Path(__file__).resolve().parent.parent / "server.js"
 
 texto = ARQ.read_text(encoding="utf-8")
 
