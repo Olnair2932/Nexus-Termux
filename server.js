@@ -776,6 +776,12 @@ switch (intent.acao) {
         }
         break;
 
+    case "acessar_web":
+        respostaFinal =
+            intent.msg ||
+            "Consulta web processada.";
+        break;
+
     case "buscar_arquivo":
 
         try {
