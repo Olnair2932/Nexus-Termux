@@ -1,5 +1,5 @@
 #!/bin/bash
-DIR="/data/data/com.termux/files/home/sentinela_dev/public/playlist"
+DIR="$(cd "$(dirname "$0")" && pwd)"
 NOME="$1"
 mkdir -p "$DIR"
 echo "🔍 NEXUS buscando via Python 3.14: $NOME..."

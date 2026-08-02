@@ -1,7 +1,7 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/usr/bin/env bash
 set -euo pipefail
 
-DIR="/data/data/com.termux/files/home/sentinela_dev/public/assets/docs/Playlist"
+DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "[INFO] Iniciando limpeza de nomes em: $DIR"
 

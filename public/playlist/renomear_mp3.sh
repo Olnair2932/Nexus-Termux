@@ -1,8 +1,8 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/usr/bin/env bash
 
 set -euo pipefail
 
-BASE="/data/data/com.termux/files/home/sentinela_dev/public/assets/docs/Playlist"
+BASE="$(cd "$(dirname "$0")" && pwd)"
 LOG="$BASE/rename_log.txt"
 
 mkdir -p "$BASE"

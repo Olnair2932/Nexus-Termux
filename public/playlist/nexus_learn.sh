@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/usr/bin/env bash
 
 FILE="$HOME/sentinela_dev/nexus_learning.json"
 ACTION=$1

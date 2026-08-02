@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/usr/bin/env bash
 
 MUSICA="$1"
 DIR="$(cd "$(dirname "$0")" && pwd)"

@@ -1,4 +1,4 @@
-#!/data/data/com.termux/files/usr/bin/bash
+#!/usr/bin/env bash
 
 ROOT="$HOME/sentinela_dev/public/assets/docs/Playlist"
 REGISTRY="$HOME/sentinela_dev/script_registry.json"

@@ -2,7 +2,7 @@
 # Script: baixar_mp3.sh
 # Descrição: Busca e faz o download de áudio via yt-dlp
 
-DIR="/data/data/com.termux/files/home/sentinela_dev/public/playlist"
+DIR="$(cd "$(dirname "$0")" && pwd)"
 NOME="$1"
 
 if [ -z "$NOME" ]; then
