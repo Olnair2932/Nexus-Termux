@@ -24,7 +24,25 @@ function registrarAprendizado(frase, acao) {
 
 
 const fs = require('fs');
+const admin = require('firebase-admin');
 
+
+
+
+// ==========================================
+// FIREBASE REALTIME DATABASE
+// ==========================================
+
+const serviceAccount = JSON.parse(process.env.private_key);
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://finance-master-629d1-default-rtdb.firebaseio.com"
+});
+
+const db = admin.database();
+
+// ==========================================
 
 function detectarAmbiente() {
     try {
