@@ -26,6 +26,33 @@ function registrarAprendizado(frase, acao) {
 const fs = require('fs');
 
 
+function detectarAmbiente() {
+    try {
+        const resultado = execSync(
+            "python3 nexus_tools/detectar_ambiente.py",
+            {
+                encoding: "utf8"
+            }
+        );
+
+        return JSON.parse(resultado);
+
+    } catch(e) {
+        console.log("Falha detector ambiente:", e.message);
+
+        return {
+            ambiente: "linux",
+            root: process.cwd()
+        };
+    }
+}
+
+const AMBIENTE = detectarAmbiente();
+
+console.log("[AMBIENTE]", AMBIENTE);
+
+
+
 // --- CONFIGURAÇÃO ---
 const CONFIG = {
     PORT: 3003,
