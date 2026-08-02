@@ -1,6 +1,4 @@
-require('dotenv').config({
-    path: '/data/data/com.termux/files/home/ia_termux/.env'
-});
+require("dotenv").config();
 
 const express = require('express');
 const cors = require('cors');
@@ -31,8 +29,8 @@ const fs = require('fs');
 // --- CONFIGURAÇÃO ---
 const CONFIG = {
     PORT: 3003,
-    ROOT: "/data/data/com.termux/files/home/sentinela_dev",
-    BRAIN_FILE: path.join("/data/data/com.termux/files/home/sentinela_dev", "brain.json"),};
+    ROOT: __dirname,
+    BRAIN_FILE: path.join(__dirname, "brain.json"),};
 
 const intentMap = JSON.parse(
     fs.readFileSync(
