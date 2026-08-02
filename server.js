@@ -24,7 +24,8 @@ function registrarAprendizado(frase, acao) {
 
 
 const fs = require('fs');
-const admin = require('firebase-admin');
+const { initializeApp, cert } = require("firebase-admin/app");
+const { getDatabase } = require("firebase-admin/database");
 
 
 
@@ -33,14 +34,26 @@ const admin = require('firebase-admin');
 // FIREBASE REALTIME DATABASE
 // ==========================================
 
-const serviceAccount = JSON.parse(process.env.private_key);
+let db = null;
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://finance-master-629d1-default-rtdb.firebaseio.com"
-});
+if (process.env.private_key) {
 
-const db = admin.database();
+    const serviceAccount = JSON.parse(process.env.private_key);
+
+    initializeApp({
+        credential: cert(serviceAccount),
+        databaseURL: "https://finance-master-629d1-default-rtdb.firebaseio.com"
+    });
+
+    db = getDatabase();
+
+    console.log("Firebase Realtime conectado.");
+
+} else {
+
+    console.log("Firebase desabilitado (Termux/local).");
+
+}
 
 // ==========================================
 
