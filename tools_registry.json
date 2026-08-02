@@ -1,0 +1,41 @@
+{
+    "versao": "1.0",
+    "ultima_atualizacao": "2026-07-29T03:10:45.849033",
+    "tools": [
+        {
+            "nome": "logger",
+            "arquivo": "logger.py",
+            "categoria": "logs",
+            "objetivo": "Registrar eventos",
+            "status": "ativo"
+        },
+        {
+            "nome": "log_analyzer",
+            "arquivo": "log_analyzer.py",
+            "categoria": "logs",
+            "objetivo": "Analisar logs",
+            "status": "ativo"
+        },
+        {
+            "nome": "brain_agent",
+            "arquivo": "brain_agent.py",
+            "categoria": "ia",
+            "objetivo": "Consultar conhecimento",
+            "status": "ativo"
+        },
+        {
+            "nome": "self_improve",
+            "arquivo": "self_improve.py",
+            "categoria": "evolucao",
+            "objetivo": "Executar autoevolução",
+            "status": "ativo"
+        },
+        {
+            "nome": "backup_checker",
+            "arquivo": "backup_checker.py",
+            "categoria": "criada_pelo_nexus",
+            "objetivo": "Verificar integridade dos backups",
+            "status": "ativo"
+        }
+    ]
+}

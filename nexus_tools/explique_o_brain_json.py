@@ -1,0 +1,1 @@
+print('Ferramenta explique_o_brain_json criada automaticamente pelo Nexus')

@@ -1,0 +1,526 @@
+{
+    "auto_fix.py": {
+        "arquivo": "nexus_tools/auto_fix.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "registrar",
+            "preparar",
+            "verificar"
+        ],
+        "linhas": 92,
+        "tamanho_bytes": 1555
+    },
+    "auto_learning.py": {
+        "arquivo": "nexus_tools/auto_learning.py",
+        "categoria": "aprendizado",
+        "executor": "python",
+        "funcoes": [],
+        "linhas": 46,
+        "tamanho_bytes": 828
+    },
+    "backup_checker.py": {
+        "arquivo": "nexus_tools/backup_checker.py",
+        "categoria": "backup",
+        "executor": "python",
+        "funcoes": [
+            "executar"
+        ],
+        "linhas": 12,
+        "tamanho_bytes": 215
+    },
+    "bash_executor.py": {
+        "arquivo": "nexus_tools/bash_executor.py",
+        "categoria": "bash",
+        "executor": "python",
+        "funcoes": [
+            "carregar",
+            "executar"
+        ],
+        "linhas": 68,
+        "tamanho_bytes": 1258
+    },
+    "brain_agent.py": {
+        "arquivo": "nexus_tools/brain_agent.py",
+        "categoria": "inteligência",
+        "executor": "python",
+        "funcoes": [
+            "consultar"
+        ],
+        "linhas": 134,
+        "tamanho_bytes": 3145
+    },
+    "command_router.backup_v32.2.py": {
+        "arquivo": "nexus_tools/command_router.backup_v32.2.py",
+        "categoria": "backup",
+        "executor": "python",
+        "funcoes": [
+            "executar"
+        ],
+        "linhas": 53,
+        "tamanho_bytes": 1019
+    },
+    "command_router.before_cli_args_v32.2.py": {
+        "arquivo": "nexus_tools/command_router.before_cli_args_v32.2.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "executar"
+        ],
+        "linhas": 53,
+        "tamanho_bytes": 1019
+    },
+    "command_router.before_integration_v32.2.py": {
+        "arquivo": "nexus_tools/command_router.before_integration_v32.2.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "executar"
+        ],
+        "linhas": 53,
+        "tamanho_bytes": 1019
+    },
+    "command_router.py": {
+        "arquivo": "nexus_tools/command_router.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "executar"
+        ],
+        "linhas": 104,
+        "tamanho_bytes": 2025
+    },
+    "dashboard_builder.py": {
+        "arquivo": "nexus_tools/dashboard_builder.py",
+        "categoria": "dashboard",
+        "executor": "python",
+        "funcoes": [
+            "registrar",
+            "construir"
+        ],
+        "linhas": 59,
+        "tamanho_bytes": 1080
+    },
+    "dashboard_editor.py": {
+        "arquivo": "nexus_tools/dashboard_editor.py",
+        "categoria": "dashboard",
+        "executor": "python",
+        "funcoes": [
+            "registrar",
+            "melhorar"
+        ],
+        "linhas": 50,
+        "tamanho_bytes": 962
+    },
+    "dashboard_optimizer.py": {
+        "arquivo": "nexus_tools/dashboard_optimizer.py",
+        "categoria": "dashboard",
+        "executor": "python",
+        "funcoes": [
+            "analisar"
+        ],
+        "linhas": 55,
+        "tamanho_bytes": 1080
+    },
+    "events.py": {
+        "arquivo": "nexus_tools/events.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "consulta",
+            "aprendizado",
+            "erro",
+            "melhoria"
+        ],
+        "linhas": 20,
+        "tamanho_bytes": 428
+    },
+    "evolution_history.py": {
+        "arquivo": "nexus_tools/evolution_history.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "registrar"
+        ],
+        "linhas": 57,
+        "tamanho_bytes": 1207
+    },
+    "github.py": {
+        "arquivo": "nexus_tools/github.py",
+        "categoria": "github",
+        "executor": "python",
+        "funcoes": [
+            "pesquisar_github"
+        ],
+        "linhas": 44,
+        "tamanho_bytes": 735
+    },
+    "improvement_applier.py": {
+        "arquivo": "nexus_tools/improvement_applier.py",
+        "categoria": "melhoria",
+        "executor": "python",
+        "funcoes": [
+            "aplicar"
+        ],
+        "linhas": 82,
+        "tamanho_bytes": 1892
+    },
+    "improvement_executor.py": {
+        "arquivo": "nexus_tools/improvement_executor.py",
+        "categoria": "melhoria",
+        "executor": "python",
+        "funcoes": [
+            "executar"
+        ],
+        "linhas": 24,
+        "tamanho_bytes": 470
+    },
+    "improvement_planner.py": {
+        "arquivo": "nexus_tools/improvement_planner.py",
+        "categoria": "melhoria",
+        "executor": "python",
+        "funcoes": [
+            "gerar"
+        ],
+        "linhas": 51,
+        "tamanho_bytes": 1200
+    },
+    "knowledge.py": {
+        "arquivo": "nexus_tools/knowledge.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "pesquisar"
+        ],
+        "linhas": 36,
+        "tamanho_bytes": 698
+    },
+    "known.py": {
+        "arquivo": "nexus_tools/known.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "conhece"
+        ],
+        "linhas": 23,
+        "tamanho_bytes": 361
+    },
+    "learn.py": {
+        "arquivo": "nexus_tools/learn.py",
+        "categoria": "aprendizado",
+        "executor": "python",
+        "funcoes": [
+            "aprender"
+        ],
+        "linhas": 43,
+        "tamanho_bytes": 727
+    },
+    "learning_memory.py": {
+        "arquivo": "nexus_tools/learning_memory.py",
+        "categoria": "aprendizado",
+        "executor": "python",
+        "funcoes": [
+            "carregar",
+            "salvar",
+            "registrar_acerto",
+            "registrar_erro"
+        ],
+        "linhas": 74,
+        "tamanho_bytes": 1316
+    },
+    "learning_queue.py": {
+        "arquivo": "nexus_tools/learning_queue.py",
+        "categoria": "aprendizado",
+        "executor": "python",
+        "funcoes": [
+            "proximo"
+        ],
+        "linhas": 61,
+        "tamanho_bytes": 964
+    },
+    "log_analyzer.py": {
+        "arquivo": "nexus_tools/log_analyzer.py",
+        "categoria": "logs",
+        "executor": "python",
+        "funcoes": [
+            "analisar"
+        ],
+        "linhas": 59,
+        "tamanho_bytes": 1147
+    },
+    "logger.py": {
+        "arquivo": "nexus_tools/logger.py",
+        "categoria": "logs",
+        "executor": "python",
+        "funcoes": [
+            "registrar"
+        ],
+        "linhas": 18,
+        "tamanho_bytes": 471
+    },
+    "memory_lookup.py": {
+        "arquivo": "nexus_tools/memory_lookup.py",
+        "categoria": "memória",
+        "executor": "python",
+        "funcoes": [
+            "consultar"
+        ],
+        "linhas": 39,
+        "tamanho_bytes": 701
+    },
+    "mode.py": {
+        "arquivo": "nexus_tools/mode.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "modo_atual",
+            "alterar_modo"
+        ],
+        "linhas": 38,
+        "tamanho_bytes": 719
+    },
+    "quality.py": {
+        "arquivo": "nexus_tools/quality.py",
+        "categoria": "qualidade",
+        "executor": "python",
+        "funcoes": [
+            "melhor",
+            "deve_gravar"
+        ],
+        "linhas": 49,
+        "tamanho_bytes": 922
+    },
+    "readme_generator.py": {
+        "arquivo": "nexus_tools/readme_generator.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "gerar_readme"
+        ],
+        "linhas": 70,
+        "tamanho_bytes": 1291
+    },
+    "recall.py": {
+        "arquivo": "nexus_tools/recall.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "lembrar"
+        ],
+        "linhas": 38,
+        "tamanho_bytes": 635
+    },
+    "repair_agent.py": {
+        "arquivo": "nexus_tools/repair_agent.py",
+        "categoria": "reparo",
+        "executor": "python",
+        "funcoes": [
+            "registrar",
+            "analisar"
+        ],
+        "linhas": 76,
+        "tamanho_bytes": 1328
+    },
+    "repair_executor.py": {
+        "arquivo": "nexus_tools/repair_executor.py",
+        "categoria": "reparo",
+        "executor": "python",
+        "funcoes": [
+            "registrar",
+            "executar"
+        ],
+        "linhas": 66,
+        "tamanho_bytes": 1093
+    },
+    "rollback.py": {
+        "arquivo": "nexus_tools/rollback.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "backup",
+            "restaurar"
+        ],
+        "linhas": 60,
+        "tamanho_bytes": 1007
+    },
+    "self_improve.py": {
+        "arquivo": "nexus_tools/self_improve.py",
+        "categoria": "melhoria",
+        "executor": "python",
+        "funcoes": [],
+        "linhas": 36,
+        "tamanho_bytes": 613
+    },
+    "status_monitor.py": {
+        "arquivo": "nexus_tools/status_monitor.py",
+        "categoria": "monitoramento",
+        "executor": "python",
+        "funcoes": [
+            "verificar"
+        ],
+        "linhas": 69,
+        "tamanho_bytes": 1542
+    },
+    "suggestion_analyzer.py": {
+        "arquivo": "nexus_tools/suggestion_analyzer.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "classificar",
+            "analisar"
+        ],
+        "linhas": 90,
+        "tamanho_bytes": 1771
+    },
+    "suggestion_approver.py": {
+        "arquivo": "nexus_tools/suggestion_approver.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "aprovar"
+        ],
+        "linhas": 44,
+        "tamanho_bytes": 829
+    },
+    "suggestion_manager.py": {
+        "arquivo": "nexus_tools/suggestion_manager.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "registrar",
+            "listar"
+        ],
+        "linhas": 78,
+        "tamanho_bytes": 1334
+    },
+    "summarize_help.py": {
+        "arquivo": "nexus_tools/summarize_help.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "resumir"
+        ],
+        "linhas": 60,
+        "tamanho_bytes": 1009
+    },
+    "sync_manager.py": {
+        "arquivo": "nexus_tools/sync_manager.py",
+        "categoria": "sincronização",
+        "executor": "python",
+        "funcoes": [
+            "registrar",
+            "sincronizar"
+        ],
+        "linhas": 69,
+        "tamanho_bytes": 1121
+    },
+    "syntax_checker.py": {
+        "arquivo": "nexus_tools/syntax_checker.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "registrar",
+            "verificar"
+        ],
+        "linhas": 72,
+        "tamanho_bytes": 1155
+    },
+    "system_sync.py": {
+        "arquivo": "nexus_tools/system_sync.py",
+        "categoria": "sincronização",
+        "executor": "python",
+        "funcoes": [
+            "registrar",
+            "sincronizar"
+        ],
+        "linhas": 87,
+        "tamanho_bytes": 1497
+    },
+    "termux_knowledge.py": {
+        "arquivo": "nexus_tools/termux_knowledge.py",
+        "categoria": "termux",
+        "executor": "python",
+        "funcoes": [
+            "consultar"
+        ],
+        "linhas": 34,
+        "tamanho_bytes": 595
+    },
+    "termux_tools.py": {
+        "arquivo": "nexus_tools/termux_tools.py",
+        "categoria": "ferramentas",
+        "executor": "python",
+        "funcoes": [
+            "pesquisar_pacote",
+            "instalar_pacote"
+        ],
+        "linhas": 46,
+        "tamanho_bytes": 726
+    },
+    "test_runner.py": {
+        "arquivo": "nexus_tools/test_runner.py",
+        "categoria": "testes",
+        "executor": "python",
+        "funcoes": [
+            "executar"
+        ],
+        "linhas": 45,
+        "tamanho_bytes": 789
+    },
+    "tool_auditor.py": {
+        "arquivo": "nexus_tools/tool_auditor.py",
+        "categoria": "ferramentas",
+        "executor": "python",
+        "funcoes": [
+            "registrar",
+            "auditar"
+        ],
+        "linhas": 71,
+        "tamanho_bytes": 1458
+    },
+    "tool_manager.py": {
+        "arquivo": "nexus_tools/tool_manager.py",
+        "categoria": "ferramentas",
+        "executor": "python",
+        "funcoes": [
+            "carregar",
+            "salvar",
+            "historico",
+            "listar",
+            "alterar"
+        ],
+        "linhas": 104,
+        "tamanho_bytes": 1761
+    },
+    "tool_validator.py": {
+        "arquivo": "nexus_tools/tool_validator.py",
+        "categoria": "ferramentas",
+        "executor": "python",
+        "funcoes": [
+            "registrar",
+            "validar"
+        ],
+        "linhas": 71,
+        "tamanho_bytes": 1552
+    },
+    "update_manager.py": {
+        "arquivo": "nexus_tools/update_manager.py",
+        "categoria": "geral",
+        "executor": "python",
+        "funcoes": [
+            "atualizar_versao"
+        ],
+        "linhas": 64,
+        "tamanho_bytes": 1292
+    },
+    "workspace_manager.py": {
+        "arquivo": "nexus_tools/workspace_manager.py",
+        "categoria": "workspace",
+        "executor": "python",
+        "funcoes": [
+            "sincronizar"
+        ],
+        "linhas": 50,
+        "tamanho_bytes": 893
+    }
+}

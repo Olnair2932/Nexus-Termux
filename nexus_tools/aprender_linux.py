@@ -1,0 +1,1 @@
+print('Ferramenta aprender_linux criada automaticamente pelo Nexus')

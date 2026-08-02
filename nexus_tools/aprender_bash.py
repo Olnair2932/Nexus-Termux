@@ -1,0 +1,1 @@
+print('Ferramenta aprender_bash criada automaticamente pelo Nexus')

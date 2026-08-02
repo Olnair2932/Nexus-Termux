@@ -1,0 +1,25 @@
+{
+    "indice": 15,
+    "comandos": [
+        "mkdir",
+        "ls",
+        "cp",
+        "mv",
+        "rm",
+        "grep",
+        "find",
+        "curl",
+        "git",
+        "python",
+        "sed",
+        "awk",
+        "chmod",
+        "chown",
+        "tar",
+        "zip",
+        "unzip",
+        "ssh",
+        "nano",
+        "vim"
+    ]
+}

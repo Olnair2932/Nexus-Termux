@@ -1,0 +1,28 @@
+[
+    {
+        "data": "2026-08-01T16:40:23.832184",
+        "evento": "Inicialização do histórico de conhecimento",
+        "origem": "Nexus SRE"
+    },
+    {
+        "data": "2026-08-01T17:22:14.589243",
+        "evento": "Conhecimento aprendido",
+        "tema": "Ansible",
+        "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/aprendidos/ansible.md",
+        "origem": "Gemini 3.1 Flash Lite"
+    },
+    {
+        "data": "2026-08-01T17:24:45.429996",
+        "evento": "Conhecimento aprendido",
+        "tema": "Kubernetes",
+        "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/aprendidos/kubernetes.md",
+        "origem": "Gemini 3.1 Flash Lite"
+    },
+    {
+        "data": "2026-08-01T17:54:44.463577",
+        "evento": "Conhecimento aprendido",
+        "tema": "Terraform",
+        "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/aprendidos/terraform.md",
+        "origem": "Gemini 3.1 Flash Lite"
+    }
+]

@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+
+<title>NEXUS SRE DASHBOARD</title>
+
+<style>
+
+body {
+    background:#101010;
+    color:#eee;
+    font-family:Arial;
+    padding:20px;
+}
+
+h1 {
+    color:#00ff99;
+}
+
+.container {
+    max-width:900px;
+    margin:auto;
+}
+
+.resposta {
+    background:#181818;
+    border:1px solid #333;
+    border-radius:10px;
+    padding:20px;
+    min-height:200px;
+    white-space:pre-wrap;
+    overflow:auto;
+}
+
+button {
+    margin-top:15px;
+    padding:12px 20px;
+    border:0;
+    border-radius:8px;
+    background:#00aa66;
+    color:white;
+    font-size:16px;
+}
+
+button:hover {
+    background:#00cc77;
+}
+
+input {
+    width:100%;
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:8px;
+    border:1px solid #333;
+    background:#222;
+    color:white;
+}
+
+
+
+body.tema-claro{
+background:#f5f5f5;
+color:#222;
+}
+
+body.tema-claro input{
+background:#fff;
+color:#222;
+border:1px solid #bbb;
+}
+
+body.tema-claro button{
+background:#1976d2;
+color:#fff;
+}
+
+body.tema-claro .resposta{
+background:#fff;
+color:#111;
+border:1px solid #ccc;
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>� NEXUS SRE</h1>
+
+<input id="pergunta"
+placeholder="Digite uma pergunta para o Nexus">
+
+<button id="btnExecutar" onclick="enviar()">
+Executar
+</button>
+
+<button id="btnAprender" onclick="aprenderTema()">
+🧠 Aprender
+</button>
+
+<h3>Resposta:</h3>
+
+<div id="resposta" class="resposta"
+style="white-space:pre-wrap;
+overflow-y:auto;
+max-height:420px;
+font-family:monospace;">
+🖥️ NEXUS TERMINAL
+
+Pronto.
+</div>
+
+<button id="btnCopiar" onclick="copiarInteligente()">
+📋 Copiar resposta
+</button>
+
+<button id="btnSalvarTXT" onclick="salvarTXT()">
+💾 Salvar TXT
+</button>
+
+<button id="btnCompartilhar" onclick="compartilharResposta()">
+📤 Compartilhar
+</button>
+
+<button id="btnLimpar" onclick="limparResposta()">
+� Limpar
+</button>
+
+<button id="btnTema" onclick="alternarTema()">
+☀️ Tema Claro
+</button>
+
+
+
+
+<h3>� Histórico</h3>
+
+<div id="historico"
+style="
+background:#111;
+padding:10px;
+border-radius:8px;
+margin-top:10px;
+max-height:220px;
+overflow:auto;
+font-size:14px;
+">
+Nenhuma consulta.
+</div>
+
+<button id="btnLimparHistorico"
+onclick="limparHistorico()">
+🗑️ Limpar Histórico
+</button>
+
+
+</div>
+
+<script>
+
+
+async function enviar(){
+
+const texto =
+document.getElementById("pergunta").value.trim();
+
+if(!texto){
+    alert("Digite uma pergunta.");
+    return;
+}
+
+const area =
+document.getElementById("resposta");
+
+const botao =
+document.getElementById("btnExecutar");
+
+botao.disabled = true;
+botao.innerText = "⏳ Executando...";
+
+area.innerText +=
+
+"\n\n────────────────────────────\n"+
+"$ "+texto+
+"\n"+
+"⏳ Processando...\n";
+
+try{
+
+const r =
+await fetch("/api/chat",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+texto:texto
+})
+});
+
+const dados =
+await r.json();
+
+let resultado="";
+
+if(dados.shell && dados.shell.output){
+    resultado=dados.shell.output;
+}
+
+area.innerText +=
+
+"\n"+
+(dados.nexus||"")+
+
+(resultado
+? "\n\n"+resultado
+: "")+
+
+"\n";
+
+area.scrollTop =
+area.scrollHeight;
+
+botao.innerText="✅ Concluído";
+
+}catch(e){
+
+area.innerText +=
+
+"\n❌ ERRO\n"+e.message+"\n";
+
+area.scrollTop =
+area.scrollHeight;
+
+botao.innerText="❌ Erro";
+
+}
+
+setTimeout(()=>{
+
+botao.disabled=false;
+botao.innerText="Executar";
+
+},1500);
+
+}
+
+
+async function copiar(){
+
+const texto =
+document.getElementById("resposta").innerText;
+
+
+await navigator.clipboard.writeText(texto);
+
+
+alert("Resposta copiada!");
+
+}
+
+
+async function copiarInteligente(){
+
+    const area =
+        document.getElementById("resposta");
+
+    let texto = area.innerText;
+
+    if (texto.includes("📄 RESULTADO:")) {
+
+        texto =
+        texto.split("📄 RESULTADO:")[1]
+        .trim();
+
+    }
+
+    if (!texto) {
+
+        alert("Nenhuma resposta para copiar.");
+        return;
+
+    }
+
+    try {
+
+        await navigator.clipboard.writeText(texto);
+
+        const botao =
+        document.getElementById("btnCopiar");
+
+        botao.innerText = "✅ Copiado";
+
+        setTimeout(() => {
+
+            botao.innerText =
+            "📋 Copiar resposta";
+
+        }, 2000);
+
+    } catch(e) {
+
+        alert(
+        "Erro ao copiar: " + e.message
+        );
+
+    }
+
+}
+
+
+
+function salvarTXT(){
+
+    const area =
+        document.getElementById("resposta");
+
+    let texto = area.innerText;
+
+
+    if (texto.includes("📄 RESULTADO:")) {
+
+        texto =
+        texto.split("📄 RESULTADO:")[1]
+        .trim();
+
+    }
+
+
+    if (!texto){
+
+        alert("Nenhuma resposta para salvar.");
+        return;
+
+    }
+
+
+    const blob =
+        new Blob(
+            [texto],
+            {
+                type:
+                "text/plain;charset=utf-8"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(blob);
+
+
+    const link =
+        document.createElement("a");
+
+
+    link.href = url;
+
+    link.download =
+        "nexus_resposta.txt";
+
+
+    link.click();
+
+
+    URL.revokeObjectURL(url);
+
+
+    const botao =
+    document.getElementById("btnSalvarTXT");
+
+
+    if(botao){
+
+        botao.innerText =
+        "✅ Salvo";
+
+        setTimeout(()=>{
+
+            botao.innerText =
+            "💾 Salvar TXT";
+
+        },2000);
+
+    }
+
+}
+
+
+
+
+async function compartilharResposta(){
+
+    const texto =
+        document.getElementById("resposta").innerText;
+
+    if(!texto.trim()){
+        alert("Nenhuma resposta para compartilhar.");
+        return;
+    }
+
+    if(navigator.share){
+
+        try{
+
+            await navigator.share({
+                title:"Nexus SRE",
+                text:texto
+            });
+
+        }catch(e){}
+
+    }else{
+
+        alert("Seu navegador não suporta compartilhamento.");
+
+    }
+
+}
+
+function limparResposta(){
+
+    document.getElementById("pergunta").value="";
+
+    document.getElementById("resposta").innerText=
+    "Aguardando comando...";
+
+}
+
+
+
+function alternarTema(){
+
+    const body =
+        document.body;
+
+    body.classList.toggle(
+        "tema-claro"
+    );
+
+    const claro =
+        body.classList.contains(
+            "tema-claro"
+        );
+
+    localStorage.setItem(
+        "tema",
+        claro ? "claro" : "escuro"
+    );
+
+    const btn =
+        document.getElementById(
+            "btnTema"
+        );
+
+    if(btn){
+
+        btn.innerText =
+            claro
+            ? "🌙 Tema Escuro"
+            : "☀️ Tema Claro";
+
+    }
+
+}
+
+window.addEventListener(
+"load",
+()=>{
+
+    if(
+        localStorage.getItem("tema")
+        ===
+        "claro"
+    ){
+
+        document.body.classList.add(
+            "tema-claro"
+        );
+
+        const btn =
+            document.getElementById(
+                "btnTema"
+            );
+
+        if(btn){
+
+            btn.innerText =
+            "🌙 Tema Escuro";
+
+        }
+
+    }
+
+});
+
+
+
+
+let historico =
+JSON.parse(
+localStorage.getItem("historico_nexus") || "[]"
+);
+
+function salvarHistorico(pergunta){
+
+    if(!pergunta.trim()) return;
+
+    historico.unshift({
+        texto: pergunta,
+        hora: new Date().toLocaleTimeString()
+    });
+
+    historico = historico.slice(0,20);
+
+    localStorage.setItem(
+        "historico_nexus",
+        JSON.stringify(historico)
+    );
+
+    renderHistorico();
+
+}
+
+
+function renderHistorico(){
+
+    const div =
+    document.getElementById("historico");
+
+    if(!div) return;
+
+    if(historico.length===0){
+
+        div.innerHTML =
+        "Nenhuma consulta.";
+
+        return;
+
+    }
+
+    div.innerHTML="";
+
+    historico.forEach((item)=>{
+
+        const linha =
+        document.createElement("div");
+
+        linha.style.cursor="pointer";
+        linha.style.padding="6px";
+        linha.style.borderBottom=
+        "1px solid #333";
+
+        linha.innerHTML =
+        "<b>"+item.hora+"</b> - "
+        + item.texto;
+
+        linha.onclick=()=>{
+
+            document
+            .getElementById("pergunta")
+            .value=item.texto;
+
+        };
+
+        div.appendChild(linha);
+
+    });
+
+}
+
+
+function limparHistorico(){
+
+    historico=[];
+
+    localStorage.removeItem(
+        "historico_nexus"
+    );
+
+    renderHistorico();
+
+}
+
+window.addEventListener(
+"load",
+renderHistorico
+);
+
+
+
+
+document.getElementById("pergunta")
+.addEventListener("keydown",function(e){
+
+if(e.key==="Enter"){
+
+e.preventDefault();
+
+enviar();
+
+}
+
+});
+
+
+
+
+async function aprenderTema(){
+
+    const tema =
+        document.getElementById("pergunta").value.trim();
+
+    if(!tema){
+
+        alert("Digite um tema para aprender.");
+
+        return;
+
+    }
+
+    const area =
+        document.getElementById("resposta");
+
+    const botao =
+        document.getElementById("btnAprender");
+
+    botao.disabled = true;
+    botao.innerText = "⏳ Aprendendo...";
+
+    area.innerText +=
+        "\n\n────────────────────────────\n" +
+        "🧠 Aprendendo: " + tema + "\n";
+
+    try{
+
+        const r =
+            await fetch("/api/aprender",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    tema:tema
+                })
+            });
+
+        const dados =
+            await r.json();
+
+        if(dados.success){
+
+            area.innerText +=
+                "\n✅ Conhecimento salvo com sucesso.\n\n";
+
+            if(dados.output){
+
+                area.innerText +=
+                    dados.output + "\n";
+
+            }
+
+        }else{
+
+            area.innerText +=
+                "\n❌ " +
+                (dados.erro || "Falha ao aprender.") +
+                "\n";
+
+        }
+
+    }catch(e){
+
+        area.innerText +=
+            "\n❌ " +
+            e.message +
+            "\n";
+
+    }
+
+    area.scrollTop =
+        area.scrollHeight;
+
+    botao.disabled = false;
+    botao.innerText = "🧠 Aprender";
+
+}
+
+
+</script>
+
+
+</body>
+</html>

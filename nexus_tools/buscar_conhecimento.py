@@ -1,0 +1,1 @@
+print('Ferramenta buscar_conhecimento criada automaticamente pelo Nexus')

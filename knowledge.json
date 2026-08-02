@@ -1,0 +1,53 @@
+{
+    "knowledge": [
+        {
+            "pergunta": "ollama",
+            "resposta": "O Ollama executa modelos de linguagem localmente no Termux e Linux.",
+            "data": "2026-08-01T07:34:55.123334",
+            "acessos": 5,
+            "fonte": "Gemini"
+        },
+        {
+            "pergunta": "interpretar linguagem natural",
+            "resposta": "O Nexus interpreta linguagem natural analisando intenção, contexto e significado das frases do usuário antes de executar ações.",
+            "data": "2026-08-01T07:55:41.036312",
+            "acessos": 2,
+            "fonte": "Nexus"
+        },
+        {
+            "pergunta": "fonte ollama",
+            "resposta": "Documentação oficial do Ollama ensina instalação, execução de modelos locais e uso de API para LLMs.",
+            "data": "2026-08-01T07:57:28.659186",
+            "acessos": 2,
+            "fonte": "Nexus"
+        },
+        {
+            "pergunta": "documentação nexus sre",
+            "resposta": "O Nexus SRE possui ferramentas de memória, RAG local, execução segura, logs, backup e automação no Termux.",
+            "data": "2026-08-01T07:57:45.572501",
+            "acessos": 12,
+            "fonte": "Nexus"
+        },
+        {
+            "pergunta": "ollama",
+            "resposta": "O Ollama permite executar modelos de linguagem localmente como Llama, Mistral e outros, oferecendo execução de LLMs no computador sem depender somente de serviços em nuvem.",
+            "data": "2026-08-01T07:59:42.928290",
+            "fonte": "pesquisa_fonte_local",
+            "acessos": 0
+        },
+        {
+            "pergunta": "ollama",
+            "resposta": "O Ollama permite executar modelos de linguagem localmente como Llama, Mistral e outros, oferecendo execução de LLMs no computador sem depender somente de serviços em nuvem.",
+            "data": "2026-08-01T08:00:42.351438",
+            "fonte": "pesquisa_fonte_local",
+            "acessos": 0
+        },
+        {
+            "pergunta": "interpretar linguagem natural",
+            "resposta": "O Nexus interpreta intenção, contexto e significado.",
+            "data": "2026-08-01T10:47:46.654052",
+            "acessos": 0,
+            "fonte": "Nexus"
+        }
+    ]
+}

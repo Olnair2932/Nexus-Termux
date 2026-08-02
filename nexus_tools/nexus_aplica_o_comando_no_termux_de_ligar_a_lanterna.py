@@ -1,0 +1,2 @@
+
+print('Ferramenta nexus_aplica_o_comando_no_termux_de_ligar_a_lanterna criada automaticamente pelo Nexus')

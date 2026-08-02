@@ -1,0 +1,1 @@
+print('Ferramenta aprender_comandos_shell criada automaticamente pelo Nexus')

@@ -1,0 +1,55 @@
+{
+    "documentos": [
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/indice.json",
+            "tamanho": 1733,
+            "nome": "indice.json"
+        },
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/historico.json",
+            "tamanho": 713,
+            "nome": "historico.json"
+        },
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/manuais/nexus.md",
+            "tamanho": 154,
+            "nome": "nexus.md"
+        },
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/manuais/linux.md",
+            "tamanho": 220,
+            "nome": "linux.md"
+        },
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/manuais/ollama.md",
+            "tamanho": 181,
+            "nome": "ollama.md"
+        },
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/manuais/nexus_sre.md",
+            "tamanho": 1189,
+            "nome": "nexus_sre.md"
+        },
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/aprendidos/kubernetes.md",
+            "tamanho": 3758,
+            "nome": "kubernetes.md"
+        },
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/aprendidos/docker.md",
+            "tamanho": 3556,
+            "nome": "docker.md"
+        },
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/aprendidos/ansible.md",
+            "tamanho": 4038,
+            "nome": "ansible.md"
+        },
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/aprendidos/terraform.md",
+            "tamanho": 3985,
+            "nome": "terraform.md"
+        }
+    ],
+    "total": 10
+}

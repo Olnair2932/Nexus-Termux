@@ -1,0 +1,20 @@
+{
+    "documentos": [
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/manuais/nexus.md",
+            "conteudo": "",
+            "data": "2026-08-01T09:46:15.135494"
+        },
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/manuais/linux.md",
+            "conteudo": "",
+            "data": "2026-08-01T09:46:15.135788"
+        },
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/manuais/ollama.md",
+            "conteudo": "# Ollama\n\nO Ollama permite executar modelos de linguagem localmente.\nEle suporta modelos como Llama e Mistral.\nPode ser usado através de API e integração com sistemas inteligentes.\n",
+            "data": "2026-08-01T09:46:15.136041"
+        }
+    ],
+    "total": 3
+}

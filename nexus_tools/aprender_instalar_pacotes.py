@@ -1,0 +1,1 @@
+print('Ferramenta aprender_instalar_pacotes criada automaticamente pelo Nexus')

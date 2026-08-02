@@ -1,0 +1,1 @@
+print('Ferramenta aprender_python_3 criada automaticamente pelo Nexus')

@@ -1,0 +1,28 @@
+NEXUS SRE CORE v32.2
+
+TASK QUEUE
+
+Tarefas atuais:
+
+[CONCLUÍDO]
+- Criar estrutura nexus_context.
+- Separar regras permanentes.
+- Separar histórico operacional.
+
+[PENDENTE]
+- Integrar leitura de contexto no nexus.py.
+- Criar carregamento automático de regras.
+- Validar dashboard antes de produção.
+- Registrar alterações no Evolution Log.
+
+REGRAS:
+
+Este arquivo contém somente tarefas atuais.
+
+Não executar comandos automaticamente.
+
+Toda tarefa crítica exige:
+1. backup;
+2. teste;
+3. validação;
+4. aprovação do usuário.

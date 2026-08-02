@@ -1,0 +1,1 @@
+print('Ferramenta explique_o_que___o_que_voc__sabe_pesquise_base_de_conhecimento_arquivo_documenta__o_manual criada automaticamente pelo Nexus')

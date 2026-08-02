@@ -1,0 +1,1 @@
+print('Ferramenta executar_comando_aprender_node_module criada automaticamente pelo Nexus')

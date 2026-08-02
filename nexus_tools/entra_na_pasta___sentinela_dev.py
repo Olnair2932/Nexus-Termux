@@ -1,0 +1,1 @@
+print('Ferramenta entra_na_pasta___sentinela_dev criada automaticamente pelo Nexus')

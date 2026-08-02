@@ -1,0 +1,1 @@
+print('Ferramenta explique_tudo_sobre_ollama criada automaticamente pelo Nexus')

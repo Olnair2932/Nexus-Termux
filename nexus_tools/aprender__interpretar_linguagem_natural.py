@@ -1,0 +1,1 @@
+print('Ferramenta aprender__interpretar_linguagem_natural criada automaticamente pelo Nexus')

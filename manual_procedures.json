@@ -1,0 +1,26 @@
+{
+    "versao": "1.0",
+    "objetivo": "Automanutenção segura do Nexus",
+    "regras": [
+        "Nunca editar arquivos diretamente.",
+        "Sempre trabalhar primeiro no workspace.",
+        "Criar backup antes de substituir arquivos.",
+        "Executar testes antes de aplicar mudanças.",
+        "Se qualquer teste falhar, cancelar alteração.",
+        "Registrar todas as ações em logs.",
+        "Aprender apenas a partir de fontes confiáveis ou da própria memória.",
+        "Nunca apagar backups automaticamente.",
+        "Nunca modificar arquivos fora de sentinela_dev.",
+        "Toda melhoria deve ser reversível."
+    ],
+    "fluxo": [
+        "Analisar logs",
+        "Gerar plano",
+        "Editar workspace",
+        "Executar testes",
+        "Criar backup",
+        "Aplicar alteração",
+        "Registrar resultado",
+        "Atualizar memória"
+    ]
+}

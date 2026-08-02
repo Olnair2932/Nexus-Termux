@@ -1,0 +1,1 @@
+print('Ferramenta o_que___ollama criada automaticamente pelo Nexus')

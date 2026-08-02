@@ -1,0 +1,1 @@
+print('Ferramenta aprender__interpretar_linguagem_natural__ollama criada automaticamente pelo Nexus')

@@ -1,0 +1,1 @@
+print('Ferramenta explique_o_nexus_sre criada automaticamente pelo Nexus')

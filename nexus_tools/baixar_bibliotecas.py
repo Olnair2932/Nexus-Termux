@@ -1,0 +1,1 @@
+print('Ferramenta baixar_bibliotecas criada automaticamente pelo Nexus')

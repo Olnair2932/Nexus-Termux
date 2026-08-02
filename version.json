@@ -1,0 +1,12 @@
+{
+    "nome": "Nexus Core",
+    "versao_atual": "1.0",
+    "proxima_versao": "1.1",
+    "status": "desenvolvimento_continuo",
+    "ultima_atualizacao": "2026-07-29T04:10:39.185681",
+    "melhorias": [
+        "README interno automático",
+        "Sistema de sugestões",
+        "Histórico de evolução"
+    ]
+}

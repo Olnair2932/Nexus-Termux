@@ -1,0 +1,22 @@
+{
+  "tocar_musica": {
+    "primary": "tocar_mp3.sh",
+    "fallback": ["listar_musicas.sh"]
+  },
+  "baixar_mp3": {
+    "primary": "download_mp3.sh",
+    "fallback": []
+  },
+  "listar_musicas": {
+    "primary": "listar_musicas.sh",
+    "fallback": []
+  },
+  "volume_control": {
+    "primary": "volume_control.sh",
+    "fallback": []
+  },
+  "status_sistema": {
+    "primary": "status.sh",
+    "fallback": []
+  }
+}

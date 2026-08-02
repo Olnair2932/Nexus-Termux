@@ -1,0 +1,1 @@
+print('Ferramenta explique_o_nexus_sree criada automaticamente pelo Nexus')

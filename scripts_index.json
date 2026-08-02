@@ -1,0 +1,252 @@
+{
+    "auto_fix.py": {
+        "arquivo": "nexus_tools/auto_fix.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1555
+    },
+    "auto_learning.py": {
+        "arquivo": "nexus_tools/auto_learning.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 828
+    },
+    "backup_checker.py": {
+        "arquivo": "nexus_tools/backup_checker.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 215
+    },
+    "bash_executor.py": {
+        "arquivo": "nexus_tools/bash_executor.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1258
+    },
+    "brain_agent.py": {
+        "arquivo": "nexus_tools/brain_agent.py",
+        "descricao": "1 - Memória",
+        "tamanho_bytes": 3145
+    },
+    "command_router.backup_v32.2.py": {
+        "arquivo": "nexus_tools/command_router.backup_v32.2.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1019
+    },
+    "command_router.before_cli_args_v32.2.py": {
+        "arquivo": "nexus_tools/command_router.before_cli_args_v32.2.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1019
+    },
+    "command_router.before_integration_v32.2.py": {
+        "arquivo": "nexus_tools/command_router.before_integration_v32.2.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1019
+    },
+    "command_router.py": {
+        "arquivo": "nexus_tools/command_router.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 2025
+    },
+    "dashboard_builder.py": {
+        "arquivo": "nexus_tools/dashboard_builder.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1080
+    },
+    "dashboard_editor.py": {
+        "arquivo": "nexus_tools/dashboard_editor.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 962
+    },
+    "dashboard_optimizer.py": {
+        "arquivo": "nexus_tools/dashboard_optimizer.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1080
+    },
+    "events.py": {
+        "arquivo": "nexus_tools/events.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 428
+    },
+    "evolution_history.py": {
+        "arquivo": "nexus_tools/evolution_history.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1207
+    },
+    "github.py": {
+        "arquivo": "nexus_tools/github.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 735
+    },
+    "improvement_applier.py": {
+        "arquivo": "nexus_tools/improvement_applier.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1892
+    },
+    "improvement_executor.py": {
+        "arquivo": "nexus_tools/improvement_executor.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 470
+    },
+    "improvement_planner.py": {
+        "arquivo": "nexus_tools/improvement_planner.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1200
+    },
+    "knowledge.py": {
+        "arquivo": "nexus_tools/knowledge.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 698
+    },
+    "known.py": {
+        "arquivo": "nexus_tools/known.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 361
+    },
+    "learn.py": {
+        "arquivo": "nexus_tools/learn.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 727
+    },
+    "learning_memory.py": {
+        "arquivo": "nexus_tools/learning_memory.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1316
+    },
+    "learning_queue.py": {
+        "arquivo": "nexus_tools/learning_queue.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 964
+    },
+    "log_analyzer.py": {
+        "arquivo": "nexus_tools/log_analyzer.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1147
+    },
+    "logger.py": {
+        "arquivo": "nexus_tools/logger.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 471
+    },
+    "memory_lookup.py": {
+        "arquivo": "nexus_tools/memory_lookup.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 701
+    },
+    "mode.py": {
+        "arquivo": "nexus_tools/mode.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 719
+    },
+    "quality.py": {
+        "arquivo": "nexus_tools/quality.py",
+        "descricao": "Não substitui por texto menor",
+        "tamanho_bytes": 922
+    },
+    "readme_generator.py": {
+        "arquivo": "nexus_tools/readme_generator.py",
+        "descricao": "texto = f# Nexus Core - README Interno",
+        "tamanho_bytes": 1291
+    },
+    "recall.py": {
+        "arquivo": "nexus_tools/recall.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 635
+    },
+    "repair_agent.py": {
+        "arquivo": "nexus_tools/repair_agent.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1328
+    },
+    "repair_executor.py": {
+        "arquivo": "nexus_tools/repair_executor.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1093
+    },
+    "rollback.py": {
+        "arquivo": "nexus_tools/rollback.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1007
+    },
+    "self_improve.py": {
+        "arquivo": "nexus_tools/self_improve.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 613
+    },
+    "status_monitor.py": {
+        "arquivo": "nexus_tools/status_monitor.py",
+        "descricao": "Verificar arquivos principais",
+        "tamanho_bytes": 1542
+    },
+    "suggestion_analyzer.py": {
+        "arquivo": "nexus_tools/suggestion_analyzer.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1771
+    },
+    "suggestion_approver.py": {
+        "arquivo": "nexus_tools/suggestion_approver.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 829
+    },
+    "suggestion_manager.py": {
+        "arquivo": "nexus_tools/suggestion_manager.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1334
+    },
+    "summarize_help.py": {
+        "arquivo": "nexus_tools/summarize_help.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1009
+    },
+    "sync_manager.py": {
+        "arquivo": "nexus_tools/sync_manager.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1121
+    },
+    "syntax_checker.py": {
+        "arquivo": "nexus_tools/syntax_checker.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1155
+    },
+    "system_sync.py": {
+        "arquivo": "nexus_tools/system_sync.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1497
+    },
+    "termux_knowledge.py": {
+        "arquivo": "nexus_tools/termux_knowledge.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 595
+    },
+    "termux_tools.py": {
+        "arquivo": "nexus_tools/termux_tools.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 726
+    },
+    "test_runner.py": {
+        "arquivo": "nexus_tools/test_runner.py",
+        "descricao": "Testa todos os arquivos Python do workspace",
+        "tamanho_bytes": 789
+    },
+    "tool_auditor.py": {
+        "arquivo": "nexus_tools/tool_auditor.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1458
+    },
+    "tool_manager.py": {
+        "arquivo": "nexus_tools/tool_manager.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1761
+    },
+    "tool_validator.py": {
+        "arquivo": "nexus_tools/tool_validator.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1552
+    },
+    "update_manager.py": {
+        "arquivo": "nexus_tools/update_manager.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 1292
+    },
+    "workspace_manager.py": {
+        "arquivo": "nexus_tools/workspace_manager.py",
+        "descricao": "Sem descrição",
+        "tamanho_bytes": 893
+    }
+}

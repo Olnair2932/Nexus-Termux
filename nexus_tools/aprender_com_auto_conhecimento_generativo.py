@@ -1,0 +1,1 @@
+print('Ferramenta aprender_com_auto_conhecimento_generativo criada automaticamente pelo Nexus')

@@ -1,0 +1,1 @@
+print('Ferramenta ler_textos_p_blico_online_de_conhecimento criada automaticamente pelo Nexus')

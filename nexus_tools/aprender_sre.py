@@ -1,0 +1,1 @@
+print('Ferramenta aprender_sre criada automaticamente pelo Nexus')

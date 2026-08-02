@@ -1,0 +1,42 @@
+{
+    "acoes": {
+        "status_sistema": "status_sistema",
+        "auditar": "auditar",
+        "sincronizar": "sincronizar",
+        "analisar_logs": "analisar_logs",
+        "melhorar": "melhorar",
+        "listar_ferramentas": "listar_ferramentas",
+        "backup_sistema": "backup_sistema",
+        "restaurar_backup": "restaurar_backup",
+        "listar_backups": "listar_backups",
+        "reiniciar_servidor": "reiniciar_servidor",
+        "status_servidor": "status_servidor",
+        "reiniciar_nexus": "reiniciar_nexus",
+        "atualizar_sistema": "atualizar_sistema",
+        "verificar_integridade": "verificar_integridade",
+        "limpar_logs": "limpar_logs",
+        "listar_modulos": "listar_modulos",
+        "executar_comando": "executar_comando",
+        "listar_arquivos": "listar_arquivos",
+        "buscar_arquivo": "buscar_arquivo",
+        "editar_arquivo": "editar_arquivo",
+        "criar_arquivo": "criar_arquivo",
+        "executar_script": "executar_script"
+    },
+    "comandos": {
+        "pkg list-installed": "listar_ferramentas",
+        "apt list --installed": "listar_ferramentas",
+        "backup": "backup_sistema",
+        "criar backup": "backup_sistema",
+        "listar backups": "listar_backups",
+        "restaurar backup": "restaurar_backup",
+        "status servidor": "status_servidor",
+        "reiniciar servidor": "reiniciar_servidor",
+        "reiniciar nexus": "reiniciar_nexus",
+        "atualizar sistema": "atualizar_sistema",
+        "verificar integridade": "verificar_integridade",
+        "limpar logs": "limpar_logs",
+        "listar módulos": "listar_modulos",
+        "listar modulos": "listar_modulos"
+    }
+}

@@ -1,0 +1,1 @@
+print('Ferramenta aprender_navega__o_shell criada automaticamente pelo Nexus')
