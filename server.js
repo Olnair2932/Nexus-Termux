@@ -767,6 +767,11 @@ if (!acoesValidas.has(intent.acao)) {
 
     if (intent.msg && intent.msg.trim()) {
         respostaFinal = intent.msg;
+
+        // Normaliza a ação antes da resposta
+        intent.acao = "conversar";
+        intent.params = intent.params || "";
+
         return res.json({
             nexus: respostaFinal,
             intent,
