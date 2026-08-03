@@ -782,6 +782,29 @@ switch (intent.acao) {
             "Consulta web processada.";
         break;
 
+    case "auto_aprender":
+        try {
+
+            const { execSync } = require("child_process");
+
+            respostaFinal = execSync(
+                `python3 ${CONFIG.ROOT}/nexus_tools/pesquisar_e_aprender.py ${JSON.stringify(intent.params || promptUsuario)}`,
+                {
+                    cwd: CONFIG.ROOT,
+                    encoding: "utf8",
+                    maxBuffer: 1024 * 1024
+                }
+            ).trim();
+
+        } catch (e) {
+
+            respostaFinal =
+                "Erro ao aprender: " + e.message;
+
+        }
+
+        break;
+
     case "buscar_arquivo":
 
         try {
