@@ -751,6 +751,32 @@ app.post("/api/chat", async (req, res) => {
     let respostaFinal = intent.msg || "Comando processado.";
 
     
+// Normalização de ações inválidas
+const acoesValidas = new Set([
+    "conversar",
+    "executar_comando",
+    "buscar_arquivo",
+    "listar_arquivos",
+    "status_sistema",
+    "acessar_web",
+    "auto_aprender"
+]);
+
+if (!acoesValidas.has(intent.acao)) {
+    console.log("⚠️ Ação desconhecida:", intent.acao);
+
+    if (intent.msg && intent.msg.trim()) {
+        respostaFinal = intent.msg;
+        return res.json({
+            nexus: respostaFinal,
+            intent,
+            shell: execResult
+        });
+    }
+
+    intent.acao = "conversar";
+}
+
 // Lógica de Ação
 
 switch (intent.acao) {
