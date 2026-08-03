@@ -38,16 +38,21 @@ def limpar_texto(texto):
     texto = texto.lower()
 
     remover = [
+        "o que você aprendeu sobre ",
+        "o que voce aprendeu sobre ",
+        "você aprendeu sobre ",
+        "voce aprendeu sobre ",
+        "aprendeu sobre ",
         "o que é ",
         "o que e ",
-        "explique ",
         "explique o ",
+        "explique ",
         "pesquise ",
-        "sobre ",
-        "resuma ",
         "resuma o ",
+        "resuma ",
         "documento ",
-        "fale sobre "
+        "fale sobre ",
+        "sobre "
     ]
 
     for item in remover:
