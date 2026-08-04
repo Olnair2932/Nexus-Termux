@@ -56,13 +56,14 @@ async function buscarConhecimentoFirebase(termo) {
             return "";
         }
 
-        const chave = termo
+        const palavras = termo
             .toLowerCase()
-            .replace(/\s+/g, "_");
+            .split(/\s+/)
+            .filter(p => p.length > 2);
 
         for (const nome in dados) {
 
-            if (nome.toLowerCase().includes(chave)) {
+            if (palavras.some(p => nome.toLowerCase().includes(p))) {
 
                 console.log(
                     "Memória Firebase encontrada:",
