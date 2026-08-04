@@ -37,6 +37,55 @@ const { getDatabase } = require("firebase-admin/database");
 
 let db = null;
 
+
+async function buscarConhecimentoFirebase(termo) {
+
+    if (!db) {
+        return "";
+    }
+
+    try {
+
+        const snapshot = await db
+            .ref("nexus/conhecimento")
+            .once("value");
+
+        const dados = snapshot.val();
+
+        if (!dados) {
+            return "";
+        }
+
+        const chave = termo
+            .toLowerCase()
+            .replace(/\s+/g, "_");
+
+        for (const nome in dados) {
+
+            if (nome.toLowerCase().includes(chave)) {
+
+                console.log(
+                    "Memória Firebase encontrada:",
+                    nome
+                );
+
+                return dados[nome].conteudo || "";
+            }
+        }
+
+        return "";
+
+    } catch(e) {
+
+        console.log(
+            "Erro memória Firebase:",
+            e.message
+        );
+
+        return "";
+    }
+}
+
 async function salvarConhecimentoFirebase(arquivo) {
 
     if (!db) {
@@ -556,6 +605,37 @@ async function processarIntencao(promptUsuario) {
     }
 
 
+
+    // MEMORIA FIREBASE RAG
+
+    let contextoFirebase = "";
+
+    try {
+
+        contextoFirebase = await buscarConhecimentoFirebase(
+            promptUsuario
+        );
+
+        if (contextoFirebase) {
+
+            console.log(
+                "Firebase RAG encontrado:",
+                contextoFirebase.length,
+                "caracteres"
+            );
+
+        }
+
+    } catch(e) {
+
+        console.log(
+            "Firebase RAG erro:",
+            e.message
+        );
+
+    }
+
+
     // RAG_FINAL_STOP_AUTO_BUILD
 
     if (
@@ -586,6 +666,10 @@ REGRAS
 BASE DE CONHECIMENTO LOCAL
 
 ${contextoLocal}
+
+MEMORIA FIREBASE
+
+${contextoFirebase}
 
 BASE DE CONHECIMENTO CONSOLIDADO
 
