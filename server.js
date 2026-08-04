@@ -57,6 +57,14 @@ if (process.env.private_key) {
 
 // ==========================================
 
+// --- CONFIGURAÇÃO ---
+const CONFIG = {
+    PORT: 3003,
+    ROOT: __dirname,
+    BRAIN_FILE: path.join(__dirname, "brain.json"),
+};
+
+
 function detectarAmbiente() {
     try {
         const resultado = execSync(
@@ -83,12 +91,6 @@ const AMBIENTE = detectarAmbiente();
 console.log("[AMBIENTE]", AMBIENTE);
 
 
-
-// --- CONFIGURAÇÃO ---
-const CONFIG = {
-    PORT: 3003,
-    ROOT: __dirname,
-    BRAIN_FILE: path.join(__dirname, "brain.json"),};
 
 const intentMap = JSON.parse(
     fs.readFileSync(
