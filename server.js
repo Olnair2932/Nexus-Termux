@@ -571,6 +571,19 @@ async function processarIntencao(promptUsuario) {
 
             }
 
+            if (
+                memoria === "ver_memoria" &&
+                promptUsuario.toLowerCase().includes("ferramentas")
+            ) {
+
+                return {
+                    acao: "listar_ferramentas",
+                    params: "",
+                    msg: "Ação corrigida pela memória Nexus."
+                };
+
+            }
+
             if (acoesPermitidas.includes(memoria)) {
 
                 return {
