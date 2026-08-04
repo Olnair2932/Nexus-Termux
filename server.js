@@ -1352,6 +1352,12 @@ intent.acao = chave;
         if (skill) {
             intent.executor =
                 skill.executor;
+
+            intent.script =
+                skill.script || "";
+
+            intent.comando =
+                skill.comando || "";
         }
 
     } catch(e) {
