@@ -34,7 +34,51 @@ const { getDatabase } = require("firebase-admin/database");
 // FIREBASE REALTIME DATABASE
 // ==========================================
 
+
 let db = null;
+
+async function salvarConhecimentoFirebase(arquivo) {
+
+    if (!db) {
+        console.log("Firebase indisponível.");
+        return;
+    }
+
+    try {
+
+        const conteudo = fs.readFileSync(
+            arquivo,
+            "utf8"
+        );
+
+        const nome = path.basename(
+            arquivo,
+            ".md"
+        );
+
+        await db
+            .ref("nexus/conhecimento/" + nome)
+            .set({
+                arquivo,
+                conteudo,
+                atualizado_em: new Date().toISOString()
+            });
+
+        console.log(
+            "Conhecimento salvo no Firebase:",
+            nome
+        );
+
+    } catch(e) {
+
+        console.log(
+            "Erro Firebase conhecimento:",
+            e.message
+        );
+
+    }
+}
+
 
 if (process.env.private_key) {
 
@@ -1266,6 +1310,32 @@ app.post("/api/aprender", async (req, res) => {
                 maxBuffer: 1024 * 1024 * 10
             }
         );
+
+        // SALVA CONHECIMENTO NO FIREBASE
+        try {
+
+            const matchArquivo = resultado.match(
+                /Arquivo:\s*(.*\.md)/
+            );
+
+            if (matchArquivo) {
+
+                const caminhoArquivo = matchArquivo[1].trim();
+
+                await salvarConhecimentoFirebase(
+                    caminhoArquivo
+                );
+
+            }
+
+        } catch(firebaseErro) {
+
+            console.log(
+                "Falha ao enviar conhecimento Firebase:",
+                firebaseErro.message
+            );
+
+        }
 
         res.json({
             success: true,
