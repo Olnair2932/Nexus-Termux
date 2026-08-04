@@ -1162,11 +1162,9 @@ if (
 // RAG_LOCAL_BLOQUEIA_AUTOBUILD
 
             if (
-                intent.autoBuild ||
-                (
-                    !skillsValidacao.skills[chave] &&
-                    !intentMap.acoes[chave]
-                )
+                intent.autoBuild &&
+                !skillsValidacao.skills[chave] &&
+                !intentMap.acoes[chave]
             ) {
 
 

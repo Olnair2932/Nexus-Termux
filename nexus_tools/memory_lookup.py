@@ -115,6 +115,16 @@ def consultar(frase):
 
                 return ferramenta
 
+            # Bloqueia AUTO_BUILD para ferramentas já existentes
+            if ferramenta in [
+                "ver_memoria",
+                "ver_armazenamento",
+                "ver_rede",
+                "ver_bateria",
+                "listar_ferramentas"
+            ]:
+                return ferramenta
+
             return "AUTO_BUILD:" + ferramenta
 
     return None
