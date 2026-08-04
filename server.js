@@ -555,7 +555,12 @@ async function processarIntencao(promptUsuario) {
                 ...Object.keys(intentMap.acoes || {})
             ];
 
-            if (memoria.startsWith("AUTO_BUILD:")) {
+            if (
+                memoria.startsWith("AUTO_BUILD:") &&
+                !acoesPermitidas.includes(
+                    memoria.replace("AUTO_BUILD:", "")
+                )
+            ) {
 
                 return {
                     acao: memoria.replace("AUTO_BUILD:", ""),
