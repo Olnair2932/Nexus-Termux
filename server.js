@@ -907,6 +907,7 @@ const acoesValidas = new Set([
     "buscar_arquivo",
     "listar_arquivos",
     "listar_ferramentas",
+    "ver_armazenamento",
     "status_sistema",
     "acessar_web",
     "auto_aprender"
