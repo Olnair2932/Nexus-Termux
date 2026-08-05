@@ -4,7 +4,44 @@ from pathlib import Path
 
 LOGS = Path.home() / "sentinela_dev/logs"
 
+
+def salvar_erros_brain(erros):
+    import json
+    from datetime import datetime
+
+    brain_path = Path.home() / "sentinela_dev/brain.json"
+
+    try:
+        brain = json.loads(
+            brain_path.read_text(encoding="utf-8")
+        )
+    except:
+        brain = {}
+
+    lista = brain.setdefault(
+        "erros_aprendidos",
+        []
+    )
+
+    for erro in erros:
+        lista.append({
+            "erro": erro,
+            "data": datetime.now().isoformat(),
+            "status": "aguardando_correcao"
+        })
+
+    brain_path.write_text(
+        json.dumps(
+            brain,
+            indent=4,
+            ensure_ascii=False
+        ),
+        encoding="utf-8"
+    )
+
+
 def analisar():
+
 
     erros = {}
     total = 0
@@ -48,6 +85,9 @@ def analisar():
         return
 
     print("\nErros recorrentes:\n")
+
+    # Salva erros encontrados no cérebro Nexus
+    salvar_erros_brain(list(erros.keys()))
 
     for erro, qtd in sorted(
         erros.items(),

@@ -1,5 +1,5 @@
 
-from logger import registrar
+from nexus_tools.logger import registrar
 
 def consulta(pergunta):
     registrar("CONSULTA", pergunta)
