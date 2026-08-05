@@ -1,14 +1,11 @@
-node_modules/
-.env
-*.log
-.DS_Store
-public/playlist/player.pid
-public/playlist/player_state.json
-public/playlist/queue.txt
-public/playlist/rename_log.txt
-public/playlist/tmp.json
+# Python
+__pycache__/
+*.pyc
 
 # Backups locais
-*.bak
-*.bak_*
-nexus_tools_backup_render/
+backups_etapas/
+
+# Arquivos de estado gerados pelo Nexus
+suggestions.json
+suggestion_plan.json
+improvement_plan.json
