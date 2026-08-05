@@ -9,3 +9,25 @@ backups_etapas/
 suggestions.json
 suggestion_plan.json
 improvement_plan.json
+
+# Logs locais
+logs/
+*.log
+
+# Backups de scripts
+*.bak
+*.bak_*
+*.bak_*
+
+# Dependências locais
+node_modules/
+
+# Arquivos de ambiente
+.env
+
+# Playlists/dados locais
+public/playlist/*.log
+
+# Histórico local Nexus
+nexus_context/
+nexus_tools_backup_render/
