@@ -21,5 +21,30 @@ def executar():
 
     melhoria(f"Plano executado: {acao}")
 
+    # Registrar melhoria aplicada no brain.json
+    brain = Path.home() / "sentinela_dev/brain.json"
+
+    try:
+        dados = json.loads(brain.read_text(encoding="utf-8"))
+    except:
+        dados = {}
+
+    historico = dados.setdefault("melhorias_aplicadas", [])
+
+    historico.append({
+        "acao": acao,
+        "status": "executada"
+    })
+
+    brain.write_text(
+        json.dumps(
+            dados,
+            indent=4,
+            ensure_ascii=False
+        ),
+        encoding="utf-8"
+    )
+
+
 if __name__ == "__main__":
     executar()
