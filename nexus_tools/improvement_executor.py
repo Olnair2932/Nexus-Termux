@@ -1,7 +1,7 @@
 
 import json
 from pathlib import Path
-from events import melhoria
+from .events import melhoria
 
 PLANO = Path.home() / "sentinela_dev/improvement_plan.json"
 
