@@ -19,6 +19,10 @@ def executar():
 
     print("Próxima ação:", acao)
 
+    if melhoria_ja_existe(acao):
+        print("⚠️ Melhoria já registrada. Evitando duplicidade.")
+        return
+
     melhoria(f"Plano executado: {acao}")
 
     # Registrar melhoria aplicada no brain.json
@@ -30,6 +34,10 @@ def executar():
         dados = {}
 
     historico = dados.setdefault("melhorias_aplicadas", [])
+
+    if any(item.get("acao") == acao for item in historico):
+        print("⚠️ Melhoria já registrada. Evitando duplicidade.")
+        return
 
     historico.append({
         "acao": acao,
