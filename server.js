@@ -916,6 +916,16 @@ const acoesValidas = new Set([
 if (!acoesValidas.has(intent.acao)) {
     console.log("⚠️ Ação desconhecida:", intent.acao);
 
+    try {
+        const { registrar } = require("./nexus_tools/logger");
+        registrar(
+            "ERRO",
+            `Ação desconhecida: ${intent.acao}`
+        );
+    } catch (e) {
+        console.log("Falha ao registrar log:", e.message);
+    }
+
     if (intent.msg && intent.msg.trim()) {
         respostaFinal = intent.msg;
 
