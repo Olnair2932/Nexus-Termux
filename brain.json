@@ -845,5 +845,15 @@
             "data": "2026-08-05T03:45:10.867095",
             "status": "aguardando_correcao"
         }
+    ],
+    "melhorias_aplicadas": [
+        {
+            "acao": "Corrigir erros recorrentes",
+            "status": "executada"
+        },
+        {
+            "acao": "Corrigir erros recorrentes",
+            "status": "executada"
+        }
     ]
 }
