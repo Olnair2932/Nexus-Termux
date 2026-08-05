@@ -1027,6 +1027,29 @@ switch (intent.acao) {
         }
         break;
 
+    
+    case "listar_ferramentas":
+        try {
+            const fs = require("fs");
+            const skills = JSON.parse(
+                fs.readFileSync(CONFIG.ROOT + "/skills.json","utf8")
+            );
+
+            respostaFinal =
+                Object.keys(skills.skills || {})
+                    .sort()
+                    .join("\n");
+
+        } catch(e) {
+
+            respostaFinal =
+                "Erro ao listar ferramentas: " + e.message;
+
+        }
+
+        break;
+
+
     default:
         try {
             const { execSync } = require("child_process");
