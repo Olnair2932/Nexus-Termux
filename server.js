@@ -1029,6 +1029,24 @@ switch (intent.acao) {
         break;
 
     
+
+    case "ver_armazenamento":
+        try {
+            const { execSync } = require("child_process");
+
+            respostaFinal = execSync("df -h", {
+                encoding: "utf8"
+            });
+
+        } catch(e) {
+
+            respostaFinal =
+                "Erro ao verificar armazenamento: " + e.message;
+
+        }
+
+        break;
+
     case "listar_ferramentas":
         try {
             const fs = require("fs");
