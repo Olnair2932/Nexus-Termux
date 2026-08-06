@@ -452,6 +452,17 @@
         "status monitor"
       ]
     },
+    "status_sistema": {
+      "executor": "python",
+      "script": "nexus_tools/status_monitor.py",
+      "descricao": "Status geral do sistema",
+      "frases": [
+        "status sistema",
+        "ver status",
+        "status"
+      ]
+    },
+
     "suggestion_analyzer": {
       "executor": "python",
       "script": "nexus_tools/suggestion_analyzer.py",
