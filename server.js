@@ -130,6 +130,30 @@ async function salvarConhecimentoFirebase(arquivo) {
 }
 
 
+async function carregarMemoriaFirebase() {
+    if (!db) return;
+
+    try {
+        const snapshot = await db.ref("nexus/memoria").once("value");
+        const memoria = snapshot.val();
+
+        if (!memoria) {
+            console.log("Memória Firebase vazia.");
+            return;
+        }
+
+        fs.writeFileSync(
+            CONFIG.BRAIN_FILE,
+            JSON.stringify(memoria, null, 2),
+            "utf8"
+        );
+
+        console.log("🧠 Memória carregada do Firebase.");
+    } catch(e) {
+        console.log("Erro ao carregar memória:", e.message);
+    }
+}
+
 if (process.env.private_key) {
 
     const serviceAccount = JSON.parse(process.env.private_key);
@@ -1558,7 +1582,9 @@ function consultarBrain(pergunta) {
 
 
 async function bootstrap() {
-    console.clear();
+    
+    await carregarMemoriaFirebase();
+console.clear();
     console.log(`
     ███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗
     ████╗  ██║██╔════╝╚██╗██╔╝██║   ██║██╔════╝
