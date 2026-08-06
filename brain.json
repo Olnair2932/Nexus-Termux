@@ -794,7 +794,10 @@
             "acao": "listar_ferramentas",
             "acertos": 1,
             "ultimo_acerto": "2026-07-29T10:49:51.125153"
-        }
+        },
+        "melhorias_validadas": [
+            "Corrigir erros recorrentes"
+        ]
     },
     "mapa_intencao_memoria": {
         "listar_ferramentas": {
@@ -854,6 +857,11 @@
         {
             "acao": "Corrigir erros recorrentes",
             "status": "executada"
+        },
+        {
+            "acao": "Corrigir erros recorrentes",
+            "status": "executada"
         }
-    ]
+    ],
+    "ultima_evolucao": "2026-08-05T21:52:37.278710"
 }
