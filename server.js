@@ -634,7 +634,7 @@ async function processarIntencao(promptUsuario) {
 
                 return {
                     acao: memoria,
-                    params: "",
+                    params: promptUsuario,
                     msg: "Ação recuperada da memória Nexus."
                 };
 
