@@ -39,9 +39,14 @@ def executar():
         print("⚠️ Melhoria já registrada. Evitando duplicidade.")
         return
 
+    if validar_melhoria():
+        status = "validada"
+    else:
+        status = "falhou"
+
     historico.append({
         "acao": acao,
-        "status": "executada"
+        "status": status
     })
 
     brain.write_text(
