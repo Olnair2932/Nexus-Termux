@@ -154,6 +154,26 @@ async function carregarMemoriaFirebase() {
     }
 }
 
+
+async function sincronizarMemoriaFirebase() {
+    if (!db) return;
+
+    try {
+        const memoria = fs.readFileSync(
+            CONFIG.BRAIN_FILE,
+            "utf8"
+        );
+
+        await db
+            .ref("nexus/memoria")
+            .set(JSON.parse(memoria));
+
+        console.log("Memória sincronizada com Firebase.");
+    } catch(e) {
+        console.log("Erro sincronizar memória:", e.message);
+    }
+}
+
 if (process.env.private_key) {
 
     const serviceAccount = JSON.parse(process.env.private_key);
@@ -349,6 +369,8 @@ async function registrarAprendizadoAutomatico(frase, acao) {
             ),
             "utf8"
         );
+
+          await sincronizarMemoriaFirebase();
 
         console.log(
             "🧠 Aprendizado salvo:",
@@ -661,7 +683,8 @@ async function processarIntencao(promptUsuario) {
 
         if (contextoFirebase) {
 
-            console.log(
+
+          console.log(
                 "Firebase RAG encontrado:",
                 contextoFirebase.length,
                 "caracteres"
