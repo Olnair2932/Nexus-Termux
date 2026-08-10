@@ -61,7 +61,7 @@
     },
     "listar_ferramentas": {
       "executor": "python",
-      "script": "nexus_tools/tool_auditor.py",
+      "script": "nexus_tools/listar_ferramentas.py",
       "descricao": "Lista todas as ferramentas Nexus",
       "frases": [
         "listar ferramentas",
