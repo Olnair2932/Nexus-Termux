@@ -838,7 +838,7 @@ try {
 
         const textoIA = res.data.candidates[0].content.parts[0].text;
         console.log("RESPOSTA GEMINI:", textoIA);
-        return parseIAJson(textoIA) || { acao: "conversa e executarr", msg: textoIA };
+        return parseIAJson(textoIA) || { acao: "conversar", msg: textoIA };
     } catch (err) {
         console.log("ERRO GEMINI:", err.response?.data || err.message);
         return { acao: "status_sistema", msg: "Erro de conexão com a mente central." };
@@ -915,7 +915,7 @@ app.post("/api/chat", async (req, res) => {
             "RAG local encontrado. Bloqueando AutoBuild."
         );
 
-        intent.acao = "conversa e executarr";
+        intent.acao = "conversar";
         intent.autoBuild = false;
 
     }
@@ -951,6 +951,7 @@ app.post("/api/chat", async (req, res) => {
 const acoesValidas = new Set([
     "conversar",
     "executar_comando",
+    "executar_script",
     "buscar_arquivo",
     "listar_arquivos",
     "listar_ferramentas",
@@ -1127,7 +1128,82 @@ switch (intent.acao) {
         break;
 
 
-    default:
+    
+
+    
+    
+    case "executar_script":
+        try {
+
+            const fs = require("fs");
+            const path = require("path");
+            const { execSync } = require("child_process");
+
+            const skills = JSON.parse(
+                fs.readFileSync(
+                    path.join(CONFIG.ROOT,"skills.json"),
+                    "utf8"
+                )
+            ).skills || {};
+
+            const tool = (intent.params || "").trim();
+
+            if (!(tool in skills)) {
+                respostaFinal =
+                    "Ferramenta não encontrada: " + tool;
+                break;
+            }
+
+            const skill = skills[tool];
+
+            if (skill.executor !== "python") {
+                respostaFinal =
+                    "A ferramenta não é do tipo python.";
+                break;
+            }
+
+            const script = path.join(
+                CONFIG.ROOT,
+                skill.script
+            );
+
+            const pasta = path.join(
+                CONFIG.ROOT,
+                "nexus_tools"
+            );
+
+            if (!script.startsWith(pasta)) {
+                respostaFinal =
+                    "Execução bloqueada.";
+                break;
+            }
+
+            if (!fs.existsSync(script)) {
+                respostaFinal =
+                    "Script inexistente.";
+                break;
+            }
+
+            respostaFinal = execSync(
+                `python3 "${script}"`,
+                {
+                    cwd: CONFIG.ROOT,
+                    encoding: "utf8",
+                    maxBuffer: 1024 * 1024
+                }
+            ).trim();
+
+        } catch(e) {
+
+            respostaFinal =
+                "Erro ao executar ferramenta: " +
+                e.message;
+
+        }
+
+        break;
+
+default:
         try {
             const { execSync } = require("child_process");
 
