@@ -476,7 +476,7 @@ async function processarIntencao(promptUsuario) {
 
     }
 
-    
+
 
     // RAG_CONSOLIDADO_DASHBOARD
 
@@ -647,7 +647,7 @@ async function processarIntencao(promptUsuario) {
     } catch (e) {
         console.log("Memória indisponível:", e.message);
     }
-    
+
     // BASE_CONHECIMENTO_LOCAL_RAG
 
     let contextoLocal = "";
@@ -946,7 +946,7 @@ app.post("/api/chat", async (req, res) => {
     let execResult = null;
     let respostaFinal = intent.msg || "Comando processado.";
 
-    
+
 // Normalização de ações inválidas
 const acoesValidas = new Set([
     "conversar",
@@ -1087,7 +1087,7 @@ switch (intent.acao) {
         }
         break;
 
-    
+
 
     case "ver_armazenamento":
         try {
@@ -1128,10 +1128,12 @@ switch (intent.acao) {
         break;
 
 
-    
 
-    
-    
+
+
+
+
+
     case "executar_script":
         try {
 
@@ -1141,12 +1143,24 @@ switch (intent.acao) {
 
             const skills = JSON.parse(
                 fs.readFileSync(
-                    path.join(CONFIG.ROOT,"skills.json"),
+                    path.join(CONFIG.ROOT, "skills.json"),
                     "utf8"
                 )
             ).skills || {};
 
-            const tool = (intent.params || "").trim();
+            let tool = (intent.params || "").trim();
+
+            // Normaliza comandos enviados pela IA
+            tool = tool
+                .replace(/^python3\s+/i, "")
+                .replace(/^python\s+/i, "")
+                .trim();
+
+            // Remove caminho e extensão
+            tool = path.basename(tool);
+            tool = tool.replace(/\.py$/i, "");
+
+            console.log("🔧 Ferramenta normalizada:", tool);
 
             if (!(tool in skills)) {
                 respostaFinal =
@@ -1162,17 +1176,17 @@ switch (intent.acao) {
                 break;
             }
 
-            const script = path.join(
+            const script = path.resolve(
                 CONFIG.ROOT,
                 skill.script
             );
 
-            const pasta = path.join(
+            const pasta = path.resolve(
                 CONFIG.ROOT,
                 "nexus_tools"
             );
 
-            if (!script.startsWith(pasta)) {
+            if (!script.startsWith(pasta + path.sep)) {
                 respostaFinal =
                     "Execução bloqueada.";
                 break;
@@ -1180,7 +1194,7 @@ switch (intent.acao) {
 
             if (!fs.existsSync(script)) {
                 respostaFinal =
-                    "Script inexistente.";
+                    "Script inexistente: " + skill.script;
                 break;
             }
 
@@ -1198,7 +1212,6 @@ switch (intent.acao) {
             respostaFinal =
                 "Erro ao executar ferramenta: " +
                 e.message;
-
         }
 
         break;
@@ -1209,7 +1222,7 @@ default:
 
             let acaoRouter = intent.acao;
 
-            
+
             if (intent.acao === "executar_comando") {
 
                 if (
@@ -1252,7 +1265,7 @@ default:
 
                     execResult = resultado;
 
-                    
+
 respostaFinal =
     resultado.stdout ||
     resultado.stderr ||
@@ -1332,7 +1345,7 @@ if (
             // Validação de ação antes da execução
             const skillsValidacao = require("./skills.json");
 
-            
+
             // RAG_SKIP_AUTO_TOOL
 
             if (
@@ -1681,7 +1694,7 @@ function consultarBrain(pergunta) {
 
 
 async function bootstrap() {
-    
+
     await carregarMemoriaFirebase();
 console.clear();
     console.log(`
