@@ -1162,6 +1162,30 @@ switch (intent.acao) {
 
             console.log("🔧 Ferramenta normalizada:", tool);
 
+            // Tenta resolver nomes sem separadores.
+            // Exemplo: testetool -> teste_tool
+            if (!(tool in skills)) {
+                const normalizado = tool
+                    .toLowerCase()
+                    .replace(/[_\-\s]/g, "");
+
+                const encontrada = Object.keys(skills).find(nome =>
+                    nome
+                        .toLowerCase()
+                        .replace(/[_\-\s]/g, "") === normalizado
+                );
+
+                if (encontrada) {
+                    console.log(
+                        "🔧 Skill resolvida:",
+                        tool,
+                        "->",
+                        encontrada
+                    );
+                    tool = encontrada;
+                }
+            }
+
             if (!(tool in skills)) {
                 respostaFinal =
                     "Ferramenta não encontrada: " + tool;
