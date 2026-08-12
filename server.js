@@ -1282,7 +1282,14 @@ switch (intent.acao) {
 
             // REGISTRA AUTOMATICAMENTE COMO FUNCIONANDO
             // SOMENTE APÓS EXECUÇÃO BEM-SUCEDIDA.
-            if (tool !== "atualizar_lista_comandos") {
+            // Ferramentas de gerenciamento da própria memória
+            // não devem registrar a si mesmas.
+            const ferramentasNaoRegistrar = new Set([
+                "atualizar_lista_comandos",
+                "listar_comandos_funcionando"
+            ]);
+
+            if (!ferramentasNaoRegistrar.has(tool)) {
                 try {
                     execSync(
                         `python3 ${CONFIG.ROOT}/nexus_tools/atualizar_lista_comandos.py ${JSON.stringify(tool)} ${JSON.stringify(respostaFinal)}`,
