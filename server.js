@@ -1286,7 +1286,8 @@ switch (intent.acao) {
             // não devem registrar a si mesmas.
             const ferramentasNaoRegistrar = new Set([
                 "atualizar_lista_comandos",
-                "listar_comandos_funcionando"
+                "listar_comandos_funcionando",
+                "limpar_registro_comando"
             ]);
 
             if (!ferramentasNaoRegistrar.has(tool)) {
