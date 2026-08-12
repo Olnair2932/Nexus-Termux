@@ -1215,44 +1215,72 @@ switch (intent.acao) {
 
             const skill = skills[tool];
 
-            if (skill.executor !== "python") {
-                respostaFinal =
-                    "A ferramenta não é do tipo python.";
-                break;
-            }
+            // EXECUTOR PYTHON
+            if (skill.executor === "python") {
 
-            const script = path.resolve(
-                CONFIG.ROOT,
-                skill.script
-            );
+                const script = path.resolve(
+                    CONFIG.ROOT,
+                    skill.script
+                );
 
-            const pasta = path.resolve(
-                CONFIG.ROOT,
-                "nexus_tools"
-            );
+                const pasta = path.resolve(
+                    CONFIG.ROOT,
+                    "nexus_tools"
+                );
 
-            if (!script.startsWith(pasta + path.sep)) {
-                respostaFinal =
-                    "Execução bloqueada.";
-                break;
-            }
-
-            if (!fs.existsSync(script)) {
-                respostaFinal =
-                    "Script inexistente: " + skill.script;
-                break;
-            }
-
-            respostaFinal = execSync(
-                `python3 "${script}"`,
-                {
-                    cwd: CONFIG.ROOT,
-                    encoding: "utf8",
-                    maxBuffer: 1024 * 1024
+                if (!script.startsWith(pasta + path.sep)) {
+                    respostaFinal =
+                        "Execução bloqueada.";
+                    break;
                 }
-            ).trim();
 
-            // REGISTRA AUTOMATICAMENTE O SCRIPT COMO FUNCIONANDO
+                if (!fs.existsSync(script)) {
+                    respostaFinal =
+                        "Script inexistente: " + skill.script;
+                    break;
+                }
+
+                respostaFinal = execSync(
+                    `python3 "${script}"`,
+                    {
+                        cwd: CONFIG.ROOT,
+                        encoding: "utf8",
+                        maxBuffer: 1024 * 1024
+                    }
+                ).trim();
+
+            // EXECUTOR BASH
+            } else if (skill.executor === "bash") {
+
+                if (!skill.comando || !skill.comando.trim()) {
+                    respostaFinal =
+                        "Comando bash não definido na ferramenta.";
+                    break;
+                }
+
+                console.log(
+                    "🔧 Executando Bash:",
+                    skill.comando
+                );
+
+                respostaFinal = execSync(
+                    skill.comando,
+                    {
+                        cwd: CONFIG.ROOT,
+                        encoding: "utf8",
+                        maxBuffer: 1024 * 1024
+                    }
+                ).trim();
+
+            } else {
+
+                respostaFinal =
+                    "Executor não permitido: " +
+                    (skill.executor || "não definido");
+                break;
+            }
+
+            // REGISTRA AUTOMATICAMENTE COMO FUNCIONANDO
             // SOMENTE APÓS EXECUÇÃO BEM-SUCEDIDA.
             if (tool !== "atualizar_lista_comandos") {
                 try {
@@ -1272,7 +1300,7 @@ switch (intent.acao) {
 
                 } catch (registroErro) {
                     console.log(
-                        "⚠️ Script executado, mas não foi possível registrar no Firebase:",
+                        "⚠️ Executado, mas não foi possível registrar no Firebase:",
                         registroErro.message
                     );
                 }
