@@ -1023,6 +1023,20 @@
         "remover registro de comando",
         "limpar comando da memória"
       ]
+    },
+    "gerar_codigo": {
+      "executor": "python",
+      "script": "nexus_tools/gerar_codigo.py",
+      "descricao": "Gera código a partir de uma descrição em linguagem natural",
+      "frases": [
+        "gerar código",
+        "criar código",
+        "gerar html",
+        "criar html",
+        "criar página",
+        "criar landing page",
+        "gerar uma página"
+      ]
     }
   }
 }
