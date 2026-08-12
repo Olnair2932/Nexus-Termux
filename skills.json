@@ -462,7 +462,6 @@
         "status"
       ]
     },
-
     "suggestion_analyzer": {
       "executor": "python",
       "script": "nexus_tools/suggestion_analyzer.py",
@@ -991,6 +990,17 @@
       "descricao": "Ferramenta criada automaticamente pelo Nexus",
       "frases": [
         "explique o Nexus SREe"
+      ]
+    },
+    "listar_comandos_funcionando": {
+      "executor": "python",
+      "script": "nexus_tools/listar_comandos_funcionando.py",
+      "descricao": "Lista os comandos confirmados como funcionando no Firebase Realtime Database",
+      "frases": [
+        "listar comandos funcionando",
+        "mostrar comandos funcionando",
+        "lista de comandos confirmados",
+        "comandos que funcionam"
       ]
     }
   }
