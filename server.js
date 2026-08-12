@@ -894,9 +894,30 @@ app.post("/api/chat", async (req, res) => {
         );
     }
 
-    const intent =
-        intentMemoria ||
-        await processarIntencao(texto);
+    let intent;
+
+    const textoExecutarScript = texto
+        .replace(/^nexus[\s,:-]*/i, "")
+        .trim()
+        .match(/^executar[_\s]+script\s+(.+)$/i);
+
+    if (textoExecutarScript) {
+        intent = {
+            acao: "executar_script",
+            params: textoExecutarScript[1].trim(),
+            msg: "Executando ferramenta solicitada."
+        };
+
+        console.log(
+            "🔧 EXECUTAR_SCRIPT explícito:",
+            intent.params
+        );
+
+    } else {
+        intent =
+            intentMemoria ||
+            await processarIntencao(texto);
+    }
 
 
     // RAG_FORCA_CONVERSA_FINAL
