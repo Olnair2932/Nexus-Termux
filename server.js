@@ -1252,6 +1252,32 @@ switch (intent.acao) {
                 }
             ).trim();
 
+            // REGISTRA AUTOMATICAMENTE O SCRIPT COMO FUNCIONANDO
+            // SOMENTE APÓS EXECUÇÃO BEM-SUCEDIDA.
+            if (tool !== "atualizar_lista_comandos") {
+                try {
+                    execSync(
+                        `python3 ${CONFIG.ROOT}/nexus_tools/atualizar_lista_comandos.py ${JSON.stringify(tool)} ${JSON.stringify(respostaFinal)}`,
+                        {
+                            cwd: CONFIG.ROOT,
+                            encoding: "utf8",
+                            maxBuffer: 1024 * 1024
+                        }
+                    );
+
+                    console.log(
+                        "✅ Comando confirmado e registrado:",
+                        tool
+                    );
+
+                } catch (registroErro) {
+                    console.log(
+                        "⚠️ Script executado, mas não foi possível registrar no Firebase:",
+                        registroErro.message
+                    );
+                }
+            }
+
         } catch(e) {
 
             respostaFinal =
