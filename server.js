@@ -1170,6 +1170,17 @@ switch (intent.acao) {
             ).skills || {};
 
             let tool = (intent.params || "").trim();
+            let argumentosFerramenta = "";
+
+            // Se houver argumentos após o nome da ferramenta,
+            // separa o primeiro token como ferramenta e preserva
+            // todo o restante como argumento.
+            const partesFerramenta = tool.match(/^(\S+)(?:\s+(.+))?$/);
+
+            if (partesFerramenta) {
+                tool = partesFerramenta[1];
+                argumentosFerramenta = partesFerramenta[2] || "";
+            }
 
             // Normaliza comandos enviados pela IA
             tool = tool
@@ -1240,8 +1251,12 @@ switch (intent.acao) {
                     break;
                 }
 
+                const argumentosShell = argumentosFerramenta
+                    ? ` ${JSON.stringify(argumentosFerramenta)}`
+                    : "";
+
                 respostaFinal = execSync(
-                    `python3 "${script}"`,
+                    `python3 "${script}"${argumentosShell}`,
                     {
                         cwd: CONFIG.ROOT,
                         encoding: "utf8",
