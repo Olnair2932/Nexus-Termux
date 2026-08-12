@@ -1002,6 +1002,17 @@
         "lista de comandos confirmados",
         "comandos que funcionam"
       ]
+    },
+    "atualizar_lista_comandos": {
+      "executor": "python",
+      "script": "nexus_tools/atualizar_lista_comandos.py",
+      "descricao": "Registra no Firebase Realtime os comandos confirmados como funcionando",
+      "frases": [
+        "atualizar lista comandos funcionando",
+        "registrar comando funcionando",
+        "registrar comando confirmado",
+        "atualizar comandos funcionando"
+      ]
     }
   }
 }
