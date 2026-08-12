@@ -1013,6 +1013,16 @@
         "registrar comando confirmado",
         "atualizar comandos funcionando"
       ]
+    },
+    "limpar_registro_comando": {
+      "executor": "python",
+      "script": "nexus_tools/limpar_registro_comando.py",
+      "descricao": "Remove um registro específico da memória de comandos confirmados no Firebase",
+      "frases": [
+        "limpar registro de comando",
+        "remover registro de comando",
+        "limpar comando da memória"
+      ]
     }
   }
 }
