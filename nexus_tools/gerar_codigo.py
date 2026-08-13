@@ -6,6 +6,7 @@ import sys
 import json
 import urllib.request
 import urllib.error
+import time
 
 print("=== NEXUS GERADOR DE CÓDIGO ===")
 
@@ -197,23 +198,47 @@ requisicao = urllib.request.Request(
     method="POST"
 )
 
-try:
-    with urllib.request.urlopen(requisicao, timeout=90) as resposta:
-        resultado = json.loads(
-            resposta.read().decode("utf-8")
+tentativas = 3
+resultado = None
+
+for tentativa in range(1, tentativas + 1):
+    try:
+        print(f"Tentativa Gemini {tentativa}/{tentativas}...")
+
+        with urllib.request.urlopen(requisicao, timeout=90) as resposta:
+            resultado = json.loads(
+                resposta.read().decode("utf-8")
+            )
+
+        break
+
+    except urllib.error.HTTPError as erro:
+        corpo = erro.read().decode(
+            "utf-8",
+            errors="replace"
         )
 
-except urllib.error.HTTPError as erro:
-    corpo = erro.read().decode(
-        "utf-8",
-        errors="replace"
-    )
-    print(f"ERRO HTTP Gemini: {erro.code}")
-    print(corpo)
-    raise SystemExit(1)
+        if erro.code == 503 and tentativa < tentativas:
+            espera = tentativa * 5
 
-except Exception as erro:
-    print(f"ERRO ao chamar Gemini: {erro}")
+            print(
+                f"Gemini indisponível (503). "
+                f"Nova tentativa em {espera}s..."
+            )
+
+            time.sleep(espera)
+            continue
+
+        print(f"ERRO HTTP Gemini: {erro.code}")
+        print(corpo)
+        raise SystemExit(1)
+
+    except Exception as erro:
+        print(f"ERRO ao chamar Gemini: {erro}")
+        raise SystemExit(1)
+
+if resultado is None:
+    print("ERRO: Gemini não retornou resultado.")
     raise SystemExit(1)
 
 try:
