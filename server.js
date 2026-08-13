@@ -87,6 +87,61 @@ async function buscarConhecimentoFirebase(termo) {
     }
 }
 
+
+// ============================================================
+// SALVAR HTML GERADO NO FIREBASE REALTIME
+// ============================================================
+
+async function salvarHTMLFirebase(arquivo, prompt = "", modelo = "gemini-3.1-flash-lite") {
+
+    if (!db) {
+        console.log("Firebase indisponível para HTML.");
+        return null;
+    }
+
+    try {
+
+        const conteudo = fs.readFileSync(
+            arquivo,
+            "utf8"
+        );
+
+        const nome = path.basename(
+            arquivo,
+            ".html"
+        );
+
+        const dados = {
+            titulo: nome,
+            prompt: prompt,
+            html: conteudo,
+            arquivo_local: arquivo,
+            modelo: modelo,
+            criado_em: new Date().toISOString()
+        };
+
+        await db
+            .ref("nexus/html_gerados/" + nome)
+            .set(dados);
+
+        console.log(
+            "HTML salvo no Firebase:",
+            "nexus/html_gerados/" + nome
+        );
+
+        return nome;
+
+    } catch (e) {
+
+        console.log(
+            "Erro Firebase HTML:",
+            e.message
+        );
+
+        return null;
+    }
+}
+
 async function salvarConhecimentoFirebase(arquivo) {
 
     if (!db) {
@@ -1307,6 +1362,64 @@ switch (intent.acao) {
                         maxBuffer: 1024 * 1024
                     }
                 ).trim();
+
+
+            // ============================================================
+            // SALVAR HTML GERADO NO FIREBASE
+            // ============================================================
+            if (
+                tool === "gerar_codigo" &&
+                respostaFinal.includes("=== HTML SALVO ===")
+            ) {
+                try {
+                    const inicio = respostaFinal.indexOf(
+                        "=== HTML SALVO ==="
+                    );
+
+                    const trecho = respostaFinal.substring(
+                        inicio + "=== HTML SALVO ===".length
+                    );
+
+                    const linhasHTML = trecho
+                        .split("\n")
+                        .map(l => l.trim())
+                        .filter(Boolean);
+
+                    const arquivoHTML = linhasHTML[0];
+
+                    if (
+                        arquivoHTML &&
+                        arquivoHTML.endsWith(".html") &&
+                        fs.existsSync(arquivoHTML)
+                    ) {
+                        console.log(
+                            "☁️ Enviando HTML gerado para Firebase:",
+                            arquivoHTML
+                        );
+
+                        await salvarHTMLFirebase(
+                            arquivoHTML,
+                            argumentosFerramenta,
+                            "gemini-3.1-flash-lite"
+                        );
+
+                        respostaFinal +=
+                            "\n\n=== FIREBASE ===\n" +
+                            "HTML sincronizado com Firebase.";
+                    } else {
+                        console.log(
+                            "⚠️ Caminho do HTML gerado não encontrado:",
+                            arquivoHTML
+                        );
+                    }
+
+                } catch (firebaseErro) {
+                    console.log(
+                        "⚠️ HTML gerado, mas não foi possível salvar no Firebase:",
+                        firebaseErro.message
+                    );
+                }
+            }
 
             // EXECUTOR BASH
             } else if (skill.executor === "bash") {
