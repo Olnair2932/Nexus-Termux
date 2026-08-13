@@ -459,7 +459,14 @@ function detectarGerarCodigo(prompt) {
         "gerar uma página html",
         "criar um site",
         "fazer uma página html",
-        "criar código html"
+        "criar código html",
+        "criar um html",
+        "criar html",
+        "gerar um html",
+        "gerar html",
+        "criar uma página web",
+        "criar painel html",
+        "gerar painel html"
     ];
 
     const encontrado = gatilhos.find(gatilho =>
