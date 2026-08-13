@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+from pathlib import Path
 import sys
 import json
 import urllib.request
@@ -132,4 +133,32 @@ print("=== CÓDIGO GERADO ===")
 print()
 print(codigo_html)
 print()
+
+# ============================================================
+# SALVAR HTML GERADO LOCALMENTE
+# ============================================================
+
+from datetime import datetime
+
+PASTA_HTML = Path(__file__).resolve().parent.parent / "html_gerados"
+PASTA_HTML.mkdir(parents=True, exist_ok=True)
+
+nome_html = (
+    "nexus_"
+    + datetime.now().strftime("%Y%m%d_%H%M%S")
+    + ".html"
+)
+
+arquivo_html = PASTA_HTML / nome_html
+
+arquivo_html.write_text(
+    codigo_html,
+    encoding="utf-8"
+)
+
+print()
+print("=== HTML SALVO ===")
+print(str(arquivo_html))
+print("=== FIM DO HTML SALVO ===")
+
 print("=== FIM DO CÓDIGO ===")
