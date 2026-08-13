@@ -935,7 +935,17 @@ app.post("/api/chat", async (req, res) => {
         .trim()
         .match(/^executar[_\s]+script\s+(.+)$/i);
 
-    if (textoExecutarScript) {
+    const intentGerarCodigo = detectarGerarCodigo(texto);
+
+    if (intentGerarCodigo) {
+        intent = intentGerarCodigo;
+
+        console.log(
+            "🚀 GATILHO DIRETO GERADOR:",
+            intent.params
+        );
+
+    } else if (textoExecutarScript) {
         intent = {
             acao: "executar_script",
             params: textoExecutarScript[1].trim(),
@@ -948,10 +958,7 @@ app.post("/api/chat", async (req, res) => {
         );
 
     } else {
-        const intentGerarCodigo = detectarGerarCodigo(texto);
-
         intent =
-            intentGerarCodigo ||
             intentMemoria ||
             await processarIntencao(texto);
     }
