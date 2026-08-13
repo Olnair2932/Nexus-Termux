@@ -34,17 +34,74 @@ O usuário solicitou:
 {solicitacao}
 
 Gere uma página HTML completa, pronta para copiar e colar em um arquivo
-.html e abrir diretamente no navegador.
+.html e abrir no navegador.
 
-Regras:
+REGRAS GERAIS:
 - Responda somente com o código HTML.
 - Não use Markdown.
 - Não coloque o código entre ```html e ```.
 - Use HTML5.
-- Pode incluir CSS dentro de <style>.
-- Pode incluir JavaScript dentro de <script> quando necessário.
-- A página deve funcionar sem dependências externas.
-- O resultado deve ser visualmente organizado e funcional.
+- CSS deve ficar dentro de <style>.
+- JavaScript deve ficar dentro de <script>.
+- Não use frameworks, bibliotecas, CDN ou dependências externas.
+- O resultado deve ser visualmente organizado, profissional, responsivo
+  e funcional.
+- Nunca invente APIs que não foram solicitadas.
+
+INTEGRAÇÃO REAL COM O NEXUS:
+Se a solicitação for para criar um painel, interface, dashboard ou site
+do Nexus SRE, a interface deve possuir comunicação REAL com o backend
+Nexus através de:
+
+POST /api/chat
+
+O JavaScript deve enviar comandos usando exatamente este formato:
+
+fetch("/api/chat", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        texto: comando,
+        voz: false
+    })
+})
+
+A resposta deve ser processada como JSON.
+
+Use a propriedade "nexus" da resposta para exibir a resposta da IA
+na interface.
+
+Não simule respostas da IA.
+Não escreva mensagens falsas como "Execução concluída com sucesso".
+O campo de comandos deve realmente enviar o comando ao backend.
+
+Para o painel Nexus SRE, quando solicitado, inclua:
+- cabeçalho NEXUS SRE;
+- indicador ONLINE;
+- terminal futurista;
+- campo para comandos;
+- botão EXECUTAR;
+- envio também pelo Enter;
+- área de resposta da IA;
+- histórico de comandos;
+- cards de status;
+- botões de ações rápidas;
+- layout responsivo para celular;
+- tratamento visual de carregamento;
+- tratamento de erros de comunicação;
+- rolagem automática do terminal;
+- botão para limpar o histórico.
+
+IMPORTANTE:
+O HTML será servido pelo mesmo domínio do backend Nexus.
+Portanto utilize "/api/chat" como endpoint relativo.
+Não coloque chave de API Gemini no HTML.
+Nunca exponha GEMINI_API_KEY no código do navegador.
+
+O objetivo é gerar uma interface real para o Nexus, e não apenas uma
+demonstração visual.
 """
 
 url = (
