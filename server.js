@@ -768,7 +768,11 @@ function detectarGerarCodigo(prompt) {
         "criar dashboard",
         "gerar dashboard",
         "criar dashboard do nexus",
-        "gerar dashboard do nexus"
+        "gerar dashboard do nexus",
+        "gerar_html:",
+        "gerar_html",
+        "gerar html:",
+        "gerar html "
     ];
 
     const encontrado = gatilhos.find(gatilho =>
