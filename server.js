@@ -388,6 +388,40 @@ async function registrarAprendizadoAutomatico(frase, acao) {
 }
 
 
+
+// ============================================================
+// GATILHOS DIRETOS DO GERADOR DE CÓDIGO
+// ============================================================
+
+function detectarGerarCodigo(prompt) {
+    const texto = (prompt || "")
+        .toLowerCase()
+        .replace(/^nexus[,:]?\s*/i, "")
+        .trim();
+
+    const gatilhos = [
+        "criar uma landing page",
+        "gerar uma página html",
+        "criar um site",
+        "fazer uma página html",
+        "criar código html"
+    ];
+
+    const encontrado = gatilhos.find(gatilho =>
+        texto.includes(gatilho)
+    );
+
+    if (!encontrado) {
+        return null;
+    }
+
+    return {
+        acao: "executar_script",
+        params: `gerar_codigo ${texto}`,
+        msg: "Gerando código com Nexus/Gemini."
+    };
+}
+
 async function processarIntencao(promptUsuario) {
 
     let contextoRAG = "";
@@ -914,7 +948,10 @@ app.post("/api/chat", async (req, res) => {
         );
 
     } else {
+        const intentGerarCodigo = detectarGerarCodigo(texto);
+
         intent =
+            intentGerarCodigo ||
             intentMemoria ||
             await processarIntencao(texto);
     }
@@ -1332,8 +1369,12 @@ switch (intent.acao) {
         } catch(e) {
 
             respostaFinal =
-                "Erro ao executar ferramenta: " +
-                e.message;
+                "Erro ao executar ferramenta:\n\n" +
+                (
+                    e.stderr?.toString() ||
+                    e.stdout?.toString() ||
+                    e.message
+                );
         }
 
         break;
