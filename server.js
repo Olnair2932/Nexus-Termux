@@ -298,6 +298,12 @@ app.use(cors());
 app.use(express.json({ limit: '5mb' }));
 app.use(express.static('public'));
 
+// ============================================================
+// SERVIR HTMLs GERADOS PELO NEXUS
+// ============================================================
+const HTML_GERADOS_DIR = path.join(CONFIG.ROOT, "html_gerados");
+app.use("/html_gerados", express.static(HTML_GERADOS_DIR));
+
 let brainMemory = null; // Cache do cérebro em memória
 
 // --- CORE UTILS ---
