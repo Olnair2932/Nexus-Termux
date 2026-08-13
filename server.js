@@ -142,6 +142,101 @@ async function salvarHTMLFirebase(arquivo, prompt = "", modelo = "gemini-3.1-fla
     }
 }
 
+
+// ============================================================
+// SALVAR NOVA VERSÃO DE HTML EDITADO NO FIREBASE
+// ============================================================
+
+async function salvarHTMLEditadoFirebase(nome, html, prompt = "") {
+    if (!db) {
+        console.log("Firebase indisponível para HTML editado.");
+        return null;
+    }
+
+    try {
+        const nomeLimpo = path.basename(nome, ".html");
+
+        const dados = {
+            titulo: nomeLimpo,
+            prompt: prompt,
+            html: html,
+            arquivo_local: "",
+            modelo: "gemini-3.1-flash-lite",
+            tipo: "html_editado",
+            original: nomeLimpo,
+            criado_em: new Date().toISOString()
+        };
+
+        const novoNome =
+            "nexus_editado_" +
+            new Date().toISOString()
+                .replace(/[-:TZ.]/g, "")
+                .slice(0, 15);
+
+        await db
+            .ref("nexus/html_gerados/" + novoNome)
+            .set(dados);
+
+        console.log(
+            "HTML editado salvo no Firebase:",
+            "nexus/html_gerados/" + novoNome
+        );
+
+        return novoNome;
+
+    } catch (e) {
+        console.log(
+            "Erro ao salvar HTML editado no Firebase:",
+            e.message
+        );
+        return null;
+    }
+}
+
+// ============================================================
+// BUSCAR HTML GERADO NO FIREBASE REALTIME
+// ============================================================
+
+async function buscarHTMLFirebase(nome) {
+    if (!db) {
+        console.log("Firebase indisponível para HTML.");
+        return null;
+    }
+
+    try {
+        const nomeLimpo = path.basename(nome, ".html");
+
+        const snapshot = await db
+            .ref("nexus/html_gerados/" + nomeLimpo)
+            .once("value");
+
+        const dados = snapshot.val();
+
+        if (!dados || !dados.html) {
+            console.log("HTML não encontrado no Firebase:", nomeLimpo);
+            return null;
+        }
+
+        console.log(
+            "HTML recuperado do Firebase:",
+            nomeLimpo
+        );
+
+        return {
+            nome: nomeLimpo,
+            html: dados.html,
+            dados: dados
+        };
+
+    } catch (e) {
+        console.log(
+            "Erro ao buscar HTML no Firebase:",
+            e.message
+        );
+        return null;
+    }
+}
+
 async function salvarConhecimentoFirebase(arquivo) {
 
     if (!db) {
@@ -1638,7 +1733,180 @@ switch (intent.acao) {
 
             const skill = skills[tool];
 
+            // ============================================================
+            // EDITOR HTML COM ORIGEM NO FIREBASE
+            // ============================================================
+            if (tool === "editar_html") {
+                try {
+                    const partesEdicao = argumentosFerramenta.match(
+                        /^([^\\s]+(?:\\.html)?)[\\s]+(.+)$/
+                    );
+
+                    if (!partesEdicao) {
+                        respostaFinal =
+                            "Uso: editar_html <nome_html> <alteração>";
+                        break;
+                    }
+
+                    const nomeHTML = partesEdicao[1].trim();
+                    const alteracaoHTML = partesEdicao[2].trim();
+
+                    console.log(
+                        "📝 Editando HTML:",
+                        nomeHTML
+                    );
+
+                    const htmlFirebase =
+                        await buscarHTMLFirebase(nomeHTML);
+
+                    if (!htmlFirebase) {
+                        respostaFinal =
+                            "HTML não encontrado no Firebase: " +
+                            nomeHTML;
+                        break;
+                    }
+
+                    const scriptEditor = path.resolve(
+                        CONFIG.ROOT,
+                        "nexus_tools/editar_html.py"
+                    );
+
+                    const pastaFerramentas = path.resolve(
+                        CONFIG.ROOT,
+                        "nexus_tools"
+                    );
+
+                    if (
+                        !scriptEditor.startsWith(
+                            pastaFerramentas + path.sep
+                        )
+                    ) {
+                        respostaFinal =
+                            "Execução do editor bloqueada.";
+                        break;
+                    }
+
+                    /*
+                     * O editor Python trabalha com arquivo local.
+                     * Criamos temporariamente o HTML recuperado do Firebase.
+                     */
+                    const pastaHTML = path.resolve(
+                        CONFIG.ROOT,
+                        "html_gerados"
+                    );
+
+                    fs.mkdirSync(
+                        pastaHTML,
+                        { recursive: true }
+                    );
+
+                    const arquivoTemporario =
+                        path.join(
+                            pastaHTML,
+                            path.basename(nomeHTML, ".html") + ".html"
+                        );
+
+                    fs.writeFileSync(
+                        arquivoTemporario,
+                        htmlFirebase.html,
+                        "utf8"
+                    );
+
+                    const resultadoEditor = execSync(
+                        `python3 "${scriptEditor}" ` +
+                        `${JSON.stringify(path.basename(arquivoTemporario))} ` +
+                        `${JSON.stringify(alteracaoHTML)}`,
+                        {
+                            cwd: CONFIG.ROOT,
+                            encoding: "utf8",
+                            maxBuffer: 4 * 1024 * 1024
+                        }
+                    ).trim();
+
+                    respostaFinal = resultadoEditor;
+
+                    /*
+                     * Localiza o novo HTML criado pelo editor.
+                     */
+                    const marcadorEditado =
+                        "=== HTML EDITADO SALVO ===";
+
+                    const inicioEditado =
+                        resultadoEditor.indexOf(
+                            marcadorEditado
+                        );
+
+                    if (inicioEditado >= 0) {
+                        const trechoEditado =
+                            resultadoEditor.substring(
+                                inicioEditado +
+                                marcadorEditado.length
+                            );
+
+                        const linhasEditado =
+                            trechoEditado
+                                .split("\n")
+                                .map(l => l.trim())
+                                .filter(Boolean);
+
+                        const arquivoEditado =
+                            linhasEditado[0];
+
+                        if (
+                            arquivoEditado &&
+                            arquivoEditado.endsWith(".html") &&
+                            fs.existsSync(arquivoEditado)
+                        ) {
+                            const htmlEditado =
+                                fs.readFileSync(
+                                    arquivoEditado,
+                                    "utf8"
+                                );
+
+                            const nomeSalvo =
+                                await salvarHTMLEditadoFirebase(
+                                    nomeHTML,
+                                    htmlEditado,
+                                    alteracaoHTML
+                                );
+
+                            if (nomeSalvo) {
+                                respostaFinal +=
+                                    "\n\n=== FIREBASE ===\n" +
+                                    "HTML editado sincronizado com Firebase.\n" +
+                                    "Nova versão: " +
+                                    nomeSalvo;
+                            }
+                        }
+                    }
+
+                    /*
+                     * Remove somente o arquivo temporário usado
+                     * para alimentar o editor.
+                     */
+                    try {
+                        if (fs.existsSync(arquivoTemporario)) {
+                            fs.unlinkSync(arquivoTemporario);
+                        }
+                    } catch (limpezaErro) {
+                        console.log(
+                            "Aviso ao remover HTML temporário:",
+                            limpezaErro.message
+                        );
+                    }
+
+                } catch (editorErro) {
+                    respostaFinal =
+                        "Erro ao editar HTML: " +
+                        editorErro.message;
+                }
+
+                break;
+            }
+
+            // ============================================================
             // EXECUTOR PYTHON
+            // ============================================================
             if (skill.executor === "python") {
 
                 const script = path.resolve(
