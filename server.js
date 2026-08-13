@@ -299,6 +299,253 @@ app.use(express.json({ limit: '5mb' }));
 app.use(express.static('public'));
 
 // ============================================================
+
+// ============================================================
+// ÍNDICE DOS HTMLs GERADOS PELO NEXUS
+// ============================================================
+
+app.get("/html_gerados/", async (req, res) => {
+    try {
+        if (!db) {
+            return res.status(503).send("Firebase indisponível.");
+        }
+
+        const snapshot = await db
+            .ref("nexus/html_gerados")
+            .once("value");
+
+        const dados = snapshot.val() || {};
+
+        const arquivos = Object.entries(dados)
+            .sort((a, b) => {
+                const da = a[1]?.criado_em || "";
+                const dbb = b[1]?.criado_em || "";
+                return String(dbb).localeCompare(String(da));
+            });
+
+        const cards = arquivos.map(([nome, item]) => {
+            const titulo = String(item?.titulo || nome)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+
+            const data = String(item?.criado_em || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+            return `
+                <a class="card"
+                   href="/html_gerados/${encodeURIComponent(nome)}.html">
+                    <div class="card-title">${titulo}</div>
+                    <div class="card-meta">${data}</div>
+                    <div class="open">ABRIR PAINEL →</div>
+                </a>
+            `;
+        }).join("");
+
+        res.type("html").send(`<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Nexus SRE | HTMLs Gerados</title>
+
+<style>
+:root {
+    --bg: #05080c;
+    --panel: #0c1219;
+    --border: #1e3542;
+    --cyan: #00f2ff;
+    --green: #00ff41;
+    --text: #d9e2e8;
+    --muted: #71808a;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            circle at top,
+            #10202b 0,
+            var(--bg) 45%
+        );
+    color: var(--text);
+    font-family: "Courier New", monospace;
+    padding: 20px;
+}
+
+header {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 25px rgba(0,242,255,.08);
+}
+
+.logo {
+    color: var(--cyan);
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.status {
+    color: var(--green);
+    font-size: 13px;
+}
+
+.dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    margin-right: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 12px var(--green);
+}
+
+main {
+    max-width: 1100px;
+    margin: 20px auto;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.title h1 {
+    margin: 0 0 8px;
+    color: var(--cyan);
+}
+
+.title p {
+    margin: 0;
+    color: var(--muted);
+}
+
+.grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(260px, 1fr));
+    gap: 15px;
+}
+
+.card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 20px;
+    transition: .2s;
+}
+
+.card:hover {
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(0,242,255,.12);
+}
+
+.card-title {
+    color: var(--text);
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.card-meta {
+    color: var(--muted);
+    font-size: 11px;
+    margin-bottom: 18px;
+}
+
+.open {
+    color: var(--cyan);
+    font-size: 12px;
+}
+
+.empty {
+    border: 1px dashed var(--border);
+    padding: 30px;
+    text-align: center;
+    color: var(--muted);
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    header {
+        padding: 15px;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">
+        NEXUS SRE SYSTEM
+    </div>
+
+    <div class="status">
+        <span class="dot"></span>
+        ONLINE
+    </div>
+</header>
+
+<main>
+
+    <div class="title">
+        <h1>HTMLs GERADOS</h1>
+        <p>
+            Interfaces armazenadas no Firebase Realtime
+        </p>
+    </div>
+
+    <div class="grid">
+        ${
+            cards ||
+            '<div class="empty">Nenhum HTML gerado.</div>'
+        }
+    </div>
+
+</main>
+
+</body>
+</html>`);
+
+    } catch (erro) {
+        console.error(
+            "Erro índice HTML:",
+            erro.message
+        );
+
+        res.status(500).send(
+            "Erro ao carregar índice dos HTMLs."
+        );
+    }
+});
+
 // SERVIR HTMLs GERADOS PELO NEXUS
 // ============================================================
 const HTML_GERADOS_DIR = path.join(CONFIG.ROOT, "html_gerados");
