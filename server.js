@@ -466,7 +466,16 @@ function detectarGerarCodigo(prompt) {
         "gerar html",
         "criar uma página web",
         "criar painel html",
-        "gerar painel html"
+        "gerar painel html",
+        "criar um painel",
+        "criar painel",
+        "criar um painel principal",
+        "painel principal do nexus",
+        "criar interface do nexus",
+        "criar dashboard",
+        "gerar dashboard",
+        "criar dashboard do nexus",
+        "gerar dashboard do nexus"
     ];
 
     const encontrado = gatilhos.find(gatilho =>
