@@ -33,23 +33,29 @@ O usuário solicitou:
 
 __SOLICITACAO__
 
-Gere uma página HTML completa, pronta para copiar e colar em um arquivo .html e abrir diretamente no navegador.
+Gere uma página HTML completa, profissional e funcional, pronta para ser salva como arquivo .html.
 
-Regras:
-- Responda somente com o código HTML.
+REGRAS GERAIS:
+- Responda somente com código HTML.
 - Não use Markdown.
-- Não coloque o código entre ```html e ```.
+- Não use ```html.
 - Use HTML5.
-- Pode incluir CSS dentro de <style>.
-- Pode incluir JavaScript dentro de <script> quando necessário.
-- A página deve funcionar sem dependências externas.
-- O resultado deve ser visualmente organizado e funcional.
+- CSS deve ficar dentro de <style>.
+- JavaScript deve ficar dentro de <script>.
+- Não use dependências externas.
+- Não use bibliotecas CDN.
+- A página deve funcionar em celular e computador.
+- O visual deve ser moderno, profissional e futurista quando solicitado.
 
-IMPORTANTE:
+INTEGRAÇÃO REAL COM O NEXUS:
+
 O HTML será servido pelo mesmo domínio do backend Nexus.
-Portanto utilize "/api/chat" como endpoint relativo.
 
-O JavaScript deve enviar comandos usando este formato:
+O endpoint obrigatório é:
+
+/api/chat
+
+Envie comandos usando:
 
 fetch("/api/chat", {
     method: "POST",
@@ -62,13 +68,100 @@ fetch("/api/chat", {
     })
 })
 
-A interface deve possuir comunicação REAL com o backend Nexus através de /api/chat.
+NUNCA coloque GEMINI_API_KEY no HTML.
+NUNCA coloque qualquer chave de API no JavaScript do navegador.
+O navegador conversa somente com /api/chat.
 
-Não coloque chave de API Gemini no HTML.
-Nunca exponha GEMINI_API_KEY no código do navegador.
+RESPOSTA DO BACKEND:
 
-O objetivo é gerar uma interface real para o Nexus, e não apenas uma demonstração visual.
+O JavaScript deve aceitar tanto:
+
+data.nexus
+
+quanto:
+
+data.resposta
+
+Use uma lógica equivalente a:
+
+const resposta = data.nexus || data.resposta || JSON.stringify(data);
+
+Depois mostre essa resposta na área do terminal.
+
+TRATAMENTO HTTP:
+
+Verifique response.ok.
+
+Se response.ok for falso, mostre uma mensagem informando o erro HTTP.
+
+Também trate erros de conexão usando try/catch.
+
+EXEMPLO DE COMPORTAMENTO:
+
+try {
+    const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            texto: comando,
+            voz: false
+        })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            data.nexus ||
+            data.resposta ||
+            "Erro HTTP " + response.status
+        );
+    }
+
+    const resposta =
+        data.nexus ||
+        data.resposta ||
+        JSON.stringify(data);
+
+    // mostrar resposta no terminal
+
+} catch (erro) {
+    // mostrar erro de comunicação no terminal
+}
+
+RECURSOS OBRIGATÓRIOS DO PAINEL:
+
+- Campo para digitar comandos.
+- Botão EXECUTAR.
+- Enter deve executar o comando.
+- Área de resposta da IA.
+- Histórico dos comandos.
+- Botão LIMPAR HISTÓRICO.
+- Rolagem automática para a última resposta.
+- Indicador visual ONLINE.
+- Indicador visual PROCESSANDO enquanto aguarda o backend.
+- Botões de ação quando fizer sentido.
+- Cards de status quando solicitados.
+- Interface responsiva.
+- Não bloquear a interface durante uma requisição.
+- Desabilitar o botão de execução enquanto uma requisição estiver em andamento e reativá-lo depois.
+- Não perder o histórico durante uma requisição.
+
+SEGURANÇA:
+
+Nunca usar innerHTML para inserir diretamente comandos ou respostas recebidas do usuário/backend quando textContent for suficiente.
+
+Não executar código recebido da IA com eval().
+
+Não expor variáveis de ambiente.
+
+O objetivo é gerar uma interface REAL para o Nexus, conectada ao backend através de /api/chat, e não uma demonstração simulada.
+
+__FIM_DAS_REGRAS__
 """.replace("__SOLICITACAO__", solicitacao)
+
 
 
 url = (
