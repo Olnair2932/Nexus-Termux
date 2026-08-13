@@ -304,6 +304,46 @@ app.use(express.static('public'));
 const HTML_GERADOS_DIR = path.join(CONFIG.ROOT, "html_gerados");
 app.use("/html_gerados", express.static(HTML_GERADOS_DIR));
 
+app.get("/html_gerados/:nome", async (req, res) => {
+    try {
+        const nome = req.params.nome.replace(/\.html$/i, "");
+
+        // Primeiro procura no armazenamento local
+        const arquivoLocal = path.join(
+            HTML_GERADOS_DIR,
+            nome + ".html"
+        );
+
+        if (fs.existsSync(arquivoLocal)) {
+            return res.sendFile(arquivoLocal);
+        }
+
+        // Se não existir localmente, procura no Firebase Realtime
+        if (!db) {
+            return res.status(503).send("Firebase indisponível.");
+        }
+
+        const snapshot = await db
+            .ref("nexus/html_gerados/" + nome)
+            .once("value");
+
+        const dados = snapshot.val();
+
+        if (!dados || !dados.html) {
+            return res.status(404).send("HTML não encontrado no Firebase.");
+        }
+
+        console.log("HTML recuperado do Firebase:", nome);
+
+        res.type("html").send(dados.html);
+
+    } catch (erro) {
+        console.error("Erro ao recuperar HTML:", erro);
+        res.status(500).send("Erro ao recuperar HTML.");
+    }
+});
+
+
 let brainMemory = null; // Cache do cérebro em memória
 
 // --- CORE UTILS ---
