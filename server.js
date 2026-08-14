@@ -1393,7 +1393,7 @@ app.post("/api/chat", async (req, res) => {
 
     let intent;
 
-    const textoNormalizado = (prompt || "")
+    const textoNormalizado = texto
         .replace(/^nexus[\s,:-]*/i, "")
         .trim();
 
@@ -1403,7 +1403,7 @@ app.post("/api/chat", async (req, res) => {
     const textoExecutarScript = textoNormalizado
         .match(/^executar[_\s]+script\s+(.+)$/i);
 
-    const intentGerarCodigo = detectarGerarCodigo(prompt || "");
+    const intentGerarCodigo = detectarGerarCodigo(texto);
 
     if (intentGerarCodigo) {
         intent = intentGerarCodigo;
