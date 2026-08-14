@@ -5,7 +5,7 @@ import subprocess
 from tool_discovery import procurar
 import sys
 
-BASE = Path.home() / "sentinela_dev"
+BASE = Path(__file__).resolve().parent.parent
 
 SKILLS = json.loads(
     (BASE / "skills.json").read_text(encoding="utf-8")

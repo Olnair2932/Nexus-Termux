@@ -1393,9 +1393,14 @@ app.post("/api/chat", async (req, res) => {
 
     let intent;
 
-    const textoExecutarScript = texto
+    const textoNormalizado = texto
         .replace(/^nexus[\s,:-]*/i, "")
-        .trim()
+        .trim();
+
+    const textoEditarHTML = textoNormalizado
+        .match(/^editar[_\s]+html\s+(.+)$/i);
+
+    const textoExecutarScript = textoNormalizado
         .match(/^executar[_\s]+script\s+(.+)$/i);
 
     const intentGerarCodigo = detectarGerarCodigo(texto);
@@ -1405,6 +1410,18 @@ app.post("/api/chat", async (req, res) => {
 
         console.log(
             "🚀 GATILHO DIRETO GERADOR:",
+            intent.params
+        );
+
+    } else if (textoEditarHTML) {
+        intent = {
+            acao: "executar_script",
+            params: `editar_html ${textoEditarHTML[1].trim()}`,
+            msg: "Executando editor HTML solicitado."
+        };
+
+        console.log(
+            "📝 GATILHO DIRETO EDITAR_HTML:",
             intent.params
         );
 
@@ -1739,7 +1756,7 @@ switch (intent.acao) {
             if (tool === "editar_html") {
                 try {
                     const partesEdicao = argumentosFerramenta.match(
-                        /^([^\\s]+(?:\\.html)?)[\\s]+(.+)$/
+                        /^(\S+(?:\.html)?)\s+(.+)$/
                     );
 
                     if (!partesEdicao) {
