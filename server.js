@@ -1696,7 +1696,8 @@ const acoesValidas = new Set([
     "ver_armazenamento",
     "status_sistema",
     "acessar_web",
-    "auto_aprender"
+    "auto_aprender",
+    "excluir_html"
 ]);
 
 if (!acoesValidas.has(intent.acao)) {
@@ -2113,6 +2114,57 @@ switch (intent.acao) {
 
                 break;
             }
+
+            // ============================================================
+            // EXCLUSÃO DE HTML
+            // ============================================================
+            case "excluir_html":
+                try {
+                    const { execSync } = require("child_process");
+
+                    let nomeHTML = String(
+                        intent.params || ""
+                    ).trim();
+
+                    if (!nomeHTML) {
+                        respostaFinal =
+                            "Informe o nome/código do HTML para excluir.";
+                        break;
+                    }
+
+                    nomeHTML = path.basename(nomeHTML);
+
+                    if (nomeHTML.endsWith(".html")) {
+                        nomeHTML = nomeHTML.slice(0, -5);
+                    }
+
+                    console.log(
+                        "🗑️ Excluindo HTML:",
+                        nomeHTML
+                    );
+
+                    const scriptExcluir = path.resolve(
+                        CONFIG.ROOT,
+                        "nexus_tools/excluir_html.py"
+                    );
+
+                    respostaFinal = execSync(
+                        `python3 "${scriptExcluir}" ` +
+                        `${JSON.stringify(nomeHTML)}`,
+                        {
+                            cwd: CONFIG.ROOT,
+                            encoding: "utf8",
+                            maxBuffer: 1024 * 1024
+                        }
+                    ).trim();
+
+                } catch (e) {
+                    respostaFinal =
+                        "Erro ao excluir HTML: " +
+                        e.message;
+                }
+
+                break;
 
             // ============================================================
             // EXECUTOR PYTHON
