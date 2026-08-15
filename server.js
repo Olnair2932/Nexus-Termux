@@ -2906,6 +2906,138 @@ intent.acao = chave;
 });
 
 // -------------------------------------------------------
+// API_COMANDOS_FUNCIONANDO
+// -------------------------------------------------------
+app.get("/api/comandos-funcionando", async (req, res) => {
+    try {
+        if (!db) {
+            return res.json({
+                success: false,
+                comandos: [],
+                erro: "Firebase indisponível."
+            });
+        }
+
+        const snapshot = await db
+            .ref("nexus/comandos_funcionando")
+            .once("value");
+
+        const dados = snapshot.val() || {};
+
+        const comandos = Object.entries(dados)
+            .map(([chave, info]) => ({
+                chave: chave,
+                comando: info && info.comando
+                    ? info.comando
+                    : chave,
+                resultado: info && info.resultado
+                    ? info.resultado
+                    : "",
+                status: info && info.status
+                    ? info.status
+                    : "funcionando",
+                ambiente: info && info.ambiente
+                    ? info.ambiente
+                    : "",
+                ultima_confirmacao: info && info.ultima_confirmacao
+                    ? info.ultima_confirmacao
+                    : ""
+            }))
+            .sort((a, b) =>
+                String(b.ultima_confirmacao)
+                    .localeCompare(String(a.ultima_confirmacao))
+            );
+
+        res.json({
+            success: true,
+            total: comandos.length,
+            comandos: comandos
+        });
+
+    } catch (erro) {
+        console.log(
+            "Erro ao consultar comandos funcionando:",
+            erro.message
+        );
+
+        res.status(500).json({
+            success: false,
+            comandos: [],
+            erro: erro.message
+        });
+    }
+});
+
+// -------------------------------------------------------
+// API_SALVAR_PERGUNTA
+// -------------------------------------------------------
+app.post("/api/salvar-pergunta", async (req, res) => {
+    try {
+        if (!db) {
+            return res.status(503).json({
+                success: false,
+                erro: "Firebase indisponível."
+            });
+        }
+
+        const texto = String(req.body.texto || "").trim();
+
+        if (!texto) {
+            return res.status(400).json({
+                success: false,
+                erro: "Pergunta ou comando não informado."
+            });
+        }
+
+        const tipo = String(
+            req.body.tipo || "pergunta"
+        ).trim();
+
+        const acao = String(
+            req.body.acao || ""
+        ).trim();
+
+        const agora = Date.now();
+
+        const dados = {
+            texto: texto,
+            tipo: tipo,
+            acao: acao,
+            timestamp: agora,
+            data: new Date(agora).toISOString()
+        };
+
+        const ref = db
+            .ref("nexus/perguntas_salvas")
+            .push();
+
+        await ref.set(dados);
+
+        console.log(
+            "Pergunta/comando salvo no Firebase:",
+            ref.key
+        );
+
+        res.json({
+            success: true,
+            id: ref.key,
+            registro: dados
+        });
+
+    } catch (erro) {
+        console.log(
+            "Erro ao salvar pergunta/comando:",
+            erro.message
+        );
+
+        res.status(500).json({
+            success: false,
+            erro: erro.message
+        });
+    }
+});
+
+// -------------------------------------------------------
 // API_HISTORICO
 // -------------------------------------------------------
 app.get("/api/historico", async (req, res) => {
