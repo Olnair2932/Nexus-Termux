@@ -1731,6 +1731,54 @@ try {
     }
 }
 
+
+// ============================================================
+// HISTÓRICO PERSISTENTE NO FIREBASE
+// Mantém somente as últimas 5 conversas.
+// ============================================================
+async function salvarHistoricoFirebase(entrada, acao, resposta, ok) {
+    try {
+        if (!db) {
+            console.log("Firebase indisponível para histórico.");
+            return;
+        }
+
+        const refHistorico = db.ref("nexus/historico");
+        const snapshot = await refHistorico.once("value");
+
+        let historico = snapshot.val() || [];
+
+        if (!Array.isArray(historico)) {
+            historico = Object.values(historico);
+        }
+
+        historico.push({
+            timestamp: Date.now(),
+            entrada: String(entrada || ""),
+            acao: String(acao || ""),
+            resposta: String(resposta || ""),
+            ok: ok !== false
+        });
+
+        // Mantém somente as 5 conversas mais recentes.
+        historico = historico.slice(-5);
+
+        await refHistorico.set(historico);
+
+        console.log(
+            "Firebase histórico atualizado:",
+            historico.length,
+            "conversas"
+        );
+
+    } catch (erro) {
+        console.log(
+            "Falha ao salvar histórico Firebase:",
+            erro.message
+        );
+    }
+}
+
 // --- ROTAS API ---
 
 app.post("/api/chat", async (req, res) => {
@@ -2814,6 +2862,14 @@ intent.acao = chave;
 
     await syncBrain(brain);
 
+    // SALVA AS 5 ÚLTIMAS CONVERSAS NO FIREBASE
+    await salvarHistoricoFirebase(
+        texto,
+        intent.acao,
+        respostaFinal,
+        execResult ? execResult.success : true
+    );
+
     if (voz) falar(respostaFinal);
 
     // NEXUS EXECUTOR INFO
@@ -2847,6 +2903,50 @@ intent.acao = chave;
         intent: intent,
         shell: execResult
     });
+});
+
+// -------------------------------------------------------
+// API_HISTORICO
+// -------------------------------------------------------
+app.get("/api/historico", async (req, res) => {
+    try {
+        if (!db) {
+            return res.json({
+                success: false,
+                historico: [],
+                erro: "Firebase indisponível."
+            });
+        }
+
+        const snapshot = await db
+            .ref("nexus/historico")
+            .once("value");
+
+        let historico = snapshot.val() || [];
+
+        if (!Array.isArray(historico)) {
+            historico = Object.values(historico);
+        }
+
+        historico = historico.slice(-5).reverse();
+
+        res.json({
+            success: true,
+            historico: historico
+        });
+
+    } catch (erro) {
+        console.log(
+            "Erro ao consultar histórico Firebase:",
+            erro.message
+        );
+
+        res.status(500).json({
+            success: false,
+            historico: [],
+            erro: erro.message
+        });
+    }
 });
 
 // -------------------------------------------------------

@@ -522,98 +522,75 @@ window.addEventListener(
 
 
 
-let historico =
-JSON.parse(
-localStorage.getItem("historico_nexus") || "[]"
-);
+let historico = [];
 
-function salvarHistorico(pergunta){
+async function carregarHistorico() {
+    const div = document.getElementById("historico");
 
-    if(!pergunta.trim()) return;
+    if (!div) return;
 
-    historico.unshift({
-        texto: pergunta,
-        hora: new Date().toLocaleTimeString()
-    });
+    try {
+        const resposta = await fetch("/api/historico");
+        const dados = await resposta.json();
 
-    historico = historico.slice(0,20);
+        if (!dados.success) {
+            div.innerHTML = "Erro ao carregar histórico.";
+            return;
+        }
 
-    localStorage.setItem(
-        "historico_nexus",
-        JSON.stringify(historico)
-    );
+        historico = dados.historico || [];
 
-    renderHistorico();
+        renderHistorico();
 
+    } catch (erro) {
+        console.error("Erro ao carregar histórico:", erro);
+        div.innerHTML = "Erro ao carregar histórico.";
+    }
 }
 
+function renderHistorico() {
+    const div = document.getElementById("historico");
 
-function renderHistorico(){
+    if (!div) return;
 
-    const div =
-    document.getElementById("historico");
-
-    if(!div) return;
-
-    if(historico.length===0){
-
-        div.innerHTML =
-        "Nenhuma consulta.";
-
+    if (historico.length === 0) {
+        div.innerHTML = "Nenhuma consulta.";
         return;
-
     }
 
-    div.innerHTML="";
+    div.innerHTML = "";
 
-    historico.forEach((item)=>{
+    historico.forEach((item) => {
+        const linha = document.createElement("div");
 
-        const linha =
-        document.createElement("div");
+        linha.style.cursor = "pointer";
+        linha.style.padding = "8px";
+        linha.style.borderBottom = "1px solid #333";
 
-        linha.style.cursor="pointer";
-        linha.style.padding="6px";
-        linha.style.borderBottom=
-        "1px solid #333";
+        const data = item.timestamp
+            ? new Date(item.timestamp).toLocaleString()
+            : "";
 
         linha.innerHTML =
-        "<b>"+item.hora+"</b> - "
-        + item.texto;
+            "<b>" + data + "</b><br>" +
+            "🧑 " + (item.entrada || "") + "<br>" +
+            "⚙️ " + (item.acao || "");
 
-        linha.onclick=()=>{
-
-            document
-            .getElementById("pergunta")
-            .value=item.texto;
-
+        linha.onclick = () => {
+            document.getElementById("pergunta").value =
+                item.entrada || "";
         };
 
         div.appendChild(linha);
-
     });
-
 }
 
-
-function limparHistorico(){
-
-    historico=[];
-
-    localStorage.removeItem(
-        "historico_nexus"
-    );
-
+function limparHistorico() {
+    historico = [];
     renderHistorico();
-
 }
 
-window.addEventListener(
-"load",
-renderHistorico
-);
-
-
-
+window.addEventListener("load", carregarHistorico);
 
 document.getElementById("pergunta")
 .addEventListener("keydown",function(e){
