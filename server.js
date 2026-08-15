@@ -1937,6 +1937,7 @@ const acoesValidas = new Set([
     "buscar_arquivo",
     "listar_arquivos",
     "listar_ferramentas",
+    "listar_comandos_funcionando",
     "ver_armazenamento",
     "status_sistema",
     "acessar_web",
@@ -1979,22 +1980,19 @@ switch (intent.acao) {
 
     case "status_sistema":
         try {
-            const os = require("os");
+            const { execSync } = require("child_process");
 
-            respostaFinal = JSON.stringify({
-                sistema: os.type(),
-                plataforma: os.platform(),
-                ambiente: process.env.RENDER ? "render" : "local",
-                root: CONFIG.ROOT,
-                hostname: os.hostname(),
-                memoria_total: os.totalmem(),
-                memoria_livre: os.freemem(),
-                uptime: os.uptime()
-            }, null, 2);
+            respostaFinal = execSync(
+                `python3 nexus_tools/command_router.py status_sistema`,
+                {
+                    cwd: CONFIG.ROOT,
+                    encoding: "utf8"
+                }
+            ).trim();
 
         } catch (e) {
             respostaFinal =
-                "Erro ao obter status: " + e.message;
+                "Erro ao executar status_sistema: " + e.message;
         }
         break;
 
