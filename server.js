@@ -435,7 +435,27 @@ app.get("/html_gerados/", async (req, res) => {
                    href="/html_gerados/${encodeURIComponent(nome)}.html">
                     <div class="card-title">${titulo}</div>
                     <div class="card-meta">${data}</div>
-                    <div class="open">ABRIR PAINEL →</div>
+                    <div class="card-actions">
+                        <a
+                            class="open"
+                            href="/html_gerados/${encodeURIComponent(nome)}.html">
+                            ABRIR PAINEL →
+                        </a>
+
+                        <button
+                            class="btn-edit"
+                            type="button"
+                            onclick="editarHTML(${JSON.stringify(nome)})">
+                            ✏️ EDITAR
+                        </button>
+
+                        <button
+                            class="btn-delete"
+                            type="button"
+                            onclick="excluirHTML(${JSON.stringify(nome)})">
+                            🗑 EXCLUIR
+                        </button>
+                    </div>
                 </a>
             `;
         }).join("");
@@ -567,6 +587,41 @@ main {
     margin-bottom: 18px;
 }
 
+.card-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.card-actions a,
+.card-actions button {
+    border: 1px solid var(--border);
+    padding: 8px 10px;
+    font-family: inherit;
+    font-size: 11px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-edit {
+    color: #58a6ff;
+    background: #0b1622;
+}
+
+.btn-delete {
+    color: #ff4d4d;
+    background: #260d0d;
+}
+
+.btn-edit:hover {
+    border-color: #58a6ff;
+}
+
+.btn-delete:hover {
+    border-color: #ff4d4d;
+}
+
 .open {
     color: var(--cyan);
     font-size: 12px;
@@ -626,6 +681,64 @@ main {
 
 </main>
 
+
+<script>
+async function editarHTML(nome) {
+    try {
+        await navigator.clipboard.writeText(nome);
+
+        alert(
+            "Código do HTML copiado para a área de transferência."
+        );
+
+    } catch (erro) {
+        alert(
+            "Não foi possível copiar o código: " +
+            erro.message
+        );
+    }
+}
+
+async function excluirHTML(nome) {
+    const confirmar = confirm(
+        "Deseja realmente excluir este HTML?"
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    try {
+        const resposta = await fetch(
+            "/api/html_gerados/" +
+            encodeURIComponent(nome),
+            {
+                method: "DELETE"
+            }
+        );
+
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            throw new Error(
+                dados.erro ||
+                "Erro ao excluir HTML."
+            );
+        }
+
+        alert("HTML excluído com sucesso.");
+
+        window.location.reload();
+
+    } catch (erro) {
+        alert(
+            "Erro ao excluir HTML: " +
+            erro.message
+        );
+    }
+}
+</script>
+
 </body>
 </html>`);
 
@@ -638,6 +751,89 @@ main {
         res.status(500).send(
             "Erro ao carregar índice dos HTMLs."
         );
+    }
+});
+
+
+// ============================================================
+// API: EXCLUIR HTML GERADO
+// ============================================================
+
+app.delete("/api/html_gerados/:nome", async (req, res) => {
+    try {
+        const { execSync } = require("child_process");
+
+        let nome = String(
+            req.params.nome || ""
+        ).trim();
+
+        nome = path.basename(nome);
+        nome = nome.replace(/\.html$/i, "");
+
+        if (!nome) {
+            return res.status(400).json({
+                erro: "Nome do HTML não informado."
+            });
+        }
+
+        const scriptExcluir = path.resolve(
+            CONFIG.ROOT,
+            "nexus_tools/excluir_html.py"
+        );
+
+        const pastaFerramentas = path.resolve(
+            CONFIG.ROOT,
+            "nexus_tools"
+        );
+
+        if (
+            !scriptExcluir.startsWith(
+                pastaFerramentas + path.sep
+            )
+        ) {
+            return res.status(403).json({
+                erro: "Execução bloqueada."
+            });
+        }
+
+        if (!fs.existsSync(scriptExcluir)) {
+            return res.status(404).json({
+                erro:
+                    "Script excluir_html.py não encontrado."
+            });
+        }
+
+        console.log(
+            "🗑️ API excluindo HTML:",
+            nome
+        );
+
+        const resultado = execSync(
+            `python3 "${scriptExcluir}" ` +
+            `${JSON.stringify(nome)}`,
+            {
+                cwd: CONFIG.ROOT,
+                encoding: "utf8",
+                maxBuffer: 1024 * 1024
+            }
+        ).trim();
+
+        return res.json({
+            ok: true,
+            nome,
+            resultado
+        });
+
+    } catch (erro) {
+        console.error(
+            "Erro na API de exclusão:",
+            erro.message
+        );
+
+        return res.status(500).json({
+            ok: false,
+            erro: erro.message
+        });
     }
 });
 
@@ -1696,8 +1892,7 @@ const acoesValidas = new Set([
     "ver_armazenamento",
     "status_sistema",
     "acessar_web",
-    "auto_aprender",
-    "excluir_html"
+    "auto_aprender"
 ]);
 
 if (!acoesValidas.has(intent.acao)) {
@@ -2114,57 +2309,6 @@ switch (intent.acao) {
 
                 break;
             }
-
-            // ============================================================
-            // EXCLUSÃO DE HTML
-            // ============================================================
-            case "excluir_html":
-                try {
-                    const { execSync } = require("child_process");
-
-                    let nomeHTML = String(
-                        intent.params || ""
-                    ).trim();
-
-                    if (!nomeHTML) {
-                        respostaFinal =
-                            "Informe o nome/código do HTML para excluir.";
-                        break;
-                    }
-
-                    nomeHTML = path.basename(nomeHTML);
-
-                    if (nomeHTML.endsWith(".html")) {
-                        nomeHTML = nomeHTML.slice(0, -5);
-                    }
-
-                    console.log(
-                        "🗑️ Excluindo HTML:",
-                        nomeHTML
-                    );
-
-                    const scriptExcluir = path.resolve(
-                        CONFIG.ROOT,
-                        "nexus_tools/excluir_html.py"
-                    );
-
-                    respostaFinal = execSync(
-                        `python3 "${scriptExcluir}" ` +
-                        `${JSON.stringify(nomeHTML)}`,
-                        {
-                            cwd: CONFIG.ROOT,
-                            encoding: "utf8",
-                            maxBuffer: 1024 * 1024
-                        }
-                    ).trim();
-
-                } catch (e) {
-                    respostaFinal =
-                        "Erro ao excluir HTML: " +
-                        e.message;
-                }
-
-                break;
 
             // ============================================================
             // EXECUTOR PYTHON
