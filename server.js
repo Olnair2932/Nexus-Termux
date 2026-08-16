@@ -2152,11 +2152,13 @@ if (!acoesValidas.has(intent.acao)) {
         );
     }
 
-    if (intent.msg && intent.msg.trim()) {
-
+    // Retorno antecipado somente para conversa
+    if (
+        intent.acao === "conversar" &&
+        intent.msg &&
+        intent.msg.trim()
+    ) {
         respostaFinal = intent.msg;
-
-        intent.acao = "conversar";
         intent.params = intent.params || "";
 
         return res.json({
@@ -2166,9 +2168,7 @@ if (!acoesValidas.has(intent.acao)) {
         });
     }
 
-    intent.acao = "conversar";
 }
-
 // Lógica de Ação
 
 switch (intent.acao) {
