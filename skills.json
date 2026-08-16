@@ -1042,5 +1042,10 @@
         "modificar html"
       ]
     }
+  },
+  "listar_htmls": {
+    "executor": "python",
+    "script": "nexus_tools/listar_htmls.py",
+    "descricao": "Lista os HTMLs publicados e suas versões no sistema Nexus."
   }
 }
