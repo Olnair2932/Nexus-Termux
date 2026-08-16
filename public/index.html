@@ -139,7 +139,7 @@ Executar
         cursor:pointer;
     "
 >
-    ⚙️ Executar Script
+    🤖 Editar HTML com Gemini
 </button>
 
 <div id="executorScript"
@@ -155,7 +155,7 @@ Executar
     <input
         id="nomeFerramenta"
         type="text"
-        placeholder="Nome da ferramenta Python"
+        value="editar_html" readonly
         style="
             padding:10px;
             width:60%;
@@ -165,6 +165,39 @@ Executar
             border-radius:5px;
         "
     >
+
+
+    <br><br>
+
+    <input
+        id="nomeHtmlEditar"
+        type="text"
+        placeholder="Nome do HTML"
+        style="
+            padding:10px;
+            width:95%;
+            background:#020617;
+            color:white;
+            border:1px solid #3b82f6;
+            border-radius:5px;
+            margin-bottom:8px;
+        "
+    >
+
+    <textarea
+        id="alteracaoHtml"
+        placeholder="Descreva a alteração desejada..."
+        rows="5"
+        style="
+            padding:10px;
+            width:95%;
+            background:#020617;
+            color:white;
+            border:1px solid #3b82f6;
+            border-radius:5px;
+            margin-bottom:8px;
+        "
+    ></textarea>
 
     <button
         onclick="executarScriptDireto()"
@@ -788,54 +821,59 @@ function fecharExecutorScript() {
 }
 
 async function executarScriptDireto() {
-    const campo = document.getElementById("nomeFerramenta");
+
     const resultado = document.getElementById("resultadoScript");
 
-    const ferramenta = campo.value.trim();
+    const ferramenta = "editar_html";
+    const html = document.getElementById("nomeHtmlEditar").value.trim();
+    const alteracao = document.getElementById("alteracaoHtml").value.trim();
 
-    if (!ferramenta) {
-        resultado.textContent = "❌ Digite o nome da ferramenta.";
-        campo.focus();
+    if (!html) {
+        resultado.textContent = "❌ Informe o nome do HTML.";
         return;
     }
 
-    resultado.textContent =
-        "⏳ Executando: " + ferramenta + "\n";
+    if (!alteracao) {
+        resultado.textContent = "❌ Descreva a alteração.";
+        return;
+    }
+
+    resultado.textContent = "⏳ Editando HTML...\n";
 
     try {
+
         const response = await fetch("/api/script", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                ferramenta: ferramenta
+                ferramenta: ferramenta,
+                args: [
+                    html,
+                    alteracao
+                ]
             })
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-            throw new Error(
-                data.erro ||
-                data.nexus ||
-                "Erro HTTP " + response.status
-            );
+            throw new Error(data.erro || ("Erro HTTP " + response.status));
         }
 
         resultado.textContent =
             data.resultado ||
-            data.nexus ||
-            data.stdout ||
             JSON.stringify(data, null, 2);
 
     } catch (erro) {
-        resultado.textContent =
-            "❌ ERRO AO EXECUTAR\n\n" +
-            erro.message;
-    }
-}
 
+        resultado.textContent =
+            "❌ ERRO\n\n" + erro.message;
+
+    }
+
+}
 document
     .getElementById("nomeFerramenta")
     ?.addEventListener("keydown", function(event) {
