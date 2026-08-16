@@ -1047,5 +1047,20 @@
     "executor": "python",
     "script": "nexus_tools/listar_htmls.py",
     "descricao": "Lista os HTMLs publicados e suas versões no sistema Nexus."
+  },
+  "abrir_html": {
+    "executor": "python",
+    "script": "nexus_tools/abrir_html.py",
+    "descricao": "Abre e mostra o conteúdo de um HTML pelo nome, buscando localmente ou no Nexus/Firebase."
+  },
+  "editar_html": {
+    "executor": "python",
+    "script": "nexus_tools/editar_html.py",
+    "descricao": "Edita um HTML existente usando Gemini, preservando o original e criando uma nova versão."
+  },
+  "criar_html": {
+    "executor": "python",
+    "script": "nexus_tools/criar_html.py",
+    "descricao": "Cria uma nova página HTML usando Gemini."
   }
 }
