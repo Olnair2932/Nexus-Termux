@@ -1138,14 +1138,6 @@
         "dashboard optimizer"
       ]
     },
-    "entra_na_pasta___sentinela_dev": {
-      "executor": "python",
-      "script": "nexus_tools/entra_na_pasta___sentinela_dev.py",
-      "descricao": "Ferramenta criada automaticamente pelo Nexus",
-      "frases": [
-        "entra na pasta ~/sentinela_dev"
-      ]
-    },
     "events": {
       "executor": "python",
       "script": "nexus_tools/events.py",
