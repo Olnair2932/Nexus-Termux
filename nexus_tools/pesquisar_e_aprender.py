@@ -83,18 +83,7 @@ texto = dados["candidates"][0]["content"]["parts"][0]["text"]
 PASTA = ROOT / "conhecimento" / "aprendidos"
 PASTA.mkdir(parents=True, exist_ok=True)
 
-import re
-
-# Gera um nome seguro para o arquivo de conhecimento.
-# Nunca permite que o tema crie subpastas através de "/".
-nome_seguro = tema.lower().strip()
-nome_seguro = re.sub(r"[^a-z0-9áéíóúãõâêôçüàèìòù_-]+", "_", nome_seguro)
-nome_seguro = re.sub(r"_+", "_", nome_seguro).strip("_")
-
-if not nome_seguro:
-    nome_seguro = "conhecimento"
-
-arquivo = PASTA / (nome_seguro + ".md")
+arquivo = PASTA / (tema.lower().replace(" ","_") + ".md")
 
 
 # -------------------------------------------------------
