@@ -1944,6 +1944,115 @@ async function salvarHistoricoFirebase(entrada, acao, resposta, ok) {
 
 // --- ROTAS API ---
 
+
+// ==========================================
+// EXECUTOR DIRETO DE FERRAMENTAS PYTHON
+// Usado pelo botão "Executar Script" do Dashboard
+// Não depende do Gemini.
+// ==========================================
+
+app.post("/api/script", async (req, res) => {
+    try {
+        const { ferramenta } = req.body || {};
+
+        if (!ferramenta) {
+            return res.status(400).json({
+                erro: "Nome da ferramenta não informado."
+            });
+        }
+
+        // Aceita somente nome simples de arquivo/ferramenta.
+        // Bloqueia caminhos, espaços e comandos de shell.
+        if (!/^[a-zA-Z0-9_-]+(?:\\.py)?$/.test(ferramenta)) {
+            return res.status(400).json({
+                erro: "Nome de ferramenta inválido."
+            });
+        }
+
+        const nome = ferramenta.endsWith(".py")
+            ? ferramenta
+            : ferramenta + ".py";
+
+        const caminho = path.join(
+            CONFIG.ROOT,
+            "nexus_tools",
+            nome
+        );
+
+        // Impede acesso fora de nexus_tools.
+        const raizTools = path.resolve(
+            CONFIG.ROOT,
+            "nexus_tools"
+        );
+
+        const caminhoReal = path.resolve(caminho);
+
+        if (
+            caminhoReal !== raizTools &&
+            !caminhoReal.startsWith(raizTools + path.sep)
+        ) {
+            return res.status(403).json({
+                erro: "Acesso ao caminho não permitido."
+            });
+        }
+
+        if (!fs.existsSync(caminhoReal)) {
+            return res.status(404).json({
+                erro: `Ferramenta não encontrada: ${nome}`
+            });
+        }
+
+        console.log("==========================================");
+        console.log("🔧 EXECUTOR DIRETO DO DASHBOARD");
+        console.log("Ferramenta:", nome);
+        console.log("Arquivo:", caminhoReal);
+        console.log("==========================================");
+
+        execFile(
+            "python3",
+            [caminhoReal],
+            {
+                cwd: CONFIG.ROOT,
+                timeout: 120000,
+                maxBuffer: 10 * 1024 * 1024,
+                env: process.env
+            },
+            (erro, stdout, stderr) => {
+
+                if (erro) {
+                    console.error(
+                        "❌ Erro ao executar ferramenta:",
+                        erro.message
+                    );
+
+                    return res.status(500).json({
+                        ok: false,
+                        erro: erro.message,
+                        stdout: stdout || "",
+                        stderr: stderr || ""
+                    });
+                }
+
+                console.log("✅ Ferramenta executada:", nome);
+
+                return res.json({
+                    ok: true,
+                    ferramenta: nome,
+                    resultado: stdout || stderr || "Executado com sucesso."
+                });
+            }
+        );
+
+    } catch (erro) {
+        console.error("❌ Erro /api/script:", erro);
+
+        return res.status(500).json({
+            ok: false,
+            erro: erro.message
+        });
+    }
+});
+
 app.post("/api/chat", async (req, res) => {
     const { texto, voz } = req.body;
     const brain = await syncBrain();

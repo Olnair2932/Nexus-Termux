@@ -124,6 +124,87 @@ Executar
     🟢 Ver Páginas
 </a>
 
+<button
+    id="btnExecutarScript"
+    onclick="abrirExecutorScript()"
+    style="
+        display:inline-block;
+        margin:6px;
+        padding:10px 14px;
+        background:#2563eb;
+        color:#ffffff;
+        border:1px solid #3b82f6;
+        border-radius:6px;
+        font-weight:bold;
+        cursor:pointer;
+    "
+>
+    ⚙️ Executar Script
+</button>
+
+<div id="executorScript"
+     style="
+        display:none;
+        margin:6px;
+        padding:12px;
+        border:1px solid #2563eb;
+        border-radius:6px;
+        background:#0f172a;
+     ">
+
+    <input
+        id="nomeFerramenta"
+        type="text"
+        placeholder="Nome da ferramenta Python"
+        style="
+            padding:10px;
+            width:60%;
+            background:#020617;
+            color:white;
+            border:1px solid #3b82f6;
+            border-radius:5px;
+        "
+    >
+
+    <button
+        onclick="executarScriptDireto()"
+        style="
+            padding:10px 14px;
+            background:#2563eb;
+            color:white;
+            border:1px solid #3b82f6;
+            border-radius:5px;
+            font-weight:bold;
+            cursor:pointer;
+        "
+    >
+        EXECUTAR
+    </button>
+
+    <button
+        onclick="fecharExecutorScript()"
+        style="
+            padding:10px 14px;
+            background:#475569;
+            color:white;
+            border:1px solid #64748b;
+            border-radius:5px;
+            cursor:pointer;
+        "
+    >
+        FECHAR
+    </button>
+
+    <div id="resultadoScript"
+         style="
+            margin-top:10px;
+            white-space:pre-wrap;
+            font-family:monospace;
+            color:#00f3ff;
+         ">
+    </div>
+</div>
+
 <h3>Resposta:</h3>
 
 <div id="resposta" class="resposta"
@@ -691,6 +772,78 @@ async function aprenderTema(){
 
 </script>
 
+
+
+<script>
+function abrirExecutorScript() {
+    const painel = document.getElementById("executorScript");
+    const campo = document.getElementById("nomeFerramenta");
+
+    painel.style.display = "block";
+    campo.focus();
+}
+
+function fecharExecutorScript() {
+    document.getElementById("executorScript").style.display = "none";
+}
+
+async function executarScriptDireto() {
+    const campo = document.getElementById("nomeFerramenta");
+    const resultado = document.getElementById("resultadoScript");
+
+    const ferramenta = campo.value.trim();
+
+    if (!ferramenta) {
+        resultado.textContent = "❌ Digite o nome da ferramenta.";
+        campo.focus();
+        return;
+    }
+
+    resultado.textContent =
+        "⏳ Executando: " + ferramenta + "\n";
+
+    try {
+        const response = await fetch("/api/script", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                ferramenta: ferramenta
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.erro ||
+                data.nexus ||
+                "Erro HTTP " + response.status
+            );
+        }
+
+        resultado.textContent =
+            data.resultado ||
+            data.nexus ||
+            data.stdout ||
+            JSON.stringify(data, null, 2);
+
+    } catch (erro) {
+        resultado.textContent =
+            "❌ ERRO AO EXECUTAR\n\n" +
+            erro.message;
+    }
+}
+
+document
+    .getElementById("nomeFerramenta")
+    ?.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            executarScriptDireto();
+        }
+    });
+</script>
 
 </body>
 </html>
