@@ -3,6 +3,7 @@
 import os
 import sys
 import json
+import shutil
 import urllib.request
 import urllib.error
 from pathlib import Path
@@ -21,24 +22,43 @@ alteracao = " ".join(sys.argv[2:]).strip()
 if not nome_html.endswith(".html"):
     nome_html += ".html"
 
-PASTA_HTML = Path(__file__).resolve().parent.parent / "html_gerados"
+BASE = Path(__file__).resolve().parent.parent
+
+PASTA_HTML = BASE / "html_gerados"
+PASTA_TEMP = PASTA_HTML / "temporarios"
+PASTA_VERSOES = PASTA_HTML / "versoes"
+
+PASTA_TEMP.mkdir(parents=True, exist_ok=True)
+PASTA_VERSOES.mkdir(parents=True, exist_ok=True)
+
 arquivo_original = PASTA_HTML / nome_html
 
 if not arquivo_original.exists():
     print("ERRO: HTML não encontrado:")
-    print(str(arquivo_original))
+    print(arquivo_original)
     raise SystemExit(1)
 
 html_original = arquivo_original.read_text(encoding="utf-8")
 
+timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+arquivo_temp = PASTA_TEMP / f"{Path(nome_html).stem}_{timestamp}.html"
+
+arquivo_temp.write_text(
+    html_original,
+    encoding="utf-8"
+)
+
 print("HTML original:")
-print(str(arquivo_original))
+print(arquivo_original)
+
+print()
+print("Cópia temporária criada:")
+print(arquivo_temp)
+
 print()
 print("Alteração solicitada:")
 print(alteracao)
-print()
-print("Enviando HTML existente para Nexus/Gemini...")
-print()
 
 api_key = os.environ.get("GEMINI_API_KEY")
 
@@ -49,49 +69,39 @@ if not api_key:
 prompt = f"""
 Você é o EDITOR DE HTML do Nexus SRE.
 
-O usuário quer modificar um HTML que já foi criado anteriormente pelo Nexus.
+O usuário quer modificar um HTML existente.
 
 ALTERAÇÃO SOLICITADA:
 {alteracao}
 
-REGRA PRINCIPAL E OBRIGATÓRIA:
+REGRAS OBRIGATÓRIAS:
 
-"Preserve todas as funcionalidades existentes e faça somente as alterações solicitadas."
-
-Não recrie a página do zero.
-Não remova funcionalidades existentes.
-Não remova JavaScript existente que não esteja relacionado à alteração.
-Não remova estilos existentes sem necessidade.
-Não remova integração existente com /api/chat.
-Não altere comandos existentes.
-Não substitua funcionalidades por simulações.
-Não invente novas funcionalidades que o usuário não pediu.
-
-O resultado deve ser o HTML COMPLETO já editado.
-
-REGRAS:
-
-- Responda somente com código HTML.
-- Não use Markdown.
-- Não use ```html.
-- Use HTML5.
-- Preserve o idioma pt-BR.
-- Preserve responsividade.
-- Preserve funcionalidades existentes.
-- CSS dentro de <style>.
-- JavaScript dentro de <script>.
-- Não use dependências externas.
-- Não use bibliotecas CDN.
-- Nunca coloque GEMINI_API_KEY no HTML.
-- Nunca coloque qualquer chave de API no JavaScript do navegador.
-- Não use eval().
-- Quando textContent for suficiente, não use innerHTML para inserir dados externos.
-- Se existir integração com /api/chat, preserve-a exatamente, salvo se a alteração solicitada exigir modificá-la.
+1. Preserve todas as funcionalidades existentes.
+2. Faça somente as alterações solicitadas.
+3. Não recrie a página do zero.
+4. Não remova JavaScript existente sem necessidade.
+5. Não remova CSS existente sem necessidade.
+6. Não remova integração existente com /api/chat.
+7. Não altere comandos existentes.
+8. Preserve responsividade para celular.
+9. Preserve o idioma pt-BR.
+10. Retorne o HTML COMPLETO.
+11. Responda somente com HTML.
+12. Não use Markdown.
+13. Não use ```html.
+14. Não coloque GEMINI_API_KEY no HTML.
+15. Não coloque qualquer chave de API no JavaScript do navegador.
+16. Não use eval().
+17. Não use bibliotecas CDN.
+18. Use HTML5.
+19. Preserve as funcionalidades existentes mesmo quando adicionar novas funcionalidades.
 
 HTML ORIGINAL:
 
 --- INÍCIO HTML ---
+
 {html_original}
+
 --- FIM HTML ---
 
 Retorne somente o HTML completo após a alteração.
@@ -131,11 +141,17 @@ requisicao = urllib.request.Request(
 )
 
 try:
-    with urllib.request.urlopen(requisicao, timeout=120) as resposta:
+    with urllib.request.urlopen(
+        requisicao,
+        timeout=120
+    ) as resposta:
+
         resultado = json.loads(
             resposta.read().decode("utf-8")
         )
+
 except urllib.error.HTTPError as erro:
+
     corpo = erro.read().decode(
         "utf-8",
         errors="replace"
@@ -143,21 +159,31 @@ except urllib.error.HTTPError as erro:
 
     print("ERRO HTTP Gemini:", erro.code)
     print(corpo)
+
     raise SystemExit(1)
 
 except Exception as erro:
+
     print("ERRO ao chamar Gemini:", erro)
+
     raise SystemExit(1)
 
 try:
+
     codigo_html = (
         resultado["candidates"][0]
         ["content"]["parts"][0]["text"]
         .strip()
     )
 
-except (KeyError, IndexError, TypeError):
+except (
+    KeyError,
+    IndexError,
+    TypeError
+):
+
     print("ERRO: Gemini não retornou HTML válido.")
+
     print(
         json.dumps(
             resultado,
@@ -165,10 +191,12 @@ except (KeyError, IndexError, TypeError):
             indent=2
         )
     )
+
     raise SystemExit(1)
 
-# Remove cercas Markdown caso o modelo eventualmente envie.
+# Remove Markdown caso Gemini envie cercas.
 if codigo_html.startswith("```"):
+
     linhas = codigo_html.splitlines()
 
     if linhas and linhas[0].strip().startswith("```"):
@@ -180,25 +208,25 @@ if codigo_html.startswith("```"):
     codigo_html = "\n".join(linhas).strip()
 
 if "<html" not in codigo_html.lower():
-    print("ERRO: resposta não parece ser um HTML completo.")
+
+    print(
+        "ERRO: resposta não parece ser um HTML completo."
+    )
+
     raise SystemExit(1)
 
 # ============================================================
 # SALVAR NOVA VERSÃO
 # ============================================================
 
-PASTA_HTML.mkdir(
-    parents=True,
-    exist_ok=True
-)
-
 nome_novo = (
-    "nexus_editado_"
-    + datetime.now().strftime("%Y%m%d_%H%M%S")
+    Path(nome_html).stem
+    + "_editado_"
+    + timestamp
     + ".html"
 )
 
-arquivo_novo = PASTA_HTML / nome_novo
+arquivo_novo = PASTA_VERSOES / nome_novo
 
 arquivo_novo.write_text(
     codigo_html,
@@ -208,10 +236,20 @@ arquivo_novo.write_text(
 print()
 print("=== HTML EDITADO ===")
 print()
+
 print(codigo_html)
+
 print()
 print("=== HTML EDITADO SALVO ===")
-print(str(arquivo_novo))
+print(arquivo_novo)
+
+print()
 print("=== HTML ORIGINAL PRESERVADO ===")
-print(str(arquivo_original))
+print(arquivo_original)
+
+print()
+print("=== TEMPORÁRIO ===")
+print(arquivo_temp)
+
+print()
 print("=== FIM DA EDIÇÃO ===")
