@@ -1929,38 +1929,70 @@ app.post("/api/chat", async (req, res) => {
     let respostaFinal = intent.msg || "Comando processado.";
 
 
-// Normalização de ações inválidas
-const acoesValidas = new Set([
-    "conversar",
-    "executar_comando",
-    "executar_script",
-    "buscar_arquivo",
-    "listar_arquivos",
-    "listar_ferramentas",
-    "listar_comandos_funcionando",
-    "ver_armazenamento",
-    "status_sistema",
-    "acessar_web",
-    "auto_aprender"
-]);
+// Normalização de ações válidas
+// As skills registradas em skills.json são automaticamente aceitas.
+// Isso evita manter manualmente uma lista limitada de ações.
+
+let acoesValidas;
+
+try {
+    const fs = require("fs");
+    const caminhoSkills = path.join(CONFIG.ROOT, "skills.json");
+
+    const dadosSkills = JSON.parse(
+        fs.readFileSync(caminhoSkills, "utf8")
+    );
+
+    acoesValidas = new Set(
+        Object.keys(dadosSkills.skills || {})
+    );
+
+    // Ação interna de conversa
+    acoesValidas.add("conversar");
+
+    console.log(
+        `✅ Ações carregadas dinamicamente: ${acoesValidas.size}`
+    );
+
+} catch (erro) {
+
+    console.log(
+        "⚠️ Não foi possível carregar skills.json:",
+        erro.message
+    );
+
+    // Fallback mínimo
+    acoesValidas = new Set([
+        "conversar",
+        "executar_comando",
+        "executar_script"
+    ]);
+}
 
 if (!acoesValidas.has(intent.acao)) {
+
     console.log("⚠️ Ação desconhecida:", intent.acao);
 
     try {
         const { registrar } = require("./nexus_tools/logger");
+
         registrar(
             "ERRO",
             `Ação desconhecida: ${intent.acao}`
         );
+
     } catch (e) {
-        console.log("Falha ao registrar log:", e.message);
+
+        console.log(
+            "Falha ao registrar log:",
+            e.message
+        );
     }
 
     if (intent.msg && intent.msg.trim()) {
+
         respostaFinal = intent.msg;
 
-        // Normaliza a ação antes da resposta
         intent.acao = "conversar";
         intent.params = intent.params || "";
 
