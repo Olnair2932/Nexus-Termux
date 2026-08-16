@@ -5,7 +5,7 @@ const cors = require('cors');
 const axios = require('axios');
 const path = require('path');
 const fsp = require('fs').promises;
-const { exec } = require('child_process');
+const { exec, execFile } = require('child_process');
 const { execSync, execFileSync } = require("child_process");
 
 function registrarAprendizado(frase, acao) {
