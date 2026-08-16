@@ -8,6 +8,65 @@ import urllib.error
 from pathlib import Path
 from datetime import datetime
 
+import firebase_admin
+from firebase_admin import credentials, db
+
+def conectar_firebase():
+    if not firebase_admin._apps:
+        private_key = os.getenv("private_key")
+
+        if not private_key:
+            raise RuntimeError("Variável private_key não encontrada.")
+
+        cred_data = {
+            "type": "service_account",
+            "project_id": os.getenv("project_id"),
+            "private_key_id": os.getenv("private_key_id"),
+            "private_key": private_key.replace("\\n", "\n"),
+            "client_email": os.getenv("client_email"),
+            "client_id": os.getenv("client_id"),
+            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+            "token_uri": "https://oauth2.googleapis.com/token",
+            "auth_provider_x509_cert_url":
+                "https://www.googleapis.com/oauth2/v1/certs",
+            "client_x509_cert_url": os.getenv("client_x509_cert_url")
+        }
+
+        firebase_admin.initialize_app(
+            credentials.Certificate(cred_data),
+            {
+                "databaseURL":
+                    "https://finance-master-629d1-default-rtdb.firebaseio.com"
+            }
+        )
+
+
+def sincronizar_html_firebase(arquivo_html):
+    conectar_firebase()
+
+    html = arquivo_html.read_text(encoding="utf-8")
+
+    dados = {
+        "nome": arquivo_html.name,
+        "html": html,
+        "criado_em": datetime.fromtimestamp(
+            arquivo_html.stat().st_mtime
+        ).isoformat(),
+        "sincronizado_em": datetime.now().isoformat()
+    }
+
+    db.reference(
+        "nexus/html_gerados"
+    ).child(
+        arquivo_html.stem
+    ).set(dados)
+
+    print("=== FIREBASE ===")
+    print(f"✅ HTML sincronizado: {arquivo_html.name}")
+    print("Firebase: nexus/html_gerados")
+    print()
+
+
 print("=== NEXUS GERADOR DE HTML ===")
 print()
 
@@ -206,6 +265,13 @@ arquivo_publicado.write_text(
     codigo_html,
     encoding="utf-8"
 )
+
+try:
+    sincronizar_html_firebase(arquivo_publicado)
+except Exception as erro:
+    print("⚠️ HTML salvo localmente, mas não foi sincronizado com Firebase.")
+    print(f"Erro Firebase: {erro}")
+    print()
 
 print("=== HTML GERADO ===")
 print()
