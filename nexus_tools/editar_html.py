@@ -3,9 +3,9 @@
 import os
 import sys
 import json
-import shutil
 import urllib.request
 import urllib.error
+import urllib.parse
 from pathlib import Path
 from datetime import datetime
 
@@ -23,47 +23,162 @@ if not nome_html.endswith(".html"):
     nome_html += ".html"
 
 BASE = Path(__file__).resolve().parent.parent
-
 PASTA_HTML = BASE / "html_gerados"
 PASTA_TEMP = PASTA_HTML / "temporarios"
 PASTA_VERSOES = PASTA_HTML / "versoes"
 
+PASTA_HTML.mkdir(parents=True, exist_ok=True)
 PASTA_TEMP.mkdir(parents=True, exist_ok=True)
 PASTA_VERSOES.mkdir(parents=True, exist_ok=True)
 
 arquivo_original = PASTA_HTML / nome_html
 
-if not arquivo_original.exists():
-    print("ERRO: HTML não encontrado:")
+print("HTML solicitado:")
+print(nome_html)
+print()
+
+# ============================================================
+# 1. PROCURAR LOCALMENTE
+# ============================================================
+
+html_original = None
+
+if arquivo_original.exists():
+    print("✅ HTML encontrado localmente:")
     print(arquivo_original)
-    raise SystemExit(1)
 
-html_original = arquivo_original.read_text(encoding="utf-8")
+    html_original = arquivo_original.read_text(
+        encoding="utf-8"
+    )
 
-timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+# ============================================================
+# 2. SE NÃO EXISTIR LOCALMENTE, BUSCAR NO NEXUS
+# ============================================================
 
-arquivo_temp = PASTA_TEMP / f"{Path(nome_html).stem}_{timestamp}.html"
+if html_original is None:
 
-arquivo_temp.write_text(
+    print("⚠️ HTML não encontrado localmente.")
+    print("🌐 Buscando HTML no Nexus/Firebase...")
+    print()
+
+    base_url = os.environ.get(
+        "NEXUS_PUBLIC_URL",
+        "https://nexus-termux.onrender.com"
+    ).rstrip("/")
+
+    url = (
+        base_url
+        + "/html_gerados/"
+        + urllib.parse.quote(nome_html)
+    )
+
+    print("URL:")
+    print(url)
+    print()
+
+    try:
+        requisicao = urllib.request.Request(
+            url,
+            headers={
+                "User-Agent": "Nexus-HTML-Editor/1.0"
+            },
+            method="GET"
+        )
+
+        with urllib.request.urlopen(
+            requisicao,
+            timeout=60
+        ) as resposta:
+
+            conteudo = resposta.read().decode(
+                "utf-8",
+                errors="replace"
+            )
+
+        # A rota pode retornar uma página de erro HTML.
+        # Verificamos se parece realmente ser o documento solicitado.
+        if (
+            "<html" not in conteudo.lower()
+            and "<!doctype" not in conteudo.lower()
+        ):
+            print("ERRO: resposta não parece ser HTML.")
+            print(conteudo[:2000])
+            raise SystemExit(1)
+
+        html_original = conteudo
+
+        print("✅ HTML recuperado do Nexus/Firebase.")
+
+    except urllib.error.HTTPError as erro:
+
+        corpo = erro.read().decode(
+            "utf-8",
+            errors="replace"
+        )
+
+        print("ERRO HTTP ao buscar HTML:", erro.code)
+        print(corpo[:3000])
+        raise SystemExit(1)
+
+    except Exception as erro:
+
+        print("ERRO ao buscar HTML no Nexus:")
+        print(erro)
+        raise SystemExit(1)
+
+# ============================================================
+# 3. CRIAR CÓPIA TEMPORÁRIA
+# ============================================================
+
+agora = datetime.now().strftime(
+    "%Y%m%d_%H%M%S"
+)
+
+nome_temporario = (
+    Path(nome_html).stem
+    + "_"
+    + agora
+    + ".html"
+)
+
+arquivo_temporario = (
+    PASTA_TEMP / nome_temporario
+)
+
+arquivo_temporario.write_text(
     html_original,
     encoding="utf-8"
 )
 
-print("HTML original:")
-print(arquivo_original)
-
 print()
 print("Cópia temporária criada:")
-print(arquivo_temp)
-
+print(arquivo_temporario)
 print()
+
+# ============================================================
+# 4. ALTERAÇÃO
+# ============================================================
+
 print("Alteração solicitada:")
 print(alteracao)
+print()
+
+# ============================================================
+# 5. GEMINI
+# ============================================================
+
+print("Enviando HTML existente para Nexus/Gemini...")
+print()
 
 api_key = os.environ.get("GEMINI_API_KEY")
 
 if not api_key:
-    print("ERRO: variável GEMINI_API_KEY não encontrada.")
+    print(
+        "ERRO: variável GEMINI_API_KEY não encontrada."
+    )
+    print(
+        "No Render ela deve existir nas Environment Variables."
+    )
     raise SystemExit(1)
 
 prompt = f"""
@@ -74,30 +189,43 @@ O usuário quer modificar um HTML existente.
 ALTERAÇÃO SOLICITADA:
 {alteracao}
 
-REGRAS OBRIGATÓRIAS:
+REGRA PRINCIPAL:
 
-1. Preserve todas as funcionalidades existentes.
-2. Faça somente as alterações solicitadas.
-3. Não recrie a página do zero.
-4. Não remova JavaScript existente sem necessidade.
-5. Não remova CSS existente sem necessidade.
-6. Não remova integração existente com /api/chat.
-7. Não altere comandos existentes.
-8. Preserve responsividade para celular.
-9. Preserve o idioma pt-BR.
-10. Retorne o HTML COMPLETO.
-11. Responda somente com HTML.
-12. Não use Markdown.
-13. Não use ```html.
-14. Não coloque GEMINI_API_KEY no HTML.
-15. Não coloque qualquer chave de API no JavaScript do navegador.
-16. Não use eval().
-17. Não use bibliotecas CDN.
-18. Use HTML5.
-19. Preserve as funcionalidades existentes mesmo quando adicionar novas funcionalidades.
+Preserve TODAS as funcionalidades existentes e faça
+somente as alterações solicitadas.
+
+Não recrie a página do zero.
+
+Não remova:
+- HTML existente
+- CSS existente
+- JavaScript existente
+- funcionalidades existentes
+- integração existente com /api/chat
+- botões existentes
+- formulários existentes
+
+Não invente funcionalidades que não foram solicitadas.
+
+O resultado deve ser o HTML COMPLETO já editado.
+
+REGRAS:
+- Responda somente com código HTML.
+- Não use Markdown.
+- Não use ```html.
+- Use HTML5.
+- Preserve pt-BR.
+- Preserve responsividade.
+- CSS dentro de <style>.
+- JavaScript dentro de <script>.
+- Não use dependências externas.
+- Não use bibliotecas CDN.
+- Nunca coloque GEMINI_API_KEY no HTML.
+- Nunca coloque chaves de API no JavaScript do navegador.
+- Não use eval().
+- Preserve integrações existentes.
 
 HTML ORIGINAL:
-
 --- INÍCIO HTML ---
 
 {html_original}
@@ -141,6 +269,7 @@ requisicao = urllib.request.Request(
 )
 
 try:
+
     with urllib.request.urlopen(
         requisicao,
         timeout=120
@@ -159,14 +288,16 @@ except urllib.error.HTTPError as erro:
 
     print("ERRO HTTP Gemini:", erro.code)
     print(corpo)
-
     raise SystemExit(1)
 
 except Exception as erro:
 
     print("ERRO ao chamar Gemini:", erro)
-
     raise SystemExit(1)
+
+# ============================================================
+# 6. EXTRAIR HTML
+# ============================================================
 
 try:
 
@@ -182,7 +313,9 @@ except (
     TypeError
 ):
 
-    print("ERRO: Gemini não retornou HTML válido.")
+    print(
+        "ERRO: Gemini não retornou HTML válido."
+    )
 
     print(
         json.dumps(
@@ -194,41 +327,69 @@ except (
 
     raise SystemExit(1)
 
-# Remove Markdown caso Gemini envie cercas.
+# Remover cercas Markdown caso apareçam.
+
 if codigo_html.startswith("```"):
 
     linhas = codigo_html.splitlines()
 
-    if linhas and linhas[0].strip().startswith("```"):
+    if (
+        linhas
+        and linhas[0].strip().startswith("```")
+    ):
         linhas = linhas[1:]
 
-    if linhas and linhas[-1].strip() == "```":
+    if (
+        linhas
+        and linhas[-1].strip() == "```"
+    ):
         linhas = linhas[:-1]
 
-    codigo_html = "\n".join(linhas).strip()
+    codigo_html = "\n".join(
+        linhas
+    ).strip()
 
-if "<html" not in codigo_html.lower():
+if (
+    "<html" not in codigo_html.lower()
+    and "<!doctype" not in codigo_html.lower()
+):
 
     print(
-        "ERRO: resposta não parece ser um HTML completo."
+        "ERRO: resposta do Gemini não parece "
+        "ser um HTML completo."
     )
 
     raise SystemExit(1)
 
 # ============================================================
-# SALVAR NOVA VERSÃO
+# 7. SALVAR NOVA VERSÃO
 # ============================================================
 
 nome_novo = (
-    Path(nome_html).stem
-    + "_editado_"
-    + timestamp
+    "nexus_editado_"
+    + datetime.now().strftime(
+        "%Y%m%d_%H%M%S"
+    )
     + ".html"
 )
 
-arquivo_novo = PASTA_VERSOES / nome_novo
+arquivo_novo = (
+    PASTA_VERSOES / nome_novo
+)
 
 arquivo_novo.write_text(
+    codigo_html,
+    encoding="utf-8"
+)
+
+# Também salva uma cópia na pasta principal
+# para o servidor poder servir o arquivo.
+
+arquivo_publicado = (
+    PASTA_HTML / nome_novo
+)
+
+arquivo_publicado.write_text(
     codigo_html,
     encoding="utf-8"
 )
@@ -236,20 +397,19 @@ arquivo_novo.write_text(
 print()
 print("=== HTML EDITADO ===")
 print()
-
 print(codigo_html)
-
 print()
-print("=== HTML EDITADO SALVO ===")
+
+print("=== NOVA VERSÃO SALVA ===")
 print(arquivo_novo)
 
 print()
-print("=== HTML ORIGINAL PRESERVADO ===")
-print(arquivo_original)
+print("=== CÓPIA PUBLICADA ===")
+print(arquivo_publicado)
 
 print()
-print("=== TEMPORÁRIO ===")
-print(arquivo_temp)
+print("=== HTML ORIGINAL PRESERVADO ===")
+print(nome_html)
 
 print()
 print("=== FIM DA EDIÇÃO ===")
