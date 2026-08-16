@@ -1,1054 +1,1250 @@
 {
-    "versao": "1.0",
-    "skills": {
-        "ver_armazenamento": {
-            "executor": "bash",
-            "comando": "df -h",
-            "descricao": "Mostra o uso do armazenamento",
-            "frases": [
-                "quanto espaço tenho",
-                "espaço livre",
-                "armazenamento",
-                "uso do disco"
-            ]
-        },
-        "ver_memoria": {
-            "executor": "bash",
-            "comando": "free -h",
-            "descricao": "Mostra o uso da memória RAM",
-            "frases": [
-                "mostrar memória",
-                "memória ram",
-                "quanto de memória tenho",
-                "memória",
-                "ram",
-                "uso da memória",
-                "memória do sistema",
-                "mostrar ram"
-            ]
-        },
-        "listar_processos": {
-            "executor": "bash",
-            "comando": "ps aux",
-            "descricao": "Lista os processos ativos",
-            "frases": [
-                "mostrar processos",
-                "ver processos",
-                "o que está rodando",
-                "processos",
-                "listar processos",
-                "processos ativos",
-                "tarefas",
-                "rodando"
-            ]
-        },
-        "ver_rede": {
-            "executor": "bash",
-            "comando": "ip addr",
-            "descricao": "Mostra as interfaces de rede",
-            "frases": [
-                "mostrar rede",
-                "meu ip",
-                "interfaces de rede",
-                "rede",
-                "ver rede",
-                "status da rede",
-                "ip",
-                "endereço ip",
-                "configuração de rede",
-                "mostrar ip"
-            ]
-        },
-        "listar_ferramentas": {
-            "executor": "python",
-            "script": "nexus_tools/listar_ferramentas.py",
-            "descricao": "Lista todas as ferramentas Nexus",
-            "frases": [
-                "listar ferramentas",
-                "quais ferramentas tenho",
-                "mostrar ferramentas",
-                "ferramentas",
-                "listar ferramentas instaladas",
-                "ferramentas instaladas",
-                "mostrar ferramentas instaladas",
-                "auditoria",
-                "auditar ferramentas",
-                "o que está instalado",
-                "o que o nexus possui"
-            ]
-        },
-        "ver_bateria": {
-            "executor": "termux",
-            "comando": "termux-battery-status",
-            "descricao": "Mostra informações da bateria",
-            "frases": [
-                "como está a bateria",
-                "nível da bateria",
-                "mostrar bateria"
-            ]
-        },
-        "ver_wifi": {
-            "executor": "termux",
-            "comando": "termux-wifi-connectioninfo",
-            "descricao": "Mostra informações da conexão Wi-Fi",
-            "frases": [
-                "wifi",
-                "mostrar wifi",
-                "estou conectado",
-                "rede wifi"
-            ]
-        },
-        "ver_localizacao": {
-            "executor": "termux",
-            "comando": "termux-location",
-            "descricao": "Mostra a localização do dispositivo",
-            "frases": [
-                "onde estou",
-                "minha localização",
-                "mostrar localização"
-            ]
-        },
-        "ver_clipboard": {
-            "executor": "termux",
-            "comando": "termux-clipboard-get",
-            "descricao": "Lê a área de transferência",
-            "frases": [
-                "clipboard",
-                "mostrar clipboard",
-                "área de transferência"
-            ]
-        },
-        "copiar_clipboard": {
-            "executor": "termux",
-            "comando": "termux-clipboard-set",
-            "descricao": "Grava texto na área de transferência",
-            "frases": [
-                "copiar texto",
-                "salvar no clipboard"
-            ]
-        },
-        "mostrar_toast": {
-            "executor": "termux",
-            "comando": "termux-toast",
-            "descricao": "Mostra uma mensagem Toast",
-            "frases": [
-                "mostrar aviso",
-                "toast"
-            ]
-        },
-        "vibrar": {
-            "executor": "termux",
-            "comando": "termux-vibrate",
-            "descricao": "Vibra o aparelho",
-            "frases": [
-                "vibrar",
-                "vibre o telefone"
-            ]
-        },
-        "notificar": {
-            "executor": "termux",
-            "comando": "termux-notification",
-            "descricao": "Cria uma notificação",
-            "frases": [
-                "criar notificação",
-                "me notifique"
-            ]
-        },
-        "ver_volume": {
-            "executor": "termux",
-            "comando": "termux-volume",
-            "descricao": "Mostra os volumes do aparelho",
-            "frases": [
-                "volume",
-                "mostrar volume"
-            ]
-        },
-        "informacoes_dispositivo": {
-            "executor": "termux",
-            "comando": "termux-telephony-deviceinfo",
-            "descricao": "Mostra informações do dispositivo",
-            "frases": [
-                "informações do aparelho",
-                "dados do dispositivo"
-            ]
-        },
-        "auto_fix": {
-            "executor": "python",
-            "script": "nexus_tools/auto_fix.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "auto fix"
-            ]
-        },
-        "auto_learning": {
-            "executor": "python",
-            "script": "nexus_tools/auto_learning.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "auto learning"
-            ]
-        },
-        "backup_checker": {
-            "executor": "python",
-            "script": "nexus_tools/backup_checker.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "backup checker"
-            ]
-        },
-        "bash_executor": {
-            "executor": "python",
-            "script": "nexus_tools/bash_executor.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "bash executor"
-            ]
-        },
-        "brain_agent": {
-            "executor": "python",
-            "script": "nexus_tools/brain_agent.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "brain agent"
-            ]
-        },
-        "command_router.backup_v32.2": {
-            "executor": "python",
-            "script": "nexus_tools/command_router.backup_v32.2.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "command router.backup v32.2"
-            ]
-        },
-        "command_router.before_cli_args_v32.2": {
-            "executor": "python",
-            "script": "nexus_tools/command_router.before_cli_args_v32.2.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "command router.before cli args v32.2"
-            ]
-        },
-        "command_router.before_integration_v32.2": {
-            "executor": "python",
-            "script": "nexus_tools/command_router.before_integration_v32.2.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "command router.before integration v32.2"
-            ]
-        },
-        "command_router": {
-            "executor": "python",
-            "script": "nexus_tools/command_router.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "command router"
-            ]
-        },
-        "dashboard_builder": {
-            "executor": "python",
-            "script": "nexus_tools/dashboard_builder.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "dashboard builder"
-            ]
-        },
-        "dashboard_editor": {
-            "executor": "python",
-            "script": "nexus_tools/dashboard_editor.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "dashboard editor"
-            ]
-        },
-        "dashboard_optimizer": {
-            "executor": "python",
-            "script": "nexus_tools/dashboard_optimizer.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "dashboard optimizer"
-            ]
-        },
-        "events": {
-            "executor": "python",
-            "script": "nexus_tools/events.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "events"
-            ]
-        },
-        "evolution_history": {
-            "executor": "python",
-            "script": "nexus_tools/evolution_history.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "evolution history"
-            ]
-        },
-        "github": {
-            "executor": "python",
-            "script": "nexus_tools/github.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "github"
-            ]
-        },
-        "improvement_applier": {
-            "executor": "python",
-            "script": "nexus_tools/improvement_applier.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "improvement applier"
-            ]
-        },
-        "improvement_executor": {
-            "executor": "python",
-            "script": "nexus_tools/improvement_executor.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "improvement executor"
-            ]
-        },
-        "improvement_planner": {
-            "executor": "python",
-            "script": "nexus_tools/improvement_planner.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "improvement planner"
-            ]
-        },
-        "knowledge": {
-            "executor": "python",
-            "script": "nexus_tools/knowledge.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "knowledge"
-            ]
-        },
-        "known": {
-            "executor": "python",
-            "script": "nexus_tools/known.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "known"
-            ]
-        },
-        "learn": {
-            "executor": "python",
-            "script": "nexus_tools/learn.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "learn"
-            ]
-        },
-        "learning_memory": {
-            "executor": "python",
-            "script": "nexus_tools/learning_memory.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "learning memory"
-            ]
-        },
-        "learning_queue": {
-            "executor": "python",
-            "script": "nexus_tools/learning_queue.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "learning queue"
-            ]
-        },
-        "log_analyzer": {
-            "executor": "python",
-            "script": "nexus_tools/log_analyzer.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "log analyzer"
-            ]
-        },
-        "logger": {
-            "executor": "python",
-            "script": "nexus_tools/logger.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "logger"
-            ]
-        },
-        "memory_lookup": {
-            "executor": "python",
-            "script": "nexus_tools/memory_lookup.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "memory lookup"
-            ]
-        },
-        "mode": {
-            "executor": "python",
-            "script": "nexus_tools/mode.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "mode"
-            ]
-        },
-        "quality": {
-            "executor": "python",
-            "script": "nexus_tools/quality.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "quality"
-            ]
-        },
-        "readme_generator": {
-            "executor": "python",
-            "script": "nexus_tools/readme_generator.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "readme generator"
-            ]
-        },
-        "recall": {
-            "executor": "python",
-            "script": "nexus_tools/recall.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "recall"
-            ]
-        },
-        "repair_agent": {
-            "executor": "python",
-            "script": "nexus_tools/repair_agent.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "repair agent"
-            ]
-        },
-        "repair_executor": {
-            "executor": "python",
-            "script": "nexus_tools/repair_executor.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "repair executor"
-            ]
-        },
-        "rollback": {
-            "executor": "python",
-            "script": "nexus_tools/rollback.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "rollback"
-            ]
-        },
-        "self_improve": {
-            "executor": "python",
-            "script": "nexus_tools/self_improve.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "self improve"
-            ]
-        },
-        "status_monitor": {
-            "executor": "python",
-            "script": "nexus_tools/status_monitor.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "status monitor"
-            ]
-        },
-        "status_sistema": {
-            "executor": "python",
-            "script": "nexus_tools/status_monitor.py",
-            "descricao": "Status geral do sistema",
-            "frases": [
-                "status sistema",
-                "ver status",
-                "status"
-            ]
-        },
-        "suggestion_analyzer": {
-            "executor": "python",
-            "script": "nexus_tools/suggestion_analyzer.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "suggestion analyzer"
-            ]
-        },
-        "suggestion_approver": {
-            "executor": "python",
-            "script": "nexus_tools/suggestion_approver.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "suggestion approver"
-            ]
-        },
-        "suggestion_manager": {
-            "executor": "python",
-            "script": "nexus_tools/suggestion_manager.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "suggestion manager"
-            ]
-        },
-        "summarize_help": {
-            "executor": "python",
-            "script": "nexus_tools/summarize_help.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "summarize help"
-            ]
-        },
-        "sync_manager": {
-            "executor": "python",
-            "script": "nexus_tools/sync_manager.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "sync manager"
-            ]
-        },
-        "syntax_checker": {
-            "executor": "python",
-            "script": "nexus_tools/syntax_checker.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "syntax checker"
-            ]
-        },
-        "system_sync": {
-            "executor": "python",
-            "script": "nexus_tools/system_sync.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "system sync"
-            ]
-        },
-        "termux_knowledge": {
-            "executor": "python",
-            "script": "nexus_tools/termux_knowledge.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "termux knowledge"
-            ]
-        },
-        "termux_tools": {
-            "executor": "python",
-            "script": "nexus_tools/termux_tools.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "termux tools"
-            ]
-        },
-        "test_runner": {
-            "executor": "python",
-            "script": "nexus_tools/test_runner.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "test runner"
-            ]
-        },
-        "tool_auditor": {
-            "executor": "python",
-            "script": "nexus_tools/tool_auditor.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "tool auditor"
-            ]
-        },
-        "tool_manager": {
-            "executor": "python",
-            "script": "nexus_tools/tool_manager.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "tool manager"
-            ]
-        },
-        "tool_validator": {
-            "executor": "python",
-            "script": "nexus_tools/tool_validator.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "tool validator"
-            ]
-        },
-        "update_manager": {
-            "executor": "python",
-            "script": "nexus_tools/update_manager.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "update manager"
-            ]
-        },
-        "workspace_manager": {
-            "executor": "python",
-            "script": "nexus_tools/workspace_manager.py",
-            "descricao": "Gerado automaticamente",
-            "frases": [
-                "workspace manager"
-            ]
-        },
-        "ver_logs": {
-            "executor": "bash",
-            "comando": "ls -lah ~/sentinela_dev/logs",
-            "descricao": "Lista os arquivos de log do sistema",
-            "frases": [
-                "logs",
-                "mostrar logs",
-                "ver logs",
-                "logs do sistema",
-                "abrir logs"
-            ]
-        },
-        "ver_data_hora": {
-            "executor": "bash",
-            "comando": "date",
-            "descricao": "Mostra a data e hora do sistema",
-            "frases": [
-                "data",
-                "hora",
-                "data e hora",
-                "que horas são",
-                "mostrar data",
-                "mostrar hora",
-                "agora",
-                "hoje"
-            ]
-        },
-        "ver_disco": {
-            "executor": "bash",
-            "comando": "df -h",
-            "descricao": "Mostra o uso do armazenamento do sistema",
-            "frases": [
-                "disco",
-                "uso do disco",
-                "armazenamento",
-                "espaço",
-                "espaço livre",
-                "mostrar disco",
-                "mostrar armazenamento",
-                "quanto espaço tenho"
-            ]
-        },
-        "criar_arquivo": {
-            "executor": "python",
-            "script": "nexus_tools/file_creator.py",
-            "descricao": "Cria arquivos pelo Nexus",
-            "frases": [
-                "criar arquivo",
-                "salvar arquivo",
-                "guardar informação",
-                "salvar meu nome"
-            ]
-        },
-        "teste_tool": {
-            "executor": "python",
-            "script": "nexus_tools/teste_tool.py",
-            "descricao": "Ferramenta criada pelo Nexus: teste_tool",
-            "frases": [
-                "teste ferramenta",
-                "executar teste"
-            ]
-        },
-        "teste3": {
-            "executor": "python",
-            "script": "nexus_tools/teste3.py",
-            "descricao": "Nova ferramenta automática Nexus",
-            "frases": [
-                "teste três",
-                "executar teste três"
-            ]
-        },
-        "teste4": {
-            "executor": "python",
-            "script": "nexus_tools/teste4.py",
-            "descricao": "Ferramenta de teste real",
-            "frases": [
-                "teste quatro",
-                "executar quatro"
-            ]
-        },
-        "ver_hora": {
-            "executor": "python",
-            "script": "nexus_tools/ver_hora.py",
-            "descricao": "Mostra horário do sistema",
-            "frases": [
-                "ver hora",
-                "que horas são",
-                "horário"
-            ]
-        },
-        "ver_temperatura": {
-            "executor": "python",
-            "script": "nexus_tools/ver_temperatura.py",
-            "descricao": "Teste temperatura",
-            "frases": [
-                "mostrar temperatura"
-            ]
-        },
-        "ol__nexus_ligar_lanterna": {
-            "executor": "python",
-            "script": "nexus_tools/ol__nexus_ligar_lanterna.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "Olá Nexus ligar lanterna"
-            ]
-        },
-        "nexus_aplica_o_comando_no_termux_de_ligar_a_lanterna": {
-            "executor": "python",
-            "script": "nexus_tools/nexus_aplica_o_comando_no_termux_de_ligar_a_lanterna.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "Nexus aplica o comando no termux de ligar a lanterna"
-            ]
-        },
-        "oi": {
-            "executor": "python",
-            "script": "nexus_tools/oi.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "oi"
-            ]
-        },
-        "entra_na_pasta___sentinela_dev": {
-            "executor": "python",
-            "script": "nexus_tools/entra_na_pasta___sentinela_dev.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "entra na pasta ~/sentinela_dev"
-            ]
-        },
-        "da_um_ls": {
-            "executor": "python",
-            "script": "nexus_tools/da_um_ls.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "da um ls"
-            ]
-        },
-        "aprender_node_module": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_node_module.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender node-module"
-            ]
-        },
-        "executar_comando_aprender_node_module": {
-            "executor": "python",
-            "script": "nexus_tools/executar_comando_aprender_node_module.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "Executar comando aprender node-module"
-            ]
-        },
-        "aprender_docker": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_docker.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender docker"
-            ]
-        },
-        "aprender_bash": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_bash.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender bash"
-            ]
-        },
-        "aprender_python_3": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_python_3.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender python 3"
-            ]
-        },
-        "aprender_sre": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_sre.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender sre"
-            ]
-        },
-        "aprender_linux": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_linux.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender Linux"
-            ]
-        },
-        "aprender_comandos_shell": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_comandos_shell.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender comandos Shell"
-            ]
-        },
-        "aprender_navega__o_shell": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_navega__o_shell.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender navegação shell"
-            ]
-        },
-        "aprender_auto_aprendizado": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_auto_aprendizado.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender auto-aprendizado"
-            ]
-        },
-        "buscar_conhecimento": {
-            "executor": "python",
-            "script": "nexus_tools/buscar_conhecimento.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "buscar conhecimento"
-            ]
-        },
-        "baixar_bibliotecas": {
-            "executor": "python",
-            "script": "nexus_tools/baixar_bibliotecas.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "baixar bibliotecas"
-            ]
-        },
-        "ler_textos_p_blico_online_de_conhecimento": {
-            "executor": "python",
-            "script": "nexus_tools/ler_textos_p_blico_online_de_conhecimento.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "ler textos público online de conhecimento"
-            ]
-        },
-        "baixar_lynx": {
-            "executor": "python",
-            "script": "nexus_tools/baixar_lynx.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "baixar lynx"
-            ]
-        },
-        "auto_conhecimento_generativo": {
-            "executor": "python",
-            "script": "nexus_tools/auto_conhecimento_generativo.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "auto-conhecimento generativo"
-            ]
-        },
-        "aprender_com_auto_conhecimento_generativo": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_com_auto_conhecimento_generativo.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender com auto-conhecimento generativo"
-            ]
-        },
-        "aprender_com_auto_conhecimento_generativo_a_otimizar_sistema": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_com_auto_conhecimento_generativo_a_otimizar_sistema.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender com auto-conhecimento generativo a otimizar sistema"
-            ]
-        },
-        "aprender_com_auto_conhecimento_generativo_backup": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_com_auto_conhecimento_generativo_backup.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender com auto-conhecimento generativo backup"
-            ]
-        },
-        "aprender_com_auto_conhecimento_generativo_ingl_s": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_com_auto_conhecimento_generativo_ingl_s.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender com auto-conhecimento generativo inglês"
-            ]
-        },
-        "aprender_com_auto_conhecimento_generativo_analisar_reescrever_otimizar_arquivos": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_com_auto_conhecimento_generativo_analisar_reescrever_otimizar_arquivos.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender com auto-conhecimento generativo analisar reescrever otimizar arquivos"
-            ]
-        },
-        "iniciar_aprender_com_auto_conhecimento_generativo_analisar_reescrever_otimizar_arquivos": {
-            "executor": "python",
-            "script": "nexus_tools/iniciar_aprender_com_auto_conhecimento_generativo_analisar_reescrever_otimizar_arquivos.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "iniciar aprender_com_auto_conhecimento_generativo_analisar_reescrever_otimizar_arquivos"
-            ]
-        },
-        "aprender__interpretar_linguagem_natural": {
-            "executor": "python",
-            "script": "nexus_tools/aprender__interpretar_linguagem_natural.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender  interpretar linguagem natural"
-            ]
-        },
-        "aprender__interpretar_linguagem_natural__ollama": {
-            "executor": "python",
-            "script": "nexus_tools/aprender__interpretar_linguagem_natural__ollama.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender  interpretar linguagem natural 'ollama'"
-            ]
-        },
-        "sim": {
-            "executor": "python",
-            "script": "nexus_tools/sim.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "sim"
-            ]
-        },
-        "aprender_instalar_pacotes": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_instalar_pacotes.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender instalar pacotes"
-            ]
-        },
-        "aprender_instalar_pacotes_ia": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_instalar_pacotes_ia.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender instalar pacotes ia"
-            ]
-        },
-        "aprender_instalar_python_3": {
-            "executor": "python",
-            "script": "nexus_tools/aprender_instalar_python_3.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "aprender instalar Python 3"
-            ]
-        },
-        "instalar_python_3": {
-            "executor": "python",
-            "script": "nexus_tools/instalar_python_3.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "instalar_python_3"
-            ]
-        },
-        "explique_o_brain_json": {
-            "executor": "python",
-            "script": "nexus_tools/explique_o_brain_json.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "explique o brain.json"
-            ]
-        },
-        "explique_o_que___o_que_voc__sabe_pesquise_base_de_conhecimento_arquivo_documenta__o_manual": {
-            "executor": "python",
-            "script": "nexus_tools/explique_o_que___o_que_voc__sabe_pesquise_base_de_conhecimento_arquivo_documenta__o_manual.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "explique o que é o que você sabe pesquise base de conhecimento arquivo documentação manual"
-            ]
-        },
-        "o_que___ollama": {
-            "executor": "python",
-            "script": "nexus_tools/o_que___ollama.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "o que é ollama"
-            ]
-        },
-        "explique_tudo_sobre_ollama": {
-            "executor": "python",
-            "script": "nexus_tools/explique_tudo_sobre_ollama.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "explique tudo sobre Ollama"
-            ]
-        },
-        "explique_o_nexus_sre": {
-            "executor": "python",
-            "script": "nexus_tools/explique_o_nexus_sre.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "explique o Nexus SRE"
-            ]
-        },
-        "explique_o_nexus_sree": {
-            "executor": "python",
-            "script": "nexus_tools/explique_o_nexus_sree.py",
-            "descricao": "Ferramenta criada automaticamente pelo Nexus",
-            "frases": [
-                "explique o Nexus SREe"
-            ]
-        },
-        "listar_comandos_funcionando": {
-            "executor": "python",
-            "script": "nexus_tools/listar_comandos_funcionando.py",
-            "descricao": "Lista os comandos confirmados como funcionando no Firebase Realtime Database",
-            "frases": [
-                "listar comandos funcionando",
-                "mostrar comandos funcionando",
-                "lista de comandos confirmados",
-                "comandos que funcionam"
-            ]
-        },
-        "atualizar_lista_comandos": {
-            "executor": "python",
-            "script": "nexus_tools/atualizar_lista_comandos.py",
-            "descricao": "Registra no Firebase Realtime os comandos confirmados como funcionando",
-            "frases": [
-                "atualizar lista comandos funcionando",
-                "registrar comando funcionando",
-                "registrar comando confirmado",
-                "atualizar comandos funcionando"
-            ]
-        },
-        "limpar_registro_comando": {
-            "executor": "python",
-            "script": "nexus_tools/limpar_registro_comando.py",
-            "descricao": "Remove um registro específico da memória de comandos confirmados no Firebase",
-            "frases": [
-                "limpar registro de comando",
-                "remover registro de comando",
-                "limpar comando da memória"
-            ]
-        },
-        "gerar_codigo": {
-            "executor": "python",
-            "script": "nexus_tools/gerar_codigo.py",
-            "descricao": "Gera código a partir de uma descrição em linguagem natural",
-            "frases": [
-                "gerar código",
-                "criar código",
-                "gerar html",
-                "criar html",
-                "criar página",
-                "criar landing page",
-                "gerar uma página"
-            ]
-        },
-        "editar_html": {
-            "executor": "python",
-            "script": "nexus_tools/editar_html.py",
-            "descricao": "Edita um HTML existente preservando todas as funcionalidades existentes",
-            "frases": [
-                "editar html",
-                "alterar html",
-                "melhorar html",
-                "aprimorar html",
-                "modificar html"
-            ]
-        }
+  "versao": "1.0",
+  "skills": {
+    "ver_armazenamento": {
+      "executor": "bash",
+      "comando": "df -h",
+      "descricao": "Mostra o uso do armazenamento",
+      "frases": [
+        "quanto espaço tenho",
+        "espaço livre",
+        "armazenamento",
+        "uso do disco"
+      ]
+    },
+    "ver_memoria": {
+      "executor": "bash",
+      "comando": "free -h",
+      "descricao": "Mostra o uso da memória RAM",
+      "frases": [
+        "mostrar memória",
+        "memória ram",
+        "quanto de memória tenho",
+        "memória",
+        "ram",
+        "uso da memória",
+        "memória do sistema",
+        "mostrar ram"
+      ]
+    },
+    "listar_processos": {
+      "executor": "bash",
+      "comando": "ps aux",
+      "descricao": "Lista os processos ativos",
+      "frases": [
+        "mostrar processos",
+        "ver processos",
+        "o que está rodando",
+        "processos",
+        "listar processos",
+        "processos ativos",
+        "tarefas",
+        "rodando"
+      ]
+    },
+    "ver_rede": {
+      "executor": "bash",
+      "comando": "ip addr",
+      "descricao": "Mostra as interfaces de rede",
+      "frases": [
+        "mostrar rede",
+        "meu ip",
+        "interfaces de rede",
+        "rede",
+        "ver rede",
+        "status da rede",
+        "ip",
+        "endereço ip",
+        "configuração de rede",
+        "mostrar ip"
+      ]
+    },
+    "listar_ferramentas": {
+      "executor": "python",
+      "script": "nexus_tools/listar_ferramentas.py",
+      "descricao": "Lista todas as ferramentas Nexus",
+      "frases": [
+        "listar ferramentas",
+        "quais ferramentas tenho",
+        "mostrar ferramentas",
+        "ferramentas",
+        "listar ferramentas instaladas",
+        "ferramentas instaladas",
+        "mostrar ferramentas instaladas",
+        "auditoria",
+        "auditar ferramentas",
+        "o que está instalado",
+        "o que o nexus possui"
+      ]
+    },
+    "ver_bateria": {
+      "executor": "termux",
+      "comando": "termux-battery-status",
+      "descricao": "Mostra informações da bateria",
+      "frases": [
+        "como está a bateria",
+        "nível da bateria",
+        "mostrar bateria"
+      ]
+    },
+    "ver_wifi": {
+      "executor": "termux",
+      "comando": "termux-wifi-connectioninfo",
+      "descricao": "Mostra informações da conexão Wi-Fi",
+      "frases": [
+        "wifi",
+        "mostrar wifi",
+        "estou conectado",
+        "rede wifi"
+      ]
+    },
+    "ver_localizacao": {
+      "executor": "termux",
+      "comando": "termux-location",
+      "descricao": "Mostra a localização do dispositivo",
+      "frases": [
+        "onde estou",
+        "minha localização",
+        "mostrar localização"
+      ]
+    },
+    "ver_clipboard": {
+      "executor": "termux",
+      "comando": "termux-clipboard-get",
+      "descricao": "Lê a área de transferência",
+      "frases": [
+        "clipboard",
+        "mostrar clipboard",
+        "área de transferência"
+      ]
+    },
+    "copiar_clipboard": {
+      "executor": "termux",
+      "comando": "termux-clipboard-set",
+      "descricao": "Grava texto na área de transferência",
+      "frases": [
+        "copiar texto",
+        "salvar no clipboard"
+      ]
+    },
+    "mostrar_toast": {
+      "executor": "termux",
+      "comando": "termux-toast",
+      "descricao": "Mostra uma mensagem Toast",
+      "frases": [
+        "mostrar aviso",
+        "toast"
+      ]
+    },
+    "vibrar": {
+      "executor": "termux",
+      "comando": "termux-vibrate",
+      "descricao": "Vibra o aparelho",
+      "frases": [
+        "vibrar",
+        "vibre o telefone"
+      ]
+    },
+    "notificar": {
+      "executor": "termux",
+      "comando": "termux-notification",
+      "descricao": "Cria uma notificação",
+      "frases": [
+        "criar notificação",
+        "me notifique"
+      ]
+    },
+    "ver_volume": {
+      "executor": "termux",
+      "comando": "termux-volume",
+      "descricao": "Mostra os volumes do aparelho",
+      "frases": [
+        "volume",
+        "mostrar volume"
+      ]
+    },
+    "informacoes_dispositivo": {
+      "executor": "termux",
+      "comando": "termux-telephony-deviceinfo",
+      "descricao": "Mostra informações do dispositivo",
+      "frases": [
+        "informações do aparelho",
+        "dados do dispositivo"
+      ]
+    },
+    "auto_fix": {
+      "executor": "python",
+      "script": "nexus_tools/auto_fix.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "auto fix"
+      ]
+    },
+    "auto_learning": {
+      "executor": "python",
+      "script": "nexus_tools/auto_learning.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "auto learning"
+      ]
+    },
+    "backup_checker": {
+      "executor": "python",
+      "script": "nexus_tools/backup_checker.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "backup checker"
+      ]
+    },
+    "bash_executor": {
+      "executor": "python",
+      "script": "nexus_tools/bash_executor.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "bash executor"
+      ]
+    },
+    "brain_agent": {
+      "executor": "python",
+      "script": "nexus_tools/brain_agent.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "brain agent"
+      ]
+    },
+    "command_router.backup_v32.2": {
+      "executor": "python",
+      "script": "nexus_tools/command_router.backup_v32.2.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "command router.backup v32.2"
+      ]
+    },
+    "command_router.before_cli_args_v32.2": {
+      "executor": "python",
+      "script": "nexus_tools/command_router.before_cli_args_v32.2.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "command router.before cli args v32.2"
+      ]
+    },
+    "command_router.before_integration_v32.2": {
+      "executor": "python",
+      "script": "nexus_tools/command_router.before_integration_v32.2.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "command router.before integration v32.2"
+      ]
+    },
+    "command_router": {
+      "executor": "python",
+      "script": "nexus_tools/command_router.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "command router"
+      ]
+    },
+    "dashboard_builder": {
+      "executor": "python",
+      "script": "nexus_tools/dashboard_builder.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "dashboard builder"
+      ]
+    },
+    "dashboard_editor": {
+      "executor": "python",
+      "script": "nexus_tools/dashboard_editor.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "dashboard editor"
+      ]
+    },
+    "dashboard_optimizer": {
+      "executor": "python",
+      "script": "nexus_tools/dashboard_optimizer.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "dashboard optimizer"
+      ]
+    },
+    "events": {
+      "executor": "python",
+      "script": "nexus_tools/events.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "events"
+      ]
+    },
+    "evolution_history": {
+      "executor": "python",
+      "script": "nexus_tools/evolution_history.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "evolution history"
+      ]
+    },
+    "github": {
+      "executor": "python",
+      "script": "nexus_tools/github.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "github"
+      ]
+    },
+    "improvement_applier": {
+      "executor": "python",
+      "script": "nexus_tools/improvement_applier.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "improvement applier"
+      ]
+    },
+    "improvement_executor": {
+      "executor": "python",
+      "script": "nexus_tools/improvement_executor.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "improvement executor"
+      ]
+    },
+    "improvement_planner": {
+      "executor": "python",
+      "script": "nexus_tools/improvement_planner.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "improvement planner"
+      ]
+    },
+    "knowledge": {
+      "executor": "python",
+      "script": "nexus_tools/knowledge.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "knowledge"
+      ]
+    },
+    "known": {
+      "executor": "python",
+      "script": "nexus_tools/known.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "known"
+      ]
+    },
+    "learn": {
+      "executor": "python",
+      "script": "nexus_tools/learn.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "learn"
+      ]
+    },
+    "learning_memory": {
+      "executor": "python",
+      "script": "nexus_tools/learning_memory.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "learning memory"
+      ]
+    },
+    "learning_queue": {
+      "executor": "python",
+      "script": "nexus_tools/learning_queue.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "learning queue"
+      ]
+    },
+    "log_analyzer": {
+      "executor": "python",
+      "script": "nexus_tools/log_analyzer.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "log analyzer"
+      ]
+    },
+    "logger": {
+      "executor": "python",
+      "script": "nexus_tools/logger.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "logger"
+      ]
+    },
+    "memory_lookup": {
+      "executor": "python",
+      "script": "nexus_tools/memory_lookup.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "memory lookup"
+      ]
+    },
+    "mode": {
+      "executor": "python",
+      "script": "nexus_tools/mode.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "mode"
+      ]
+    },
+    "quality": {
+      "executor": "python",
+      "script": "nexus_tools/quality.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "quality"
+      ]
+    },
+    "readme_generator": {
+      "executor": "python",
+      "script": "nexus_tools/readme_generator.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "readme generator"
+      ]
+    },
+    "recall": {
+      "executor": "python",
+      "script": "nexus_tools/recall.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "recall"
+      ]
+    },
+    "repair_agent": {
+      "executor": "python",
+      "script": "nexus_tools/repair_agent.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "repair agent"
+      ]
+    },
+    "repair_executor": {
+      "executor": "python",
+      "script": "nexus_tools/repair_executor.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "repair executor"
+      ]
+    },
+    "rollback": {
+      "executor": "python",
+      "script": "nexus_tools/rollback.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "rollback"
+      ]
+    },
+    "self_improve": {
+      "executor": "python",
+      "script": "nexus_tools/self_improve.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "self improve"
+      ]
+    },
+    "status_monitor": {
+      "executor": "python",
+      "script": "nexus_tools/status_monitor.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "status monitor"
+      ]
+    },
+    "status_sistema": {
+      "executor": "python",
+      "script": "nexus_tools/status_monitor.py",
+      "descricao": "Status geral do sistema",
+      "frases": [
+        "status sistema",
+        "ver status",
+        "status"
+      ]
+    },
+    "suggestion_analyzer": {
+      "executor": "python",
+      "script": "nexus_tools/suggestion_analyzer.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "suggestion analyzer"
+      ]
+    },
+    "suggestion_approver": {
+      "executor": "python",
+      "script": "nexus_tools/suggestion_approver.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "suggestion approver"
+      ]
+    },
+    "suggestion_manager": {
+      "executor": "python",
+      "script": "nexus_tools/suggestion_manager.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "suggestion manager"
+      ]
+    },
+    "summarize_help": {
+      "executor": "python",
+      "script": "nexus_tools/summarize_help.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "summarize help"
+      ]
+    },
+    "sync_manager": {
+      "executor": "python",
+      "script": "nexus_tools/sync_manager.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "sync manager"
+      ]
+    },
+    "syntax_checker": {
+      "executor": "python",
+      "script": "nexus_tools/syntax_checker.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "syntax checker"
+      ]
+    },
+    "system_sync": {
+      "executor": "python",
+      "script": "nexus_tools/system_sync.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "system sync"
+      ]
+    },
+    "termux_knowledge": {
+      "executor": "python",
+      "script": "nexus_tools/termux_knowledge.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "termux knowledge"
+      ]
+    },
+    "termux_tools": {
+      "executor": "python",
+      "script": "nexus_tools/termux_tools.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "termux tools"
+      ]
+    },
+    "test_runner": {
+      "executor": "python",
+      "script": "nexus_tools/test_runner.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "test runner"
+      ]
+    },
+    "tool_auditor": {
+      "executor": "python",
+      "script": "nexus_tools/tool_auditor.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "tool auditor"
+      ]
+    },
+    "tool_manager": {
+      "executor": "python",
+      "script": "nexus_tools/tool_manager.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "tool manager"
+      ]
+    },
+    "tool_validator": {
+      "executor": "python",
+      "script": "nexus_tools/tool_validator.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "tool validator"
+      ]
+    },
+    "update_manager": {
+      "executor": "python",
+      "script": "nexus_tools/update_manager.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "update manager"
+      ]
+    },
+    "workspace_manager": {
+      "executor": "python",
+      "script": "nexus_tools/workspace_manager.py",
+      "descricao": "Gerado automaticamente",
+      "frases": [
+        "workspace manager"
+      ]
+    },
+    "ver_logs": {
+      "executor": "bash",
+      "comando": "ls -lah ~/sentinela_dev/logs",
+      "descricao": "Lista os arquivos de log do sistema",
+      "frases": [
+        "logs",
+        "mostrar logs",
+        "ver logs",
+        "logs do sistema",
+        "abrir logs"
+      ]
+    },
+    "ver_data_hora": {
+      "executor": "bash",
+      "comando": "date",
+      "descricao": "Mostra a data e hora do sistema",
+      "frases": [
+        "data",
+        "hora",
+        "data e hora",
+        "que horas são",
+        "mostrar data",
+        "mostrar hora",
+        "agora",
+        "hoje"
+      ]
+    },
+    "ver_disco": {
+      "executor": "bash",
+      "comando": "df -h",
+      "descricao": "Mostra o uso do armazenamento do sistema",
+      "frases": [
+        "disco",
+        "uso do disco",
+        "armazenamento",
+        "espaço",
+        "espaço livre",
+        "mostrar disco",
+        "mostrar armazenamento",
+        "quanto espaço tenho"
+      ]
+    },
+    "criar_arquivo": {
+      "executor": "python",
+      "script": "nexus_tools/file_creator.py",
+      "descricao": "Cria arquivos pelo Nexus",
+      "frases": [
+        "criar arquivo",
+        "salvar arquivo",
+        "guardar informação",
+        "salvar meu nome"
+      ]
+    },
+    "teste_tool": {
+      "executor": "python",
+      "script": "nexus_tools/teste_tool.py",
+      "descricao": "Ferramenta criada pelo Nexus: teste_tool",
+      "frases": [
+        "teste ferramenta",
+        "executar teste"
+      ]
+    },
+    "teste3": {
+      "executor": "python",
+      "script": "nexus_tools/teste3.py",
+      "descricao": "Nova ferramenta automática Nexus",
+      "frases": [
+        "teste três",
+        "executar teste três"
+      ]
+    },
+    "teste4": {
+      "executor": "python",
+      "script": "nexus_tools/teste4.py",
+      "descricao": "Ferramenta de teste real",
+      "frases": [
+        "teste quatro",
+        "executar quatro"
+      ]
+    },
+    "ver_hora": {
+      "executor": "python",
+      "script": "nexus_tools/ver_hora.py",
+      "descricao": "Mostra horário do sistema",
+      "frases": [
+        "ver hora",
+        "que horas são",
+        "horário"
+      ]
+    },
+    "ver_temperatura": {
+      "executor": "python",
+      "script": "nexus_tools/ver_temperatura.py",
+      "descricao": "Teste temperatura",
+      "frases": [
+        "mostrar temperatura"
+      ]
+    },
+    "ol__nexus_ligar_lanterna": {
+      "executor": "python",
+      "script": "nexus_tools/ol__nexus_ligar_lanterna.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "Olá Nexus ligar lanterna"
+      ]
+    },
+    "nexus_aplica_o_comando_no_termux_de_ligar_a_lanterna": {
+      "executor": "python",
+      "script": "nexus_tools/nexus_aplica_o_comando_no_termux_de_ligar_a_lanterna.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "Nexus aplica o comando no termux de ligar a lanterna"
+      ]
+    },
+    "oi": {
+      "executor": "python",
+      "script": "nexus_tools/oi.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "oi"
+      ]
+    },
+    "entra_na_pasta___sentinela_dev": {
+      "executor": "python",
+      "script": "nexus_tools/entra_na_pasta___sentinela_dev.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "entra na pasta ~/sentinela_dev"
+      ]
+    },
+    "da_um_ls": {
+      "executor": "python",
+      "script": "nexus_tools/da_um_ls.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "da um ls"
+      ]
+    },
+    "aprender_node_module": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_node_module.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender node-module"
+      ]
+    },
+    "executar_comando_aprender_node_module": {
+      "executor": "python",
+      "script": "nexus_tools/executar_comando_aprender_node_module.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "Executar comando aprender node-module"
+      ]
+    },
+    "aprender_docker": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_docker.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender docker"
+      ]
+    },
+    "aprender_bash": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_bash.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender bash"
+      ]
+    },
+    "aprender_python_3": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_python_3.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender python 3"
+      ]
+    },
+    "aprender_sre": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_sre.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender sre"
+      ]
+    },
+    "aprender_linux": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_linux.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender Linux"
+      ]
+    },
+    "aprender_comandos_shell": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_comandos_shell.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender comandos Shell"
+      ]
+    },
+    "aprender_navega__o_shell": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_navega__o_shell.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender navegação shell"
+      ]
+    },
+    "aprender_auto_aprendizado": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_auto_aprendizado.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender auto-aprendizado"
+      ]
+    },
+    "buscar_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/buscar_conhecimento.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "buscar conhecimento"
+      ]
+    },
+    "baixar_bibliotecas": {
+      "executor": "python",
+      "script": "nexus_tools/baixar_bibliotecas.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "baixar bibliotecas"
+      ]
+    },
+    "ler_textos_p_blico_online_de_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/ler_textos_p_blico_online_de_conhecimento.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "ler textos público online de conhecimento"
+      ]
+    },
+    "baixar_lynx": {
+      "executor": "python",
+      "script": "nexus_tools/baixar_lynx.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "baixar lynx"
+      ]
+    },
+    "auto_conhecimento_generativo": {
+      "executor": "python",
+      "script": "nexus_tools/auto_conhecimento_generativo.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "auto-conhecimento generativo"
+      ]
+    },
+    "aprender_com_auto_conhecimento_generativo": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_com_auto_conhecimento_generativo.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender com auto-conhecimento generativo"
+      ]
+    },
+    "aprender_com_auto_conhecimento_generativo_a_otimizar_sistema": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_com_auto_conhecimento_generativo_a_otimizar_sistema.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender com auto-conhecimento generativo a otimizar sistema"
+      ]
+    },
+    "aprender_com_auto_conhecimento_generativo_backup": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_com_auto_conhecimento_generativo_backup.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender com auto-conhecimento generativo backup"
+      ]
+    },
+    "aprender_com_auto_conhecimento_generativo_ingl_s": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_com_auto_conhecimento_generativo_ingl_s.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender com auto-conhecimento generativo inglês"
+      ]
+    },
+    "aprender_com_auto_conhecimento_generativo_analisar_reescrever_otimizar_arquivos": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_com_auto_conhecimento_generativo_analisar_reescrever_otimizar_arquivos.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender com auto-conhecimento generativo analisar reescrever otimizar arquivos"
+      ]
+    },
+    "iniciar_aprender_com_auto_conhecimento_generativo_analisar_reescrever_otimizar_arquivos": {
+      "executor": "python",
+      "script": "nexus_tools/iniciar_aprender_com_auto_conhecimento_generativo_analisar_reescrever_otimizar_arquivos.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "iniciar aprender_com_auto_conhecimento_generativo_analisar_reescrever_otimizar_arquivos"
+      ]
+    },
+    "aprender__interpretar_linguagem_natural": {
+      "executor": "python",
+      "script": "nexus_tools/aprender__interpretar_linguagem_natural.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender  interpretar linguagem natural"
+      ]
+    },
+    "aprender__interpretar_linguagem_natural__ollama": {
+      "executor": "python",
+      "script": "nexus_tools/aprender__interpretar_linguagem_natural__ollama.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender  interpretar linguagem natural 'ollama'"
+      ]
+    },
+    "sim": {
+      "executor": "python",
+      "script": "nexus_tools/sim.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "sim"
+      ]
+    },
+    "aprender_instalar_pacotes": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_instalar_pacotes.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender instalar pacotes"
+      ]
+    },
+    "aprender_instalar_pacotes_ia": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_instalar_pacotes_ia.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender instalar pacotes ia"
+      ]
+    },
+    "aprender_instalar_python_3": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_instalar_python_3.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "aprender instalar Python 3"
+      ]
+    },
+    "instalar_python_3": {
+      "executor": "python",
+      "script": "nexus_tools/instalar_python_3.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "instalar_python_3"
+      ]
+    },
+    "explique_o_brain_json": {
+      "executor": "python",
+      "script": "nexus_tools/explique_o_brain_json.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "explique o brain.json"
+      ]
+    },
+    "explique_o_que___o_que_voc__sabe_pesquise_base_de_conhecimento_arquivo_documenta__o_manual": {
+      "executor": "python",
+      "script": "nexus_tools/explique_o_que___o_que_voc__sabe_pesquise_base_de_conhecimento_arquivo_documenta__o_manual.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "explique o que é o que você sabe pesquise base de conhecimento arquivo documentação manual"
+      ]
+    },
+    "o_que___ollama": {
+      "executor": "python",
+      "script": "nexus_tools/o_que___ollama.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "o que é ollama"
+      ]
+    },
+    "explique_tudo_sobre_ollama": {
+      "executor": "python",
+      "script": "nexus_tools/explique_tudo_sobre_ollama.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "explique tudo sobre Ollama"
+      ]
+    },
+    "explique_o_nexus_sre": {
+      "executor": "python",
+      "script": "nexus_tools/explique_o_nexus_sre.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "explique o Nexus SRE"
+      ]
+    },
+    "explique_o_nexus_sree": {
+      "executor": "python",
+      "script": "nexus_tools/explique_o_nexus_sree.py",
+      "descricao": "Ferramenta criada automaticamente pelo Nexus",
+      "frases": [
+        "explique o Nexus SREe"
+      ]
+    },
+    "listar_comandos_funcionando": {
+      "executor": "python",
+      "script": "nexus_tools/listar_comandos_funcionando.py",
+      "descricao": "Lista os comandos confirmados como funcionando no Firebase Realtime Database",
+      "frases": [
+        "listar comandos funcionando",
+        "mostrar comandos funcionando",
+        "lista de comandos confirmados",
+        "comandos que funcionam"
+      ]
+    },
+    "atualizar_lista_comandos": {
+      "executor": "python",
+      "script": "nexus_tools/atualizar_lista_comandos.py",
+      "descricao": "Registra no Firebase Realtime os comandos confirmados como funcionando",
+      "frases": [
+        "atualizar lista comandos funcionando",
+        "registrar comando funcionando",
+        "registrar comando confirmado",
+        "atualizar comandos funcionando"
+      ]
+    },
+    "limpar_registro_comando": {
+      "executor": "python",
+      "script": "nexus_tools/limpar_registro_comando.py",
+      "descricao": "Remove um registro específico da memória de comandos confirmados no Firebase",
+      "frases": [
+        "limpar registro de comando",
+        "remover registro de comando",
+        "limpar comando da memória"
+      ]
+    },
+    "gerar_codigo": {
+      "executor": "python",
+      "script": "nexus_tools/gerar_codigo.py",
+      "descricao": "Gera código a partir de uma descrição em linguagem natural",
+      "frases": [
+        "gerar código",
+        "criar código",
+        "gerar html",
+        "criar html",
+        "criar página",
+        "criar landing page",
+        "gerar uma página"
+      ]
+    },
+    "editar_html": {
+      "executor": "python",
+      "script": "nexus_tools/editar_html.py",
+      "descricao": "Edita um HTML existente preservando todas as funcionalidades existentes",
+      "frases": [
+        "editar html",
+        "alterar html",
+        "melhorar html",
+        "aprimorar html",
+        "modificar html"
+      ]
+    },
+    "aprender_novo_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_novo_conhecimento.py"
+    },
+    "atualizar_memoria": {
+      "executor": "python",
+      "script": "nexus_tools/atualizar_memoria.py"
+    },
+    "auto_skill_generator": {
+      "executor": "python",
+      "script": "nexus_tools/auto_skill_generator.py"
+    },
+    "consertar_if_autobuild": {
+      "executor": "python",
+      "script": "nexus_tools/consertar_if_autobuild.py"
+    },
+    "consolidar_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/consolidar_conhecimento.py"
+    },
+    "criar_indice_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/criar_indice_conhecimento.py"
+    },
+    "cwd_manager": {
+      "executor": "python",
+      "script": "nexus_tools/cwd_manager.py"
+    },
+    "detectar_ambiente": {
+      "executor": "python",
+      "script": "nexus_tools/detectar_ambiente.py"
+    },
+    "error_to_suggestion": {
+      "executor": "python",
+      "script": "nexus_tools/error_to_suggestion.py"
+    },
+    "evolution_loader": {
+      "executor": "python",
+      "script": "nexus_tools/evolution_loader.py"
+    },
+    "excluir_html": {
+      "executor": "python",
+      "script": "nexus_tools/excluir_html.py"
+    },
+    "execution_engine": {
+      "executor": "python",
+      "script": "nexus_tools/execution_engine.py"
+    },
+    "file_creator": {
+      "executor": "python",
+      "script": "nexus_tools/file_creator.py"
+    },
+    "improvement_guard": {
+      "executor": "python",
+      "script": "nexus_tools/improvement_guard.py"
+    },
+    "improvement_learning": {
+      "executor": "python",
+      "script": "nexus_tools/improvement_learning.py"
+    },
+    "improvement_validator": {
+      "executor": "python",
+      "script": "nexus_tools/improvement_validator.py"
+    },
+    "indexar_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/indexar_conhecimento.py"
+    },
+    "integrar_ambiente_system_prompt": {
+      "executor": "python",
+      "script": "nexus_tools/integrar_ambiente_system_prompt.py"
+    },
+    "patch_aprendizado_assistido": {
+      "executor": "python",
+      "script": "nexus_tools/patch_aprendizado_assistido.py"
+    },
+    "patch_auto_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/patch_auto_conhecimento.py"
+    },
+    "patch_bloquear_auto_tool_rag": {
+      "executor": "python",
+      "script": "nexus_tools/patch_bloquear_auto_tool_rag.py"
+    },
+    "patch_bloqueio_file_creator_rag": {
+      "executor": "python",
+      "script": "nexus_tools/patch_bloqueio_file_creator_rag.py"
+    },
+    "patch_bloqueio_rag_autobuild_final": {
+      "executor": "python",
+      "script": "nexus_tools/patch_bloqueio_rag_autobuild_final.py"
+    },
+    "patch_buscar_arquivo": {
+      "executor": "python",
+      "script": "nexus_tools/patch_buscar_arquivo.py"
+    },
+    "patch_conhecimento_pasta": {
+      "executor": "python",
+      "script": "nexus_tools/patch_conhecimento_pasta.py"
+    },
+    "patch_conhecimento_pasta_v2": {
+      "executor": "python",
+      "script": "nexus_tools/patch_conhecimento_pasta_v2.py"
+    },
+    "patch_conhecimento_pasta_v3": {
+      "executor": "python",
+      "script": "nexus_tools/patch_conhecimento_pasta_v3.py"
+    },
+    "patch_consulta_rag": {
+      "executor": "python",
+      "script": "nexus_tools/patch_consulta_rag.py"
+    },
+    "patch_consulta_rag_v2": {
+      "executor": "python",
+      "script": "nexus_tools/patch_consulta_rag_v2.py"
+    },
+    "patch_dashboard_consolidado_rag": {
+      "executor": "python",
+      "script": "nexus_tools/patch_dashboard_consolidado_rag.py"
+    },
+    "patch_normalizar_consulta_rag": {
+      "executor": "python",
+      "script": "nexus_tools/patch_normalizar_consulta_rag.py"
+    },
+    "patch_rag_antes_executor": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_antes_executor.py"
+    },
+    "patch_rag_autobuild_seguro": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_autobuild_seguro.py"
+    },
+    "patch_rag_completo": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_completo.py"
+    },
+    "patch_rag_completo_v2": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_completo_v2.py"
+    },
+    "patch_rag_consolidado_stop": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_consolidado_stop.py"
+    },
+    "patch_rag_final": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_final.py"
+    },
+    "patch_rag_gemini": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_gemini.py"
+    },
+    "patch_rag_intent_final": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_intent_final.py"
+    },
+    "patch_unificar_rag": {
+      "executor": "python",
+      "script": "nexus_tools/patch_unificar_rag.py"
+    },
+    "pesquisar_e_aprender": {
+      "executor": "python",
+      "script": "nexus_tools/pesquisar_e_aprender.py"
+    },
+    "pesquisar_fonte_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/pesquisar_fonte_conhecimento.py"
+    },
+    "rebuild_skills": {
+      "executor": "python",
+      "script": "nexus_tools/rebuild_skills.py"
+    },
+    "salvar_fonte_web": {
+      "executor": "python",
+      "script": "nexus_tools/salvar_fonte_web.py"
+    },
+    "tool_discovery": {
+      "executor": "python",
+      "script": "nexus_tools/tool_discovery.py"
+    },
+    "universal_executor": {
+      "executor": "python",
+      "script": "nexus_tools/universal_executor.py"
+    },
+    "validation_bridge": {
+      "executor": "python",
+      "script": "nexus_tools/validation_bridge.py"
+    },
+    "teste_tool2": {
+      "executor": "python",
+      "script": "nexus_tools/teste_tool2.py",
+      "descricao": "Ferramenta de teste 2",
+      "frases": [
+        "teste"
+      ]
     }
+  }
 }
