@@ -12,33 +12,57 @@ import firebase_admin
 from firebase_admin import credentials, db
 
 def conectar_firebase():
-    if not firebase_admin._apps:
-        private_key = os.getenv("private_key")
+    if firebase_admin._apps:
+        return
 
-        if not private_key:
-            raise RuntimeError("Variável private_key não encontrada.")
+    cred_json = os.getenv("private_key")
 
-        cred_data = {
-            "type": "service_account",
-            "project_id": os.getenv("project_id"),
-            "private_key_id": os.getenv("private_key_id"),
-            "private_key": private_key.replace("\\n", "\n"),
-            "client_email": os.getenv("client_email"),
-            "client_id": os.getenv("client_id"),
-            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-            "token_uri": "https://oauth2.googleapis.com/token",
-            "auth_provider_x509_cert_url":
-                "https://www.googleapis.com/oauth2/v1/certs",
-            "client_x509_cert_url": os.getenv("client_x509_cert_url")
-        }
-
-        firebase_admin.initialize_app(
-            credentials.Certificate(cred_data),
-            {
-                "databaseURL":
-                    "https://finance-master-629d1-default-rtdb.firebaseio.com"
-            }
+    if not cred_json:
+        raise RuntimeError(
+            "Variável private_key não encontrada."
         )
+
+    try:
+        cred_data = json.loads(cred_json)
+    except json.JSONDecodeError as erro:
+        raise RuntimeError(
+            "A variável private_key não contém um JSON válido."
+        ) from erro
+
+    campos_obrigatorios = [
+        "type",
+        "project_id",
+        "private_key_id",
+        "private_key",
+        "client_email",
+        "client_id",
+        "token_uri"
+    ]
+
+    faltando = [
+        campo
+        for campo in campos_obrigatorios
+        if not cred_data.get(campo)
+    ]
+
+    if faltando:
+        raise RuntimeError(
+            "Campos ausentes na credencial Firebase: "
+            + ", ".join(faltando)
+        )
+
+    cred_data["private_key"] = (
+        cred_data["private_key"]
+        .replace("\\\\n", "\\n")
+    )
+
+    firebase_admin.initialize_app(
+        credentials.Certificate(cred_data),
+        {
+            "databaseURL":
+                "https://finance-master-629d1-default-rtdb.firebaseio.com"
+        }
+    )
 
 
 def sincronizar_html_firebase(arquivo_html):
