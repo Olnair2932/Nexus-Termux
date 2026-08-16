@@ -1040,6 +1040,10 @@ function detectarGerarCodigo(prompt) {
 
     const gatilhos = [
         "criar uma landing page",
+        "criar uma página html",
+        "criar uma pagina html",
+        "criar página html",
+        "criar pagina html",
         "gerar uma página html",
         "criar um site",
         "fazer uma página html",
