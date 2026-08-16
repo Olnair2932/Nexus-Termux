@@ -6,7 +6,7 @@ const axios = require('axios');
 const path = require('path');
 const fsp = require('fs').promises;
 const { exec } = require('child_process');
-const { execSync } = require("child_process");
+const { execSync, execFileSync } = require("child_process");
 
 function registrarAprendizado(frase, acao) {
     try {
@@ -2574,12 +2574,20 @@ switch (intent.acao) {
                     break;
                 }
 
-                const argumentosShell = argumentosFerramenta
-                    ? ` ${JSON.stringify(argumentosFerramenta)}`
-                    : "";
+                const argumentosPython = argumentosFerramenta
+                    ? [argumentosFerramenta]
+                    : [];
 
-                respostaFinal = execSync(
-                    `python3 "${script}"${argumentosShell}`,
+                console.log(
+                    "🐍 EXECUTANDO PYTHON:",
+                    script,
+                    "ARG:",
+                    JSON.stringify(argumentosPython)
+                );
+
+                respostaFinal = execFileSync(
+                    "python3",
+                    [script, ...argumentosPython],
                     {
                         cwd: CONFIG.ROOT,
                         encoding: "utf8",
