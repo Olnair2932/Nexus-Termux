@@ -1953,12 +1953,33 @@ async function salvarHistoricoFirebase(entrada, acao, resposta, ok) {
 
 app.post("/api/script", async (req, res) => {
     try {
-        const { ferramenta } = req.body || {};
+        const { ferramenta, args = [] } = req.body || {};
 
         if (!ferramenta) {
             return res.status(400).json({
                 erro: "Nome da ferramenta não informado."
             });
+        }
+
+        if (!Array.isArray(args)) {
+            return res.status(400).json({
+                erro: "args deve ser uma lista."
+            });
+        }
+
+        // Limita argumentos para evitar abuso do executor.
+        if (args.length > 20) {
+            return res.status(400).json({
+                erro: "Quantidade máxima de argumentos excedida."
+            });
+        }
+
+        for (const arg of args) {
+            if (typeof arg !== "string") {
+                return res.status(400).json({
+                    erro: "Todos os argumentos devem ser texto."
+                });
+            }
         }
 
         // Aceita somente nome simples de arquivo/ferramenta.
@@ -2010,7 +2031,7 @@ app.post("/api/script", async (req, res) => {
 
         execFile(
             "python3",
-            [caminhoReal],
+            [caminhoReal, ...args],
             {
                 cwd: CONFIG.ROOT,
                 timeout: 120000,
