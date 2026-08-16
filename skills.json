@@ -1104,5 +1104,18 @@
       "backup dos htmls",
       "fazer backup dos htmls"
     ]
+  },
+  "restaurar_htmls_firebase": {
+    "executor": "python",
+    "script": "nexus_tools/restaurar_htmls_firebase.py",
+    "descricao": "Restaura os HTMLs persistidos no Firebase para a pasta html_gerados do Nexus.",
+    "frases": [
+      "restaurar htmls do firebase",
+      "restaurar htmls",
+      "recuperar htmls",
+      "recuperar páginas",
+      "sincronizar htmls do firebase",
+      "baixar htmls do firebase"
+    ]
   }
 }
