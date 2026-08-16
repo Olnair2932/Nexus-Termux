@@ -1046,21 +1046,63 @@
   "listar_htmls": {
     "executor": "python",
     "script": "nexus_tools/listar_htmls.py",
-    "descricao": "Lista os HTMLs publicados e suas versões no sistema Nexus."
+    "descricao": "Lista os HTMLs publicados e suas versões no sistema Nexus.",
+    "frases": [
+      "listar htmls",
+      "listar html",
+      "mostrar htmls disponíveis",
+      "mostrar páginas html",
+      "listar páginas",
+      "ver páginas"
+    ]
   },
   "abrir_html": {
     "executor": "python",
     "script": "nexus_tools/abrir_html.py",
-    "descricao": "Abre e mostra o conteúdo de um HTML pelo nome, buscando localmente ou no Nexus/Firebase."
+    "descricao": "Abre e mostra o conteúdo de um HTML pelo nome, buscando localmente ou no Nexus/Firebase.",
+    "frases": [
+      "abrir html",
+      "mostrar html",
+      "abrir página html",
+      "mostrar conteúdo do html",
+      "ver conteúdo do html"
+    ]
   },
   "editar_html": {
     "executor": "python",
     "script": "nexus_tools/editar_html.py",
-    "descricao": "Edita um HTML existente usando Gemini, preservando o original e criando uma nova versão."
+    "descricao": "Edita um HTML existente usando Gemini, preservando o original e criando uma nova versão.",
+    "frases": [
+      "editar html",
+      "alterar html",
+      "melhorar html",
+      "aprimorar html",
+      "modificar html"
+    ]
   },
   "criar_html": {
     "executor": "python",
     "script": "nexus_tools/criar_html.py",
-    "descricao": "Cria uma nova página HTML usando Gemini."
+    "descricao": "Cria uma nova página HTML usando Gemini.",
+    "frases": [
+      "criar html",
+      "criar página html",
+      "criar novo site",
+      "criar página",
+      "gerar html",
+      "gerar página"
+    ]
+  },
+  "sincronizar_htmls_firebase": {
+    "executor": "python",
+    "script": "nexus_tools/sincronizar_htmls_firebase.py",
+    "descricao": "Sincroniza os HTMLs publicados da pasta html_gerados com o Firebase Realtime Database.",
+    "frases": [
+      "sincronizar htmls com firebase",
+      "sincronizar html com firebase",
+      "salvar htmls no firebase",
+      "backup dos htmls",
+      "fazer backup dos htmls"
+    ]
   }
 }
