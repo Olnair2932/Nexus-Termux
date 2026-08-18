@@ -152,10 +152,8 @@ Executar
         background:#0f172a;
      ">
 
-    <input
+    <select
         id="nomeFerramenta"
-        type="text"
-        value="editar_html" readonly
         style="
             padding:10px;
             width:60%;
@@ -165,6 +163,11 @@ Executar
             border-radius:5px;
         "
     >
+        <option value="editar_html">🤖 Editar HTML com Gemini</option>
+        <option value="criar_anuncio_produto">🛍️ Criar anúncio de produto</option>
+        <option value="criar_anuncio_video">🎥 Criar anúncio de produto com vídeo</option>
+        <option value="criar_anuncio_multimidia">🖼️🎥 Criar anúncio com imagem e vídeo</option>
+    </select>
 
 
     <br><br>
@@ -808,79 +811,242 @@ async function aprenderTema(){
 
 
 <script>
+function atualizarExecutorScript() {
+
+    const ferramenta =
+        document.getElementById("nomeFerramenta").value;
+
+    const nomeHtml =
+        document.getElementById("nomeHtmlEditar");
+
+    const alteracao =
+        document.getElementById("alteracaoHtml");
+
+    const executar =
+        document.querySelector(
+            '#executorScript button[onclick="executarScriptDireto()"]'
+        );
+
+    if (ferramenta === "editar_html") {
+
+        nomeHtml.placeholder = "Nome do HTML";
+        alteracao.placeholder =
+            "Descreva a alteração desejada...";
+
+        executar.innerText = "EXECUTAR";
+
+    } else if (ferramenta === "criar_anuncio_produto") {
+
+        nomeHtml.placeholder =
+            "Nome do HTML do anúncio";
+
+        alteracao.placeholder =
+            'JSON do produto. Exemplo: {"nome":"Produto","preco":"R$ 99,90","descricao":"Descrição","beneficios":"Benefícios","whatsapp":"5551999999999","imagens":["/caminho/foto.jpg"]}';
+
+        executar.innerText =
+            "🛍️ CRIAR ANÚNCIO";
+
+    } else if (ferramenta === "criar_anuncio_video") {
+
+        nomeHtml.placeholder =
+            "Nome do HTML do anúncio";
+
+        alteracao.placeholder =
+            'JSON do produto com vídeo. Exemplo: {"nome":"Produto","preco":"R$ 99,90","descricao":"Descrição","beneficios":"Benefícios","whatsapp":"5551999999999","video":"/caminho/video.mp4"}';
+
+        executar.innerText =
+            "🎥 CRIAR ANÚNCIO";
+
+    } else if (ferramenta === "criar_anuncio_multimidia") {
+
+        nomeHtml.placeholder =
+            "Nome do HTML do anúncio";
+
+        alteracao.placeholder =
+            'JSON do produto com imagens e vídeo. Exemplo: {"nome":"Produto","preco":"R$ 99,90","descricao":"Descrição","beneficios":"Benefícios","whatsapp":"5551999999999","imagens":["/caminho/foto.jpg"],"video":"/caminho/video.mp4"}';
+
+        executar.innerText =
+            "🖼️🎥 CRIAR ANÚNCIO";
+
+    }
+}
+
+
 function abrirExecutorScript() {
-    const painel = document.getElementById("executorScript");
-    const campo = document.getElementById("nomeFerramenta");
+
+    const painel =
+        document.getElementById("executorScript");
 
     painel.style.display = "block";
-    campo.focus();
+
+    atualizarExecutorScript();
+
+    document
+        .getElementById("nomeHtmlEditar")
+        .focus();
 }
 
+
 function fecharExecutorScript() {
-    document.getElementById("executorScript").style.display = "none";
+
+    document
+        .getElementById("executorScript")
+        .style.display = "none";
 }
+
 
 async function executarScriptDireto() {
 
-    const resultado = document.getElementById("resultadoScript");
+    const resultado =
+        document.getElementById("resultadoScript");
 
-    const ferramenta = "editar_html";
-    const html = document.getElementById("nomeHtmlEditar").value.trim();
-    const alteracao = document.getElementById("alteracaoHtml").value.trim();
+    const ferramenta =
+        document.getElementById("nomeFerramenta").value;
+
+    const html =
+        document.getElementById("nomeHtmlEditar").value.trim();
+
+    const segundoArgumento =
+        document.getElementById("alteracaoHtml").value.trim();
+
 
     if (!html) {
-        resultado.textContent = "❌ Informe o nome do HTML.";
+
+        resultado.textContent =
+            "❌ Informe o nome do HTML.";
+
         return;
     }
 
-    if (!alteracao) {
-        resultado.textContent = "❌ Descreva a alteração.";
+
+    if (!segundoArgumento) {
+
+        resultado.textContent =
+            ferramenta === "editar_html"
+                ? "❌ Descreva a alteração."
+                : "❌ Informe os dados do anúncio em JSON.";
+
         return;
     }
 
-    resultado.textContent = "⏳ Editando HTML...\n";
+
+    if (ferramenta !== "editar_html") {
+
+        try {
+
+            const dados =
+                JSON.parse(segundoArgumento);
+
+            if (
+                typeof dados !== "object" ||
+                dados === null ||
+                Array.isArray(dados)
+            ) {
+                throw new Error(
+                    "Os dados devem ser um objeto JSON."
+                );
+            }
+
+        } catch (erro) {
+
+            resultado.textContent =
+                "❌ JSON inválido:\n\n" +
+                erro.message;
+
+            return;
+        }
+
+    }
+
+
+    resultado.textContent =
+        ferramenta === "editar_html"
+            ? "⏳ Editando HTML...\n"
+            : "⏳ Criando anúncio...\n";
+
 
     try {
 
-        const response = await fetch("/api/script", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                ferramenta: ferramenta,
-                args: [
-                    html,
-                    alteracao
-                ]
-            })
-        });
+        const response =
+            await fetch("/api/script", {
 
-        const data = await response.json();
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    ferramenta: ferramenta,
+
+                    args: [
+                        html,
+                        segundoArgumento
+                    ]
+
+                })
+
+            });
+
+
+        const data =
+            await response.json();
+
 
         if (!response.ok) {
-            throw new Error(data.erro || ("Erro HTTP " + response.status));
+
+            throw new Error(
+                data.erro ||
+                ("Erro HTTP " + response.status)
+            );
+
         }
+
 
         resultado.textContent =
             data.resultado ||
-            JSON.stringify(data, null, 2);
+            JSON.stringify(
+                data,
+                null,
+                2
+            );
+
 
     } catch (erro) {
 
         resultado.textContent =
-            "❌ ERRO\n\n" + erro.message;
+            "❌ ERRO\n\n" +
+            erro.message;
 
     }
 
 }
+
+
 document
     .getElementById("nomeFerramenta")
-    ?.addEventListener("keydown", function(event) {
-        if (event.key === "Enter") {
-            executarScriptDireto();
+    ?.addEventListener(
+        "change",
+        atualizarExecutorScript
+    );
+
+
+document
+    .getElementById("nomeFerramenta")
+    ?.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (event.key === "Enter") {
+
+                executarScriptDireto();
+
+            }
+
         }
-    });
+    );
+
 </script>
 
 </body>
