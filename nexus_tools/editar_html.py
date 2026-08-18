@@ -9,6 +9,64 @@ import urllib.parse
 from pathlib import Path
 from datetime import datetime
 
+import firebase_admin
+from firebase_admin import credentials, db
+
+
+def conectar_firebase():
+    if firebase_admin._apps:
+        return
+
+    cred_json = os.getenv("private_key")
+
+    if not cred_json:
+        raise RuntimeError(
+            "Variável private_key não encontrada."
+        )
+
+    try:
+        cred_data = json.loads(cred_json)
+    except json.JSONDecodeError as erro:
+        raise RuntimeError(
+            "A variável private_key não contém um JSON válido."
+        ) from erro
+
+    campos_obrigatorios = [
+        "type",
+        "project_id",
+        "private_key_id",
+        "private_key",
+        "client_email",
+        "client_id",
+        "token_uri"
+    ]
+
+    faltando = [
+        campo
+        for campo in campos_obrigatorios
+        if not cred_data.get(campo)
+    ]
+
+    if faltando:
+        raise RuntimeError(
+            "Campos ausentes na credencial Firebase: "
+            + ", ".join(faltando)
+        )
+
+    cred_data["private_key"] = (
+        cred_data["private_key"]
+        .replace("\\\\n", "\\n")
+    )
+
+    firebase_admin.initialize_app(
+        credentials.Certificate(cred_data),
+        {
+            "databaseURL":
+                "https://finance-master-629d1-default-rtdb.firebaseio.com"
+        }
+    )
+
+
 print("=== NEXUS EDITOR DE HTML ===")
 
 if len(sys.argv) < 3:
@@ -412,4 +470,42 @@ print("=== HTML ORIGINAL PRESERVADO ===")
 print(nome_html)
 
 print()
+
+
+# ==========================================
+# Sincronizar HTML editado com Firebase
+# ==========================================
+
+try:
+    conectar_firebase()
+
+    html = arquivo_publicado.read_text(
+        encoding="utf-8"
+    )
+
+    db.reference(
+        "nexus/html_gerados"
+    ).child(
+        arquivo_publicado.stem
+    ).set({
+        "nome": arquivo_publicado.name,
+        "html": html,
+        "sincronizado_em": datetime.now().isoformat()
+    })
+
+    print()
+    print("=== FIREBASE ===")
+    print(
+        f"✅ HTML sincronizado: {arquivo_publicado.name}"
+    )
+    print("Firebase: nexus/html_gerados")
+
+except Exception as erro:
+    print()
+    print(
+        "⚠️ HTML salvo localmente, mas não foi sincronizado."
+    )
+    print(f"Erro Firebase: {erro}")
+
+
 print("=== FIM DA EDIÇÃO ===")
