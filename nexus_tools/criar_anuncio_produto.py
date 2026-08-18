@@ -476,34 +476,41 @@ def criar_anuncio(produto):
 
 if __name__ == "__main__":
 
-    if len(sys.argv) < 2:
-
-        print(
-            "Uso:"
-        )
-
+    if len(sys.argv) < 3:
+        print("Uso:")
         print(
             "python3 criar_anuncio_produto.py "
-            "'{\"nome\":\"Produto\", ...}'"
+            "<nome_html> '<json_produto>'"
         )
+        raise SystemExit(1)
 
+    nome_html = sys.argv[1].strip()
+    dados_json = " ".join(sys.argv[2:]).strip()
+
+    if not nome_html:
+        print("❌ Nome do HTML não informado.")
+        raise SystemExit(1)
+
+    if not dados_json:
+        print("❌ Dados do produto não informados.")
         raise SystemExit(1)
 
     try:
+        produto = json.loads(dados_json)
 
-        produto = json.loads(
-            sys.argv[1]
-        )
+        if not isinstance(produto, dict):
+            raise ValueError(
+                "Os dados do produto devem ser um objeto JSON."
+            )
 
-        criar_anuncio(
-            produto
-        )
+        produto["_nome_html"] = nome_html
+
+        criar_anuncio(produto)
+
+    except json.JSONDecodeError as erro:
+        print("❌ JSON inválido:", erro)
+        raise SystemExit(1)
 
     except Exception as erro:
-
-        print(
-            "❌ ERRO:",
-            erro
-        )
-
+        print("❌ ERRO:", erro)
         raise SystemExit(1)
