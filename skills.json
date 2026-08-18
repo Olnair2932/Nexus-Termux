@@ -1117,5 +1117,20 @@
       "sincronizar htmls do firebase",
       "baixar htmls do firebase"
     ]
+  },
+  "criar_anuncio_produto": {
+    "executor": "python",
+    "script": "nexus_tools/criar_anuncio_produto.py",
+    "descricao": "Cria páginas profissionais de anúncio de produtos, enviando imagens para Cloudinary, gerando o HTML com Gemini e sincronizando a página e os dados no Firebase Realtime Database.",
+    "frases": [
+      "criar página de anúncio",
+      "criar anúncio de produto",
+      "criar página para vender produto",
+      "criar página de vendas",
+      "criar anúncio com imagens",
+      "criar página de produto",
+      "criar anúncio com fotos",
+      "montar anúncio de produto"
+    ]
   }
 }
