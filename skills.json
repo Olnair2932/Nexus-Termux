@@ -1132,5 +1132,20 @@
       "criar anúncio com fotos",
       "montar anúncio de produto"
     ]
+  },
+  "criar_anuncio_video": {
+    "executor": "python",
+    "script": "nexus_tools/criar_anuncio_video.py",
+    "descricao": "Cria páginas profissionais de anúncio de produtos com vídeo, enviando o vídeo para Cloudinary, gerando o HTML com Gemini e sincronizando a página e os dados no Firebase Realtime Database.",
+    "frases": [
+      "criar anúncio com vídeo",
+      "criar página de anúncio com vídeo",
+      "criar anúncio de produto com vídeo",
+      "criar página de produto com vídeo",
+      "criar página de vendas com vídeo",
+      "criar anúncio usando vídeo",
+      "criar página com vídeo",
+      "montar anúncio de produto com vídeo"
+    ]
   }
 }
