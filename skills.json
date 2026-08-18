@@ -1041,6 +1041,23 @@
         "aprimorar html",
         "modificar html"
       ]
+    },
+    "criar_anuncio_multimidia": {
+      "executor": "python",
+      "script": "nexus_tools/criar_anuncio_multimidia.py",
+      "descricao": "Cria páginas profissionais de anúncio de produtos com imagens e vídeo, enviando as mídias para Cloudinary, gerando o HTML com Gemini e sincronizando a página, imagens, vídeo e dados no Firebase Realtime Database.",
+      "frases": [
+        "criar anúncio com imagem e vídeo",
+        "criar anúncio com imagens e vídeo",
+        "criar anúncio de produto com imagem e vídeo",
+        "criar página de anúncio com imagem e vídeo",
+        "criar página de produto com imagens e vídeo",
+        "criar página de vendas com imagem e vídeo",
+        "criar anúncio multimídia",
+        "criar página multimídia",
+        "montar anúncio com imagem e vídeo",
+        "montar anúncio multimídia"
+      ]
     }
   },
   "listar_htmls": {
