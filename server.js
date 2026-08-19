@@ -24,6 +24,7 @@ function registrarAprendizado(frase, acao) {
 
 
 const fs = require('fs');
+const multer = require('multer');
 const { initializeApp, cert } = require("firebase-admin/app");
 const { getDatabase } = require("firebase-admin/database");
 
@@ -1943,6 +1944,320 @@ async function salvarHistoricoFirebase(entrada, acao, resposta, ok) {
 }
 
 // --- ROTAS API ---
+
+
+
+// ==========================================
+// ANÚNCIO MULTIMÍDIA
+// Recebe produto + imagens + vídeo
+// em uma única requisição multipart.
+// ==========================================
+
+const diretorioUploadsAnuncio = path.join(
+    CONFIG.ROOT,
+    "workspace",
+    "uploads_anuncios"
+);
+
+fs.mkdirSync(
+    diretorioUploadsAnuncio,
+    { recursive: true }
+);
+
+const storageAnuncio = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, diretorioUploadsAnuncio);
+    },
+
+    filename: (req, file, cb) => {
+        const extensao = path.extname(file.originalname || "");
+        const nomeSeguro =
+            path.basename(
+                file.originalname || "arquivo",
+                extensao
+            )
+            .replace(/[^a-zA-Z0-9_-]/g, "_");
+
+        cb(
+            null,
+            Date.now() +
+            "_" +
+            nomeSeguro +
+            extensao
+        );
+    }
+});
+
+const uploadAnuncio = multer({
+    storage: storageAnuncio,
+    limits: {
+        files: 11,
+        fileSize: 200 * 1024 * 1024
+    }
+});
+
+app.post(
+    "/api/anuncio-multimidia",
+    uploadAnuncio.fields([
+        {
+            name: "video",
+            maxCount: 1
+        },
+        {
+            name: "imagens",
+            maxCount: 10
+        },
+        {
+            name: "imagens[]",
+            maxCount: 10
+        }
+    ]),
+    async (req, res) => {
+
+        const arquivosCriados = [];
+
+        try {
+
+            console.log("==========================================");
+            console.log("🎨 CRIADOR DE ANÚNCIO MULTIMÍDIA");
+            console.log("==========================================");
+
+            // ------------------------------------------
+            // DADOS DO PRODUTO
+            // ------------------------------------------
+
+            const dadosRaw =
+                req.body?.dados ||
+                req.body?.produto;
+
+            if (!dadosRaw) {
+                return res.status(400).json({
+                    ok: false,
+                    erro:
+                        "Envie os dados do produto no campo 'dados'."
+                });
+            }
+
+            let produto;
+
+            try {
+                produto =
+                    typeof dadosRaw === "string"
+                        ? JSON.parse(dadosRaw)
+                        : dadosRaw;
+            } catch (erro) {
+                return res.status(400).json({
+                    ok: false,
+                    erro:
+                        "JSON do produto inválido.",
+                    detalhe: erro.message
+                });
+            }
+
+            if (
+                !produto ||
+                typeof produto !== "object" ||
+                Array.isArray(produto)
+            ) {
+                return res.status(400).json({
+                    ok: false,
+                    erro:
+                        "Os dados do produto devem ser um objeto JSON."
+                });
+            }
+
+            // ------------------------------------------
+            // NOME DO HTML
+            // ------------------------------------------
+
+            const nomeBase =
+                String(
+                    produto.nome ||
+                    produto.produto ||
+                    "anuncio_multimidia"
+                )
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-zA-Z0-9_-]/g, "_")
+                .replace(/^_+|_+$/g, "")
+                .toLowerCase();
+
+            const nomeHtml =
+                nomeBase +
+                "_" +
+                Date.now() +
+                ".html";
+
+            // ------------------------------------------
+            // IMAGENS
+            // ------------------------------------------
+
+            const camposImagens = [
+                ...(req.files?.imagens || []),
+                ...(req.files?.["imagens[]"] || [])
+            ];
+
+            const imagens = camposImagens.map(
+                arquivo => {
+                    arquivosCriados.push(
+                        arquivo.path
+                    );
+
+                    return arquivo.path;
+                }
+            );
+
+            // ------------------------------------------
+            // VÍDEO
+            // ------------------------------------------
+
+            const arquivoVideo =
+                req.files?.video?.[0];
+
+            if (!arquivoVideo) {
+                return res.status(400).json({
+                    ok: false,
+                    erro:
+                        "Nenhum vídeo foi enviado. Use o campo 'video'."
+                });
+            }
+
+            arquivosCriados.push(
+                arquivoVideo.path
+            );
+
+            // ------------------------------------------
+            // MONTA PRODUTO PARA O PYTHON
+            // ------------------------------------------
+
+            produto.imagens = imagens;
+            produto.video = arquivoVideo.path;
+            produto._nome_html = nomeHtml;
+
+            console.log(
+                "Produto:",
+                produto.nome || "Sem nome"
+            );
+
+            console.log(
+                "Imagens:",
+                imagens.length
+            );
+
+            console.log(
+                "Vídeo:",
+                arquivoVideo.originalname
+            );
+
+            // ------------------------------------------
+            // EXECUTA CRIADOR PYTHON
+            // ------------------------------------------
+
+            const script =
+                path.join(
+                    CONFIG.ROOT,
+                    "nexus_tools",
+                    "criar_anuncio_multimidia.py"
+                );
+
+            execFile(
+                "python3",
+                [
+                    script,
+                    nomeHtml,
+                    JSON.stringify(produto)
+                ],
+                {
+                    cwd: CONFIG.ROOT,
+                    timeout: 180000,
+                    maxBuffer: 20 * 1024 * 1024,
+                    env: process.env
+                },
+                async (erro, stdout, stderr) => {
+
+                    // ----------------------------------
+                    // LIMPA UPLOADS TEMPORÁRIOS
+                    // ----------------------------------
+
+                    for (
+                        const arquivo of arquivosCriados
+                    ) {
+                        try {
+                            await fsp.unlink(
+                                arquivo
+                            );
+                        } catch (_) {}
+                    }
+
+                    if (erro) {
+
+                        console.error(
+                            "❌ Erro anúncio multimídia:",
+                            erro.message
+                        );
+
+                        return res.status(500).json({
+                            ok: false,
+                            erro: erro.message,
+                            stdout: stdout || "",
+                            stderr: stderr || ""
+                        });
+                    }
+
+                    console.log(
+                        "✅ Anúncio multimídia criado."
+                    );
+
+                    return res.json({
+                        ok: true,
+                        ferramenta:
+                            "criar_anuncio_multimidia.py",
+                        resultado:
+                            stdout || "",
+                        stderr:
+                            stderr || "",
+                        produto: {
+                            nome:
+                                produto.nome || "",
+                            preco:
+                                produto.preco || ""
+                        },
+                        arquivos: {
+                            imagens:
+                                imagens.length,
+                            video: true
+                        },
+                        html:
+                            "https://nexus-termux.onrender.com/html_gerados/" +
+                            nomeHtml
+                    });
+                }
+            );
+
+        } catch (erro) {
+
+            for (
+                const arquivo of arquivosCriados
+            ) {
+                try {
+                    await fsp.unlink(
+                        arquivo
+                    );
+                } catch (_) {}
+            }
+
+            console.error(
+                "❌ Erro rota anúncio:",
+                erro
+            );
+
+            return res.status(500).json({
+                ok: false,
+                erro: erro.message
+            });
+        }
+    }
+);
 
 
 // ==========================================
