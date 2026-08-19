@@ -241,6 +241,345 @@ Executar
     </div>
 </div>
 
+
+<!-- =========================================================
+     CRIADOR DE ANÚNCIO MULTIMÍDIA
+     ========================================================= -->
+
+<div id="painelAnuncioMultimidia"
+     style="
+        margin:20px 0;
+        padding:18px;
+        border:1px solid #00aa66;
+        border-radius:10px;
+        background:#151515;
+     ">
+
+    <h3 style="color:#00ff99;">
+        🎨 Criar Anúncio Multimídia
+    </h3>
+
+    <input
+        id="anuncioNome"
+        type="text"
+        placeholder="Nome do produto"
+    >
+
+    <input
+        id="anuncioPreco"
+        type="text"
+        placeholder="Preço"
+    >
+
+    <textarea
+        id="anuncioDescricao"
+        rows="4"
+        placeholder="Descrição do produto"
+        style="
+            width:100%;
+            padding:12px;
+            margin-bottom:10px;
+            box-sizing:border-box;
+            border-radius:8px;
+            border:1px solid #333;
+            background:#222;
+            color:white;
+        "
+    ></textarea>
+
+    <textarea
+        id="anuncioBeneficios"
+        rows="4"
+        placeholder="Benefícios do produto"
+        style="
+            width:100%;
+            padding:12px;
+            margin-bottom:10px;
+            box-sizing:border-box;
+            border-radius:8px;
+            border:1px solid #333;
+            background:#222;
+            color:white;
+        "
+    ></textarea>
+
+    <input
+        id="anuncioWhatsapp"
+        type="text"
+        placeholder="WhatsApp com DDI (ex.: 5551999999999)"
+    >
+
+    <label style="
+        display:block;
+        margin-top:12px;
+        margin-bottom:6px;
+        color:#00ff99;
+        font-weight:bold;
+    ">
+        🖼️ Imagens do produto
+    </label>
+
+    <input
+        id="anuncioImagens"
+        type="file"
+        accept="image/*"
+        multiple
+        style="
+            width:100%;
+            box-sizing:border-box;
+            padding:10px;
+        "
+    >
+
+    <label style="
+        display:block;
+        margin-top:12px;
+        margin-bottom:6px;
+        color:#00ff99;
+        font-weight:bold;
+    ">
+        🎥 Vídeo do produto
+    </label>
+
+    <input
+        id="anuncioVideo"
+        type="file"
+        accept="video/mp4,video/*"
+        style="
+            width:100%;
+            box-sizing:border-box;
+            padding:10px;
+        "
+    >
+
+    <button
+        id="btnGerarAnuncio"
+        onclick="gerarAnuncioMultimidia()"
+        style="
+            width:100%;
+            margin-top:15px;
+            background:#00aa66;
+            border:1px solid #00ff99;
+            font-weight:bold;
+        "
+    >
+        🚀 GERAR ANÚNCIO COMPLETO
+    </button>
+
+    <div
+        id="resultadoAnuncioMultimidia"
+        style="
+            margin-top:15px;
+            padding:12px;
+            white-space:pre-wrap;
+            font-family:monospace;
+            color:#00ff99;
+            background:#0b0b0b;
+            border-radius:8px;
+            display:none;
+        "
+    ></div>
+
+</div>
+
+<script>
+
+async function gerarAnuncioMultimidia() {
+
+    const resultado =
+        document.getElementById(
+            "resultadoAnuncioMultimidia"
+        );
+
+    const botao =
+        document.getElementById(
+            "btnGerarAnuncio"
+        );
+
+    const nome =
+        document.getElementById(
+            "anuncioNome"
+        ).value.trim();
+
+    const preco =
+        document.getElementById(
+            "anuncioPreco"
+        ).value.trim();
+
+    const descricao =
+        document.getElementById(
+            "anuncioDescricao"
+        ).value.trim();
+
+    const beneficios =
+        document.getElementById(
+            "anuncioBeneficios"
+        ).value.trim();
+
+    const whatsapp =
+        document.getElementById(
+            "anuncioWhatsapp"
+        ).value.trim();
+
+    const imagens =
+        document.getElementById(
+            "anuncioImagens"
+        ).files;
+
+    const video =
+        document.getElementById(
+            "anuncioVideo"
+        ).files[0];
+
+    if (!nome) {
+        alert("Informe o nome do produto.");
+        return;
+    }
+
+    if (!video) {
+        alert("Selecione um vídeo.");
+        return;
+    }
+
+    const dados = {
+        nome,
+        preco,
+        descricao,
+        beneficios,
+        whatsapp,
+        imagens: [],
+        video: ""
+    };
+
+    const formData = new FormData();
+
+    formData.append(
+        "dados",
+        JSON.stringify(dados)
+    );
+
+    formData.append(
+        "video",
+        video
+    );
+
+    for (const imagem of imagens) {
+
+        formData.append(
+            "imagens",
+            imagem
+        );
+
+    }
+
+    botao.disabled = true;
+    botao.textContent =
+        "⏳ ENVIANDO E GERANDO...";
+
+    resultado.style.display = "block";
+
+    resultado.textContent =
+        "⏳ Enviando produto, imagens e vídeo...\\n" +
+        "☁️ Upload para Cloudinary...\\n" +
+        "🤖 Gerando anúncio com Gemini...";
+
+    try {
+
+        const resposta =
+            await fetch(
+                "/api/anuncio-multimidia",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+        const dadosResposta =
+            await resposta.json();
+
+        if (!resposta.ok ||
+            !dadosResposta.ok) {
+
+            throw new Error(
+                dadosResposta.erro ||
+                "Erro ao gerar anúncio."
+            );
+
+        }
+
+        resultado.innerHTML = "";
+
+        const texto =
+            document.createElement(
+                "div"
+            );
+
+        texto.textContent =
+            "✅ ANÚNCIO CRIADO COM SUCESSO!\\n\\n" +
+            (
+                dadosResposta.resultado ||
+                JSON.stringify(
+                    dadosResposta,
+                    null,
+                    2
+                )
+            );
+
+        resultado.appendChild(texto);
+
+        if (dadosResposta.url) {
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+            link.href =
+                dadosResposta.url;
+
+            link.target =
+                "_blank";
+
+            link.rel =
+                "noopener noreferrer";
+
+            link.textContent =
+                "🌐 ABRIR ANÚNCIO";
+
+            link.style.display =
+                "inline-block";
+
+            link.style.marginTop =
+                "12px";
+
+            link.style.color =
+                "#00ff99";
+
+            resultado.appendChild(
+                link
+            );
+
+        }
+
+    } catch (erro) {
+
+        resultado.textContent =
+            "❌ ERRO AO GERAR ANÚNCIO\\n\\n" +
+            erro.message;
+
+    } finally {
+
+        botao.disabled = false;
+
+        botao.textContent =
+            "🚀 GERAR ANÚNCIO COMPLETO";
+
+    }
+}
+
+</script>
+
+
 <h3>Resposta:</h3>
 
 <div id="resposta" class="resposta"
