@@ -2393,6 +2393,59 @@ app.post("/api/chat", async (req, res) => {
     const { texto, voz } = req.body;
     const brain = await syncBrain();
 
+    // NEXUS DIRECT SKILL ROUTER
+    // Prioriza frases explicitamente registradas em skills.json
+    // antes do processamento inteligente/IA.
+    let intentSkillDireta = null;
+
+    try {
+        const catalogoSkillsDireto = require("./skills.json");
+        const skillsDiretas = catalogoSkillsDireto.skills || {};
+
+        const entradaSkillDireta = texto
+            .toLowerCase()
+            .replace(/nexus[,\\s:]*/g, "")
+            .trim();
+
+        for (const nomeSkill of Object.keys(skillsDiretas)) {
+            const skill = skillsDiretas[nomeSkill];
+
+            if (!skill || !Array.isArray(skill.frases)) {
+                continue;
+            }
+
+            const encontrouFrase = skill.frases.some(frase => {
+                const f = String(frase).toLowerCase().trim();
+                return f && entradaSkillDireta === f;
+            });
+
+            if (encontrouFrase) {
+                intentSkillDireta = {
+                    acao: nomeSkill,
+                    params: "",
+                    executor: skill.executor || "python",
+                    autoBuild: false,
+                    msg: "Executando skill registrada diretamente."
+                };
+
+                console.log(
+                    "🎯 SKILL DIRETA:",
+                    entradaSkillDireta,
+                    "=>",
+                    nomeSkill
+                );
+
+                break;
+            }
+        }
+
+    } catch (e) {
+        console.log(
+            "Erro no roteador direto de skills:",
+            e.message
+        );
+    }
+
     // NEXUS INTENT MEMORY ROUTER
     let intentMemoria = null;
 
@@ -2484,6 +2537,7 @@ app.post("/api/chat", async (req, res) => {
 
     } else {
         intent =
+            intentSkillDireta ||
             intentMemoria ||
             await processarIntencao(texto);
     }
