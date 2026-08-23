@@ -1115,6 +1115,208 @@ function detectarGerarCodigo(prompt) {
     };
 }
 
+
+// ============================================================
+// GATILHOS DE GERAÇÃO DE NOVAS FERRAMENTAS
+// ============================================================
+
+function detectarGerarFerramenta(prompt) {
+    const texto = (prompt || "")
+        .toLowerCase()
+        .replace(/^nexus[,:]?\s*/i, "")
+        .trim();
+
+    const gatilhos = [
+        "criar uma ferramenta",
+        "crie uma ferramenta",
+        "criar nova ferramenta",
+        "crie uma nova ferramenta",
+        "gerar uma ferramenta",
+        "gere uma ferramenta",
+        "gerar nova ferramenta",
+        "gere uma nova ferramenta",
+        "desenvolver uma ferramenta",
+        "desenvolva uma ferramenta",
+        "programar uma ferramenta",
+        "programe uma ferramenta",
+        "implementar uma ferramenta",
+        "implemente uma ferramenta",
+        "construir uma ferramenta",
+        "construa uma ferramenta",
+        "fazer uma ferramenta",
+        "faça uma ferramenta",
+        "criar um utilitário",
+        "crie um utilitário",
+        "gerar um utilitário",
+        "gere um utilitário",
+        "criar um script",
+        "crie um script",
+        "gerar um script",
+        "gere um script",
+        "criar automação",
+        "crie uma automação",
+        "gerar automação",
+        "gere uma automação",
+        "criar executor",
+        "crie um executor",
+        "gerar executor",
+        "gere um executor",
+        "criar comando personalizado",
+        "crie um comando personalizado",
+        "gerar comando personalizado",
+        "gere um comando personalizado",
+        "criar skill",
+        "crie uma skill",
+        "criar uma nova skill",
+        "gerar skill",
+        "gere uma skill",
+        "criar recurso",
+        "crie um novo recurso",
+        "adicionar ferramenta",
+        "adicione uma ferramenta",
+        "adicionar nova ferramenta",
+        "adicione uma nova ferramenta",
+        "criar ferramenta automaticamente",
+        "crie a ferramenta automaticamente",
+        "gere automaticamente uma ferramenta",
+        "criar nova capacidade",
+        "desenvolver nova capacidade",
+        "adicionar nova capacidade"
+    ];
+
+    const encontrado = gatilhos.find(gatilho =>
+        texto.includes(gatilho)
+    );
+
+    if (!encontrado) {
+        return null;
+    }
+
+    return {
+        acao: "gerar_ferramenta",
+        params: texto,
+        autoBuild: true,
+        msg: "Gerando nova ferramenta automaticamente."
+    };
+}
+
+
+// ============================================================
+// GATILHOS DE EXECUÇÃO DE FERRAMENTAS
+// ============================================================
+
+function detectarExecutarFerramenta(prompt) {
+    const texto = (prompt || "")
+        .toLowerCase()
+        .replace(/^nexus[,:]?\s*/i, "")
+        .trim();
+
+    const gatilhos = [
+        "executar a ferramenta",
+        "execute a ferramenta",
+        "executar ferramenta",
+        "execute ferramenta",
+        "rodar a ferramenta",
+        "rode a ferramenta",
+        "usar a ferramenta",
+        "use a ferramenta",
+        "chamar a ferramenta",
+        "chame a ferramenta",
+        "acionar a ferramenta",
+        "acione a ferramenta",
+        "ativar a ferramenta",
+        "ative a ferramenta",
+        "executar o utilitário",
+        "execute o utilitário",
+        "rodar o utilitário",
+        "rode o utilitário",
+        "executar o script",
+        "execute o script",
+        "rodar o script",
+        "rode o script",
+        "executar a skill",
+        "execute a skill",
+        "usar a skill",
+        "use a skill",
+        "executar o executor",
+        "execute o executor",
+        "acionar o executor",
+        "acione o executor",
+        "testar a ferramenta",
+        "teste a ferramenta",
+        "testar ferramenta",
+        "teste ferramenta",
+        "executar a nova ferramenta",
+        "execute a nova ferramenta",
+        "rodar a nova ferramenta",
+        "rode a nova ferramenta"
+    ];
+
+    const encontrado = gatilhos.find(gatilho =>
+        texto.includes(gatilho)
+    );
+
+    if (!encontrado) {
+        return null;
+    }
+
+    return {
+        acao: "executar_ferramenta",
+        params: texto,
+        msg: "Executando ferramenta solicitada."
+    };
+}
+
+
+// ============================================================
+// GATILHOS COMBINADOS: GERAR E EXECUTAR
+// ============================================================
+
+function detectarGerarEExecutarFerramenta(prompt) {
+    const texto = (prompt || "")
+        .toLowerCase()
+        .replace(/^nexus[,:]?\s*/i, "")
+        .trim();
+
+    const gatilhos = [
+        "criar e executar uma ferramenta",
+        "crie e execute uma ferramenta",
+        "gerar e executar uma ferramenta",
+        "gere e execute uma ferramenta",
+        "criar e rodar uma ferramenta",
+        "crie e rode uma ferramenta",
+        "gerar e rodar uma ferramenta",
+        "gere e rode uma ferramenta",
+        "criar ferramenta para",
+        "crie uma ferramenta para",
+        "gerar ferramenta para",
+        "gere uma ferramenta para",
+        "criar um script para",
+        "crie um script para",
+        "gerar um script para",
+        "gere um script para",
+        "criar automação para",
+        "crie uma automação para",
+        "gerar automação para",
+        "gere uma automação para"
+    ];
+
+    const encontrado = gatilhos.find(gatilho =>
+        texto.includes(gatilho)
+    );
+
+    if (!encontrado) {
+        return null;
+    }
+
+    return {
+        acao: "gerar_e_executar_ferramenta",
+        params: texto,
+        autoBuild: true,
+        msg: "Gerando e executando nova ferramenta."
+    };
+}
+
 async function processarIntencao(promptUsuario) {
 
     let contextoRAG = "";
@@ -2530,9 +2732,47 @@ app.post("/api/chat", async (req, res) => {
     const textoExecutarScript = textoNormalizado
         .match(/^executar[_\s]+script\s+(.+)$/i);
 
-    const intentGerarCodigo = detectarGerarCodigo(texto);
+    // ============================================================
+    // ROTEADOR DE NOVOS GATILHOS DE FERRAMENTAS
+    // Prioridade: gerar+executar > gerar > executar > gerador HTML
+    // ============================================================
+    const intentGerarEExecutarFerramenta =
+        detectarGerarEExecutarFerramenta(texto);
 
-    if (intentGerarCodigo) {
+    const intentGerarFerramenta =
+        detectarGerarFerramenta(texto);
+
+    const intentExecutarFerramenta =
+        detectarExecutarFerramenta(texto);
+
+    const intentGerarCodigo =
+        detectarGerarCodigo(texto);
+
+    if (intentGerarEExecutarFerramenta) {
+        intent = intentGerarEExecutarFerramenta;
+
+        console.log(
+            "🚀🔧 GATILHO GERAR + EXECUTAR:",
+            intent.params
+        );
+
+    } else if (intentGerarFerramenta) {
+        intent = intentGerarFerramenta;
+
+        console.log(
+            "🛠️ GATILHO GERAR FERRAMENTA:",
+            intent.params
+        );
+
+    } else if (intentExecutarFerramenta) {
+        intent = intentExecutarFerramenta;
+
+        console.log(
+            "▶️ GATILHO EXECUTAR FERRAMENTA:",
+            intent.params
+        );
+
+    } else if (intentGerarCodigo) {
         intent = intentGerarCodigo;
 
         console.log(
@@ -2829,6 +3069,126 @@ switch (intent.acao) {
         }
 
         break;
+
+
+
+
+
+
+
+
+    case "executar_ferramenta":
+
+
+
+
+
+
+
+
+        /*
+
+
+
+
+
+
+
+
+         * GATILHO DE EXECUÇÃO DE FERRAMENTA
+
+
+
+
+
+
+
+
+         * Reaproveita o executor oficial de executar_script.
+
+
+
+
+
+
+
+
+         */
+
+
+
+
+
+
+
+
+        intent.acao = "executar_script";
+
+
+
+
+
+
+
+
+        intent.params = (intent.params || "").trim();
+
+
+
+
+
+
+
+
+
+        if (!intent.params) {
+
+
+
+
+
+
+
+
+            respostaFinal =
+
+
+
+
+
+
+
+
+                "Informe o nome da ferramenta que deseja executar.";
+
+
+
+
+
+
+
+
+            break;
+
+
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+        // FALLTHROUGH INTENCIONAL
+
 
 
 
@@ -3313,18 +3673,10 @@ default:
                     execResult = resultado;
 
 
-respostaFinal =
-    resultado.stdout ||
-    resultado.stderr ||
-    resultado.erro ||
-    "Comando executado.";
 
-break;
-
-if (
-
-                        resultado.executor === "termux-battery-status"
-                    ) {
+                      if (
+                          resultado.executor === "termux-battery-status"
+                      ) {
 
                         const bat = JSON.parse(resultado.stdout);
 
