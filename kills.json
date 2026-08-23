@@ -1,0 +1,32 @@
+[1mdiff --git a/skills.json b/skills.json[m
+[1mindex 2ec84d9..617e19a 100644[m
+[1m--- a/skills.json[m
+[1m+++ b/skills.json[m
+[36m@@ -462,7 +462,6 @@[m
+         "status"[m
+       ][m
+     },[m
+[31m-[m
+     "suggestion_analyzer": {[m
+       "executor": "python",[m
+       "script": "nexus_tools/suggestion_analyzer.py",[m
+[36m@@ -992,6 +991,17 @@[m
+       "frases": [[m
+         "explique o Nexus SREe"[m
+       ][m
+[32m+[m[32m    },[m
+[32m+[m[32m    "listar_comandos_funcionando": {[m
+[32m+[m[32m      "executor": "python",[m
+[32m+[m[32m      "script": "nexus_tools/listar_comandos_funcionando.py",[m
+[32m+[m[32m      "descricao": "Lista os comandos confirmados como funcionando no Firebase Realtime Database",[m
+[32m+[m[32m      "frases": [[m
+[32m+[m[32m        "listar comandos funcionando",[m
+[32m+[m[32m        "mostrar comandos funcionando",[m
+[32m+[m[32m        "lista de comandos confirmados",[m
+[32m+[m[32m        "comandos que funcionam"[m
+[32m+[m[32m      ][m
+     }[m
+   }[m
+[31m-}[m
+\ No newline at end of file[m
+[32m+[m[32m}[m

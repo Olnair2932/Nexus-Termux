@@ -1,0 +1,31 @@
+{
+  "descricao": "Comandos Nexus comprovadamente funcionais",
+  "ambiente": "Render",
+  "comandos": [
+    {
+      "comando": "executar_script ver_hora",
+      "resultado": "Hora Nexus OK",
+      "status": "funcionando"
+    },
+    {
+      "comando": "Nexus executar_script ver_hora",
+      "resultado": "Retorna a hora do sistema",
+      "status": "funcionando"
+    },
+    {
+      "comando": "Nexus executar_script status_sistema",
+      "resultado": "Retorna informações do sistema Render",
+      "status": "funcionando"
+    },
+    {
+      "comando": "Nexus listar ferramentas",
+      "resultado": "Lista as ferramentas cadastradas",
+      "status": "funcionando"
+    },
+    {
+      "comando": "listar_arquivos nexus_tools",
+      "resultado": "Lista os arquivos de nexus_tools",
+      "status": "funcionando"
+    }
+  ]
+}

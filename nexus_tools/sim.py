@@ -1,1 +1,0 @@
-print('Ferramenta sim criada automaticamente pelo Nexus')

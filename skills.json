@@ -188,14 +188,6 @@
         "auto learning"
       ]
     },
-    "backup_checker": {
-      "executor": "python",
-      "script": "nexus_tools/backup_checker.py",
-      "descricao": "Gerado automaticamente",
-      "frases": [
-        "backup checker"
-      ]
-    },
     "bash_executor": {
       "executor": "python",
       "script": "nexus_tools/bash_executor.py",
@@ -210,30 +202,6 @@
       "descricao": "Gerado automaticamente",
       "frases": [
         "brain agent"
-      ]
-    },
-    "command_router.backup_v32.2": {
-      "executor": "python",
-      "script": "nexus_tools/command_router.backup_v32.2.py",
-      "descricao": "Gerado automaticamente",
-      "frases": [
-        "command router.backup v32.2"
-      ]
-    },
-    "command_router.before_cli_args_v32.2": {
-      "executor": "python",
-      "script": "nexus_tools/command_router.before_cli_args_v32.2.py",
-      "descricao": "Gerado automaticamente",
-      "frases": [
-        "command router.before cli args v32.2"
-      ]
-    },
-    "command_router.before_integration_v32.2": {
-      "executor": "python",
-      "script": "nexus_tools/command_router.before_integration_v32.2.py",
-      "descricao": "Gerado automaticamente",
-      "frases": [
-        "command router.before integration v32.2"
       ]
     },
     "command_router": {
@@ -426,14 +394,6 @@
       "descricao": "Gerado automaticamente",
       "frases": [
         "repair executor"
-      ]
-    },
-    "rollback": {
-      "executor": "python",
-      "script": "nexus_tools/rollback.py",
-      "descricao": "Gerado automaticamente",
-      "frases": [
-        "rollback"
       ]
     },
     "self_improve": {
@@ -848,14 +808,6 @@
         "aprender com auto-conhecimento generativo a otimizar sistema"
       ]
     },
-    "aprender_com_auto_conhecimento_generativo_backup": {
-      "executor": "python",
-      "script": "nexus_tools/aprender_com_auto_conhecimento_generativo_backup.py",
-      "descricao": "Ferramenta criada automaticamente pelo Nexus",
-      "frases": [
-        "aprender com auto-conhecimento generativo backup"
-      ]
-    },
     "aprender_com_auto_conhecimento_generativo_ingl_s": {
       "executor": "python",
       "script": "nexus_tools/aprender_com_auto_conhecimento_generativo_ingl_s.py",
@@ -894,14 +846,6 @@
       "descricao": "Ferramenta criada automaticamente pelo Nexus",
       "frases": [
         "aprender  interpretar linguagem natural 'ollama'"
-      ]
-    },
-    "sim": {
-      "executor": "python",
-      "script": "nexus_tools/sim.py",
-      "descricao": "Ferramenta criada automaticamente pelo Nexus",
-      "frases": [
-        "sim"
       ]
     },
     "aprender_instalar_pacotes": {
@@ -1058,6 +1002,391 @@
         "montar anúncio com imagem e vídeo",
         "montar anúncio multimídia"
       ]
+    },
+    "aprender_novo_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/aprender_novo_conhecimento.py",
+      "descricao": "Aprende e registra novo conhecimento no Nexus",
+      "frases": [
+        "aprender novo conhecimento",
+        "aprenda isso",
+        "ensine o nexus",
+        "adicionar conhecimento",
+        "aprender conhecimento"
+      ]
+    },
+    "atualizar_memoria": {
+      "executor": "python",
+      "script": "nexus_tools/atualizar_memoria.py",
+      "descricao": "Atualiza a memória do Nexus",
+      "frases": [
+        "atualizar memória",
+        "atualize a memória",
+        "sincronizar memória",
+        "atualizar memoria"
+      ]
+    },
+    "auto_skill_generator": {
+      "executor": "python",
+      "script": "nexus_tools/auto_skill_generator.py",
+      "descricao": "Gera novas skills automaticamente",
+      "frases": [
+        "gerar skill",
+        "criar skill automaticamente",
+        "gerar ferramenta",
+        "criar ferramenta automaticamente"
+      ]
+    },
+    "consolidar_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/consolidar_conhecimento.py",
+      "descricao": "Consolida conhecimentos armazenados pelo Nexus",
+      "frases": [
+        "consolidar conhecimento",
+        "consolidar conhecimentos",
+        "organizar conhecimento"
+      ]
+    },
+    "criar_indice_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/criar_indice_conhecimento.py",
+      "descricao": "Cria ou atualiza o índice de conhecimento",
+      "frases": [
+        "criar índice de conhecimento",
+        "atualizar índice de conhecimento",
+        "indexar conhecimento"
+      ]
+    },
+    "cwd_manager": {
+      "executor": "python",
+      "script": "nexus_tools/cwd_manager.py",
+      "descricao": "Gerencia o diretório de trabalho atual do Nexus",
+      "frases": [
+        "gerenciar diretório",
+        "mudar diretório",
+        "diretório atual",
+        "pasta atual"
+      ]
+    },
+    "detectar_ambiente": {
+      "executor": "python",
+      "script": "nexus_tools/detectar_ambiente.py",
+      "descricao": "Detecta o ambiente e as capacidades disponíveis",
+      "frases": [
+        "detectar ambiente",
+        "ver ambiente",
+        "analisar ambiente",
+        "qual ambiente estou"
+      ]
+    },
+    "error_to_suggestion": {
+      "executor": "python",
+      "script": "nexus_tools/error_to_suggestion.py",
+      "descricao": "Transforma erros de execução em sugestões de correção",
+      "frases": [
+        "analisar erro",
+        "explicar erro",
+        "corrigir erro",
+        "transformar erro em sugestão"
+      ]
+    },
+    "evolution_loader": {
+      "executor": "python",
+      "script": "nexus_tools/evolution_loader.py",
+      "descricao": "Carrega informações do sistema de evolução do Nexus",
+      "frases": [
+        "carregar evolução",
+        "carregar evolução do nexus",
+        "ver evolução"
+      ]
+    },
+    "excluir_html": {
+      "executor": "python",
+      "script": "nexus_tools/excluir_html.py",
+      "descricao": "Exclui arquivos HTML gerenciados pelo Nexus",
+      "frases": [
+        "excluir html",
+        "apagar html",
+        "remover html"
+      ]
+    },
+    "firebase_html_list": {
+      "executor": "python",
+      "script": "nexus_tools/firebase_html_list.py",
+      "descricao": "Lista HTMLs armazenados no Firebase",
+      "frases": [
+        "listar html firebase",
+        "listar htmls do firebase",
+        "ver htmls firebase"
+      ]
+    },
+    "firebase_html_viewer": {
+      "executor": "python",
+      "script": "nexus_tools/firebase_html_viewer.py",
+      "descricao": "Visualiza HTML armazenado no Firebase",
+      "frases": [
+        "ver html firebase",
+        "abrir html firebase",
+        "visualizar html do firebase"
+      ]
+    },
+    "improvement_guard": {
+      "executor": "python",
+      "script": "nexus_tools/improvement_guard.py",
+      "descricao": "Protege o sistema durante operações de melhoria",
+      "frases": [
+        "proteger melhoria",
+        "verificar segurança da melhoria",
+        "improvement guard"
+      ]
+    },
+    "improvement_learning": {
+      "executor": "python",
+      "script": "nexus_tools/improvement_learning.py",
+      "descricao": "Registra aprendizado proveniente das melhorias do sistema",
+      "frases": [
+        "aprender com melhorias",
+        "registrar aprendizado da melhoria",
+        "melhoria aprendizado"
+      ]
+    },
+    "improvement_validator": {
+      "executor": "python",
+      "script": "nexus_tools/improvement_validator.py",
+      "descricao": "Valida melhorias antes de aplicá-las",
+      "frases": [
+        "validar melhoria",
+        "verificar melhoria",
+        "testar melhoria"
+      ]
+    },
+    "indexar_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/indexar_conhecimento.py",
+      "descricao": "Indexa arquivos e conteúdos de conhecimento",
+      "frases": [
+        "indexar conhecimento",
+        "indexar arquivos",
+        "criar índice",
+        "reindexar conhecimento"
+      ]
+    },
+    "integrar_ambiente_system_prompt": {
+      "executor": "python",
+      "script": "nexus_tools/integrar_ambiente_system_prompt.py",
+      "descricao": "Integra informações do ambiente ao contexto do sistema",
+      "frases": [
+        "integrar ambiente",
+        "atualizar contexto do ambiente",
+        "integrar ambiente ao prompt"
+      ]
+    },
+    "pesquisar_e_aprender": {
+      "executor": "python",
+      "script": "nexus_tools/pesquisar_e_aprender.py",
+      "descricao": "Pesquisa uma informação e registra o conhecimento aprendido",
+      "frases": [
+        "pesquisar e aprender",
+        "pesquisar e salvar conhecimento",
+        "pesquisar e aprender sobre",
+        "aprenda pesquisando"
+      ]
+    },
+    "pesquisar_fonte_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/pesquisar_fonte_conhecimento.py",
+      "descricao": "Pesquisa fontes para obter conhecimento",
+      "frases": [
+        "pesquisar fonte",
+        "buscar fonte de conhecimento",
+        "encontrar fonte",
+        "pesquisar documentação"
+      ]
+    },
+    "rebuild_skills": {
+      "executor": "python",
+      "script": "nexus_tools/rebuild_skills.py",
+      "descricao": "Reconstrói ou sincroniza o catálogo de skills do Nexus",
+      "frases": [
+        "reconstruir skills",
+        "rebuild skills",
+        "reconstruir ferramentas",
+        "sincronizar skills"
+      ]
+    },
+    "salvar_fonte_web": {
+      "executor": "python",
+      "script": "nexus_tools/salvar_fonte_web.py",
+      "descricao": "Salva uma fonte web para uso no conhecimento do Nexus",
+      "frases": [
+        "salvar fonte web",
+        "salvar fonte",
+        "guardar fonte da web",
+        "registrar fonte web"
+      ]
+    },
+    "tool_discovery": {
+      "executor": "python",
+      "script": "nexus_tools/tool_discovery.py",
+      "descricao": "Descobre ferramentas disponíveis no sistema",
+      "frases": [
+        "descobrir ferramentas",
+        "procurar ferramentas",
+        "detectar ferramentas",
+        "descobrir tools"
+      ]
+    },
+    "abrir_html": {
+      "executor": "python",
+      "script": "nexus_tools/abrir_html.py"
+    },
+    "consertar_if_autobuild": {
+      "executor": "python",
+      "script": "nexus_tools/consertar_if_autobuild.py"
+    },
+    "corrigir_acoes_dinamicas": {
+      "executor": "python",
+      "script": "nexus_tools/corrigir_acoes_dinamicas.py"
+    },
+    "corrigir_executor_dinamico": {
+      "executor": "python",
+      "script": "nexus_tools/corrigir_executor_dinamico.py"
+    },
+    "corrigir_prompt_acoes": {
+      "executor": "python",
+      "script": "nexus_tools/corrigir_prompt_acoes.py"
+    },
+    "criar_anuncio_produto": {
+      "executor": "python",
+      "script": "nexus_tools/criar_anuncio_produto.py"
+    },
+    "criar_anuncio_video": {
+      "executor": "python",
+      "script": "nexus_tools/criar_anuncio_video.py"
+    },
+    "criar_html": {
+      "executor": "python",
+      "script": "nexus_tools/criar_html.py"
+    },
+    "entra_na_pasta___sentinela_dev": {
+      "executor": "python",
+      "script": "nexus_tools/entra_na_pasta___sentinela_dev.py"
+    },
+    "execution_engine": {
+      "executor": "python",
+      "script": "nexus_tools/execution_engine.py"
+    },
+    "file_creator": {
+      "executor": "python",
+      "script": "nexus_tools/file_creator.py"
+    },
+    "listar_htmls": {
+      "executor": "python",
+      "script": "nexus_tools/listar_htmls.py"
+    },
+    "patch_aprendizado_assistido": {
+      "executor": "python",
+      "script": "nexus_tools/patch_aprendizado_assistido.py"
+    },
+    "patch_auto_conhecimento": {
+      "executor": "python",
+      "script": "nexus_tools/patch_auto_conhecimento.py"
+    },
+    "patch_bloquear_auto_tool_rag": {
+      "executor": "python",
+      "script": "nexus_tools/patch_bloquear_auto_tool_rag.py"
+    },
+    "patch_bloqueio_file_creator_rag": {
+      "executor": "python",
+      "script": "nexus_tools/patch_bloqueio_file_creator_rag.py"
+    },
+    "patch_bloqueio_rag_autobuild_final": {
+      "executor": "python",
+      "script": "nexus_tools/patch_bloqueio_rag_autobuild_final.py"
+    },
+    "patch_buscar_arquivo": {
+      "executor": "python",
+      "script": "nexus_tools/patch_buscar_arquivo.py"
+    },
+    "patch_conhecimento_pasta": {
+      "executor": "python",
+      "script": "nexus_tools/patch_conhecimento_pasta.py"
+    },
+    "patch_conhecimento_pasta_v2": {
+      "executor": "python",
+      "script": "nexus_tools/patch_conhecimento_pasta_v2.py"
+    },
+    "patch_conhecimento_pasta_v3": {
+      "executor": "python",
+      "script": "nexus_tools/patch_conhecimento_pasta_v3.py"
+    },
+    "patch_consulta_rag": {
+      "executor": "python",
+      "script": "nexus_tools/patch_consulta_rag.py"
+    },
+    "patch_consulta_rag_v2": {
+      "executor": "python",
+      "script": "nexus_tools/patch_consulta_rag_v2.py"
+    },
+    "patch_dashboard_consolidado_rag": {
+      "executor": "python",
+      "script": "nexus_tools/patch_dashboard_consolidado_rag.py"
+    },
+    "patch_normalizar_consulta_rag": {
+      "executor": "python",
+      "script": "nexus_tools/patch_normalizar_consulta_rag.py"
+    },
+    "patch_rag_antes_executor": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_antes_executor.py"
+    },
+    "patch_rag_autobuild_seguro": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_autobuild_seguro.py"
+    },
+    "patch_rag_completo": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_completo.py"
+    },
+    "patch_rag_completo_v2": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_completo_v2.py"
+    },
+    "patch_rag_consolidado_stop": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_consolidado_stop.py"
+    },
+    "patch_rag_final": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_final.py"
+    },
+    "patch_rag_gemini": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_gemini.py"
+    },
+    "patch_rag_intent_final": {
+      "executor": "python",
+      "script": "nexus_tools/patch_rag_intent_final.py"
+    },
+    "patch_unificar_rag": {
+      "executor": "python",
+      "script": "nexus_tools/patch_unificar_rag.py"
+    },
+    "restaurar_htmls_firebase": {
+      "executor": "python",
+      "script": "nexus_tools/restaurar_htmls_firebase.py"
+    },
+    "sincronizar_htmls_firebase": {
+      "executor": "python",
+      "script": "nexus_tools/sincronizar_htmls_firebase.py"
+    },
+    "universal_executor": {
+      "executor": "python",
+      "script": "nexus_tools/universal_executor.py"
+    },
+    "validation_bridge": {
+      "executor": "python",
+      "script": "nexus_tools/validation_bridge.py"
     }
   },
   "listar_htmls": {

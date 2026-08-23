@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produto Teste | Vendas Nexus</title>
+    <style>
+        :root {
+            --primary: #25d366;
+            --dark: #121212;
+            --light: #f4f4f4;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            padding: 40px 0;
+        }
+        h1 { margin-bottom: 10px; }
+        .price {
+            font-size: 2rem;
+            color: #d32f2f;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .section {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .benefits ul { padding-left: 20px; }
+        .gallery, .video-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        video {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+        .btn-whatsapp {
+            display: block;
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Produto Teste</h1>
+        <div class="price">R$ 99,90</div>
+    </header>
+
+    <div class="section">
+        <h3>Descrição</h3>
+        <p>Produto de teste do Nexus</p>
+    </div>
+
+    <div class="section benefits">
+        <h3>Benefícios</h3>
+        <ul>
+            <li>Qualidade</li>
+            <li>Praticidade</li>
+        </ul>
+    </div>
+
+    <div class="section video-section">
+        <h3>Vídeo do Produto</h3>
+        <video controls width="100%">
+            <source src="https://res.cloudinary.com/dffiuytna/video/upload/v1787115897/nexus/anuncios/videos/mbn51szz5ysyhkb5szpm.mp4" type="video/mp4">
+            Seu navegador não suporta vídeos.
+        </video>
+    </div>
+
+    <div class="section">
+        <h3>Galeria de Imagens</h3>
+        <div class="gallery">
+            <p>Nenhuma imagem adicional fornecida.</p>
+        </div>
+    </div>
+
+    <a href="https://wa.me/5551999999999" class="btn-whatsapp">Comprar pelo WhatsApp</a>
+</div>
+
+</body>
+</html>

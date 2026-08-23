@@ -2,12 +2,12 @@
     "documentos": [
         {
             "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/indice.json",
-            "tamanho": 1733,
+            "tamanho": 1929,
             "nome": "indice.json"
         },
         {
             "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/historico.json",
-            "tamanho": 713,
+            "tamanho": 993,
             "nome": "historico.json"
         },
         {
@@ -46,10 +46,20 @@
             "nome": "ansible.md"
         },
         {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/aprendidos/clima_api-free.js.md",
+            "tamanho": 4267,
+            "nome": "clima_api-free.js.md"
+        },
+        {
             "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/aprendidos/terraform.md",
             "tamanho": 3985,
             "nome": "terraform.md"
+        },
+        {
+            "arquivo": "/data/data/com.termux/files/home/sentinela_dev/conhecimento/aprendidos/consulta_site.md",
+            "tamanho": 3757,
+            "nome": "consulta_site.md"
         }
     ],
-    "total": 10
+    "total": 12
 }

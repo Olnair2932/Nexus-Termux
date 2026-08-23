@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Landing Page</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f4f7f6; color: #333; line-height: 1.6; }
+        header { background: #2c3e50; color: #fff; padding: 2rem; text-align: center; }
+        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        .hero { background: #fff; padding: 3rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        .btn { display: inline-block; background: #3498db; color: #fff; padding: 0.8rem 2rem; text-decoration: none; border-radius: 5px; margin-top: 1rem; transition: background 0.3s; }
+        .btn:hover { background: #2980b9; }
+        section { margin-top: 2rem; padding: 2rem; background: #fff; border-radius: 8px; }
+        footer { text-align: center; padding: 2rem; font-size: 0.9rem; color: #7f8c8d; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Bem-vindo ao Nexus</h1>
+    <p>A solução definitiva para o seu negócio</p>
+</header>
+
+<div class="container">
+    <div class="hero">
+        <h2>Inovação e Performance</h2>
+        <p>Transformamos ideias em realidade digital com código limpo e eficiente.</p>
+        <a href="#contato" class="btn">Saiba Mais</a>
+    </div>
+
+    <section id="sobre">
+        <h3>Sobre Nós</h3>
+        <p>O Nexus é um gerador de soluções inteligentes focado em entregar resultados rápidos e escaláveis para desenvolvedores e empresas.</p>
+    </section>
+
+    <section id="contato">
+        <h3>Entre em Contato</h3>
+        <form id="formContato" onsubmit="enviarForm(event)">
+            <p><input type="text" id="nome" placeholder="Seu Nome" required style="width: 100%; padding: 10px; margin: 10px 0;"></p>
+            <p><input type="email" id="email" placeholder="Seu E-mail" required style="width: 100%; padding: 10px; margin: 10px 0;"></p>
+            <button type="submit" class="btn" style="border: none; cursor: pointer;">Enviar Mensagem</button>
+        </form>
+    </section>
+</div>
+
+<footer>
+    &copy; 2023 Nexus Generator. Todos os direitos reservados.
+</footer>
+
+<script>
+    function enviarForm(e) {
+        e.preventDefault();
+        alert('Obrigado, ' + document.getElementById('nome').value + '! Recebemos sua mensagem.');
+        document.getElementById('formContato').reset();
+    }
+</script>
+
+</body>
+</html>
