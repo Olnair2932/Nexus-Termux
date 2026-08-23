@@ -1387,6 +1387,14 @@
         "validation_bridge": {
             "executor": "python",
             "script": "nexus_tools/validation_bridge.py"
+        },
+        "teste_auto_skill": {
+            "executor": "python",
+            "script": "nexus_tools/teste_auto_skill.py",
+            "descricao": "Gerado automaticamente",
+            "frases": [
+                "teste auto skill"
+            ]
         }
     },
     "listar_htmls": {
