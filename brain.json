@@ -762,7 +762,12 @@
         },
         "melhorias_validadas": [
             "Corrigir erros recorrentes"
-        ]
+        ],
+        "teste caminho render": {
+            "acao": "teste_auto_skill",
+            "acertos": 1,
+            "ultimo_acerto": "2026-08-23T15:26:12.770421"
+        }
     },
     "mapa_intencao_memoria": {
         "listar_ferramentas": {

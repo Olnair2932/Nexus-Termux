@@ -4,7 +4,7 @@ from pathlib import Path
 import json
 from datetime import datetime
 
-BASE = Path.home() / "sentinela_dev"
+BASE = Path(__file__).resolve().parent.parent
 
 MEMORIA = BASE / "brain.json"
 
