@@ -1,29 +1,146 @@
-
 from pathlib import Path
 import sys
 import json
 import subprocess
-
+import ast
+import re
 
 ROOT = Path.home() / "sentinela_dev"
+TOOLS_DIR = ROOT / "nexus_tools"
+SKILLS = ROOT / "skills.json"
+
+# O Nexus pode criar ferramentas novas, mas não pode sobrescrever
+# componentes críticos do próprio núcleo.
+BLOQUEADOS = {
+    "server",
+    "command_router",
+    "file_creator",
+    "auto_skill_generator",
+    "rollback",
+    "backup_checker",
+}
+
+def carregar_skills():
+    if not SKILLS.exists():
+        return {"skills": {}}
+
+    try:
+        return json.loads(
+            SKILLS.read_text(encoding="utf-8")
+        )
+    except Exception:
+        return {"skills": {}}
 
 
-def criar_tool(nome, descricao, frases, codigo_python):
-
-    script = ROOT / "nexus_tools" / f"{nome}.py"
-
-    script.write_text(
-        codigo_python,
+def salvar_skills(dados):
+    SKILLS.write_text(
+        json.dumps(
+            dados,
+            indent=2,
+            ensure_ascii=False
+        ),
         encoding="utf-8"
     )
 
-    skills = ROOT / "skills.json"
 
-    dados = json.loads(
-        skills.read_text(
-            encoding="utf-8"
-        )
+def normalizar_nome_tool(nome):
+    nome = str(nome).lower().strip()
+
+    nome = re.sub(
+        r"[^a-z0-9_]+",
+        "_",
+        nome
     )
+
+    nome = re.sub(
+        r"_+",
+        "_",
+        nome
+    ).strip("_")
+
+    if not nome:
+        nome = "nova_ferramenta"
+
+    if nome[0].isdigit():
+        nome = "tool_" + nome
+
+    if nome in BLOQUEADOS:
+        nome = "tool_" + nome
+
+    return nome[:80]
+
+
+def validar_codigo(codigo):
+    """
+    Validação estrutural antes de registrar a ferramenta.
+    """
+
+    try:
+        arvore = ast.parse(codigo)
+    except SyntaxError as e:
+        return False, f"Erro de sintaxe: {e}"
+
+    proibidos = {
+        "os.system",
+        "subprocess.Popen",
+        "subprocess.call",
+        "eval",
+        "exec",
+        "compile",
+    }
+
+    encontrados = []
+
+    for node in ast.walk(arvore):
+
+        if isinstance(node, ast.Call):
+
+            if isinstance(node.func, ast.Name):
+                if node.func.id in {
+                    "eval",
+                    "exec",
+                    "compile",
+                }:
+                    encontrados.append(node.func.id)
+
+            if isinstance(node.func, ast.Attribute):
+
+                nome = f"{getattr(node.func.value, 'id', '')}.{node.func.attr}"
+
+                if nome in proibidos:
+                    encontrados.append(nome)
+
+    if encontrados:
+        return (
+            False,
+            "Operações proibidas encontradas: "
+            + ", ".join(encontrados)
+        )
+
+    return True, "Código estruturalmente válido."
+
+
+def testar_codigo(script):
+    teste = subprocess.run(
+        [
+            "python3",
+            "-m",
+            "py_compile",
+            str(script)
+        ],
+        cwd=str(ROOT),
+        capture_output=True,
+        text=True
+    )
+
+    if teste.returncode != 0:
+        return False, teste.stderr.strip()
+
+    return True, "py_compile aprovado."
+
+
+def registrar_skill(nome, descricao, frases):
+    dados = carregar_skills()
 
     dados.setdefault(
         "skills",
@@ -37,60 +154,114 @@ def criar_tool(nome, descricao, frases, codigo_python):
         "frases": frases
     }
 
-    skills.write_text(
-        json.dumps(
-            dados,
-            indent=2,
-            ensure_ascii=False
-        ),
+    salvar_skills(dados)
+
+
+def criar_tool(
+    nome,
+    descricao,
+    frases,
+    codigo_python
+):
+
+    nome = normalizar_nome_tool(nome)
+
+    if nome in BLOQUEADOS:
+        print(
+            f"❌ Ferramenta protegida: {nome}"
+        )
+        return False
+
+    TOOLS_DIR.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    script = TOOLS_DIR / f"{nome}.py"
+
+    if script.exists():
+        print(
+            f"⚠️ Ferramenta já existe: {nome}"
+        )
+        return False
+
+    # Primeira validação.
+    valido, mensagem = validar_codigo(
+        codigo_python
+    )
+
+    if not valido:
+        print(
+            "❌ Ferramenta rejeitada:",
+            mensagem
+        )
+        return False
+
+    # Escreve somente depois da validação.
+    script.write_text(
+        codigo_python,
         encoding="utf-8"
     )
 
-
-    teste = subprocess.run(
-        [
-            "python3",
-            "-m",
-            "py_compile",
-            str(script)
-        ],
-        capture_output=True,
-        text=True
+    # Segunda validação: compilação real.
+    sucesso, resultado = testar_codigo(
+        script
     )
 
+    if not sucesso:
 
-    if teste.returncode != 0:
-        print("❌ Erro no código da ferramenta:")
-        print(teste.stderr)
-        return
+        try:
+            script.unlink()
+        except Exception:
+            pass
 
-
-    print("✅ Tool criada:", nome)
-    print("✅ Skill registrada:", nome)
-
-    # Teste de autoativação humana
-    try:
-        teste = frases[0]
-
-        resultado = subprocess.run(
-            [
-                "python3",
-                "nexus_tools/memory_lookup.py",
-                teste
-            ],
-            cwd=str(ROOT),
-            capture_output=True,
-            text=True
+        print(
+            "❌ Ferramenta removida após falha:",
+            resultado
         )
 
-        if nome in resultado.stdout:
-            print("✅ Autoativação confirmada:", teste)
-        else:
-            print("⚠️ Skill criada, mas frase ainda não ativou:", teste)
+        return False
 
-    except Exception as e:
-        print("⚠️ Falha no teste de ativação:", e)
+    registrar_skill(
+        nome,
+        descricao,
+        frases
+    )
 
+    print(
+        "========================================"
+    )
+    print(
+        "✅ NEXUS TOOL ARCHITECT"
+    )
+    print(
+        "========================================"
+    )
+    print(
+        "Ferramenta:",
+        nome
+    )
+    print(
+        "Descrição:",
+        descricao
+    )
+    print(
+        "Script:",
+        script
+    )
+    print(
+        "Validação:",
+        resultado
+    )
+    print(
+        "Skill registrada:",
+        nome
+    )
+    print(
+        "========================================"
+    )
+
+    return True
 
 
 def criar_arquivo(nome):
@@ -108,28 +279,33 @@ def criar_arquivo(nome):
     )
 
 
-
-if __name__ == "__main__":
+def main():
 
     args = sys.argv[1:]
 
-
     if not args:
-        print("Uso: file_creator.py <modo>")
-        raise SystemExit
-
+        print(
+            "Uso:"
+        )
+        print(
+            "  file_creator.py criar_tool "
+            "nome descricao frases codigo"
+        )
+        print(
+            "  file_creator.py arquivo nome"
+        )
+        return
 
     modo = args[0]
-
 
     if modo == "criar_tool":
 
         if len(args) < 5:
             print(
-                "Uso: criar_tool nome descricao frases codigo"
+                "Uso: criar_tool "
+                "nome descricao frases codigo"
             )
-            raise SystemExit
-
+            raise SystemExit(1)
 
         nome = args[1]
         descricao = args[2]
@@ -142,20 +318,25 @@ if __name__ == "__main__":
 
         codigo = args[4]
 
-
-        criar_tool(
+        sucesso = criar_tool(
             nome,
             descricao,
             frases,
             codigo
         )
 
+        if not sucesso:
+            raise SystemExit(1)
 
     elif modo == "arquivo":
 
-        nome = args[1] if len(args) > 1 else "usuario.txt"
-        criar_arquivo(nome)
+        nome = (
+            args[1]
+            if len(args) > 1
+            else "usuario.txt"
+        )
 
+        criar_arquivo(nome)
 
     else:
 
@@ -165,33 +346,5 @@ if __name__ == "__main__":
         )
 
 
-def normalizar_nome_tool(frase):
-
-    frase = frase.lower()
-
-    removidas = [
-        "mostrar",
-        "mostra",
-        "ver",
-        "me diga",
-        "quero saber",
-        "qual",
-        "quais",
-        "nexus",
-        "por favor"
-    ]
-
-    for palavra in removidas:
-        frase = frase.replace(palavra, "")
-
-    frase = "_".join(
-        frase.strip().split()
-    )
-
-    if not frase.startswith(
-        ("ver_", "listar_", "criar_")
-    ):
-        frase = "ver_" + frase
-
-    return frase
-
+if __name__ == "__main__":
+    main()
