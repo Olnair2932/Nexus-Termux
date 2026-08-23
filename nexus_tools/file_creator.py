@@ -1,5 +1,14 @@
 from pathlib import Path
 import sys
+from pathlib import Path as _Path
+
+ROOT_IMPORT = _Path(__file__).resolve().parent.parent
+
+if str(ROOT_IMPORT) not in sys.path:
+    sys.path.insert(0, str(ROOT_IMPORT))
+
+from nexus_tools.firebase_storage import salvar_arquivo
+import sys
 import json
 import subprocess
 import ast
@@ -265,19 +274,42 @@ def criar_tool(
 
 
 def criar_arquivo(nome):
-
     arquivo = ROOT / nome
 
+    conteudo = "Arquivo criado pelo Nexus.\n"
+
+    arquivo.parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
     arquivo.write_text(
-        "Arquivo criado pelo Nexus.\n",
+        conteudo,
         encoding="utf-8"
     )
 
-    print(
-        "Arquivo criado:",
-        arquivo
-    )
+    try:
+        salvar_arquivo(
+            nome,
+            conteudo
+        )
 
+        print(
+            "Arquivo criado:",
+            arquivo
+        )
+
+        print(
+            "☁️ Arquivo persistido no Firebase:",
+            nome
+        )
+
+    except Exception as erro:
+        print(
+            "⚠️ Arquivo criado localmente, "
+            "mas não foi possível salvar no Firebase:",
+            erro
+        )
 
 def main():
 
