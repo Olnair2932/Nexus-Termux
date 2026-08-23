@@ -5,7 +5,7 @@ import subprocess
 import ast
 import re
 
-ROOT = Path.home() / "sentinela_dev"
+ROOT = Path(__file__).resolve().parent.parent
 TOOLS_DIR = ROOT / "nexus_tools"
 SKILLS = ROOT / "skills.json"
 
