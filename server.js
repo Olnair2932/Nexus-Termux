@@ -3499,7 +3499,15 @@ switch (intent.acao) {
                 }
 
                 const argumentosPython = argumentosFerramenta
-                    ? [argumentosFerramenta]
+                    ? argumentosFerramenta.match(/"[^"]*"|'[^']*'|\S+/g)?.map(arg => {
+                        if (
+                            (arg.startsWith('"') && arg.endsWith('"')) ||
+                            (arg.startsWith("'") && arg.endsWith("'"))
+                        ) {
+                            return arg.slice(1, -1);
+                        }
+                        return arg;
+                    }) || []
                     : [];
 
                 console.log(
