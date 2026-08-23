@@ -2,10 +2,18 @@
 import json
 from pathlib import Path
 
-BASE = Path.home() / "sentinela_dev"
+BASE = Path(__file__).resolve().parent.parent
 
 SKILLS = BASE / "skills.json"
 TOOLS = BASE / "tools_catalog.json"
+
+BLOQUEADOS = {
+    "backup_checker",
+    "command_router.backup_v32.2",
+    "command_router.before_cli_args_v32.2",
+    "command_router.before_integration_v32.2",
+    "rollback",
+}
 
 
 def carregar_json(arquivo):
@@ -42,6 +50,10 @@ def gerar():
     for nome, info in catalogo.items():
 
         chave = Path(nome).stem
+
+        if chave in BLOQUEADOS:
+            print("Ignorando ferramenta bloqueada:", chave)
+            continue
 
         if chave in skills["skills"]:
             continue
