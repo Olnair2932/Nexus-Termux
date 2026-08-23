@@ -3283,6 +3283,24 @@ switch (intent.acao) {
             const skill = skills[tool];
 
             // ============================================================
+            // NORMALIZAÇÃO: criar_arquivo
+            // file_creator.py espera: arquivo <nome>
+            // O usuário envia: criar_arquivo <nome>
+            // ============================================================
+            if (tool === "criar_arquivo") {
+                const nomeArquivo = (argumentosFerramenta || "").trim();
+
+                if (!nomeArquivo) {
+                    respostaFinal =
+                        "Uso: criar_arquivo <nome>";
+                    break;
+                }
+
+                argumentosFerramenta =
+                    "arquivo " + nomeArquivo;
+            }
+
+            // ============================================================
             // EDITOR HTML COM ORIGEM NO FIREBASE
             // ============================================================
             if (tool === "editar_html") {
