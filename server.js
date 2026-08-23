@@ -1252,17 +1252,31 @@ function detectarExecutarFerramenta(prompt) {
         "rode a nova ferramenta"
     ];
 
-    const encontrado = gatilhos.find(gatilho =>
-        texto.includes(gatilho)
-    );
+    const encontrado = gatilhos
+        .sort((a, b) => b.length - a.length)
+        .find(gatilho => texto.startsWith(gatilho));
 
     if (!encontrado) {
         return null;
     }
 
+    // Remove o gatilho e preserva somente:
+    // nome_da_ferramenta [argumentos]
+    const restante = texto
+        .substring(encontrado.length)
+        .trim();
+
+    if (!restante) {
+        return {
+            acao: "executar_ferramenta",
+            params: "",
+            msg: "Informe o nome da ferramenta que deseja executar."
+        };
+    }
+
     return {
         acao: "executar_ferramenta",
-        params: texto,
+        params: restante,
         msg: "Executando ferramenta solicitada."
     };
 }
