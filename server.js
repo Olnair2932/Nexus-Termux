@@ -315,9 +315,38 @@ async function sincronizarMemoriaFirebase() {
             "utf8"
         );
 
+        const dados = JSON.parse(memoria);
+
+        // Firebase Realtime Database não aceita ".", "#", "$", "/", "[", "]"
+        // em nomes de propriedades. Sanitizamos somente as chaves.
+        function sanitizarChavesFirebase(valor) {
+            if (Array.isArray(valor)) {
+                return valor.map(sanitizarChavesFirebase);
+            }
+
+            if (valor && typeof valor === "object") {
+                const resultado = {};
+
+                for (const [chave, conteudo] of Object.entries(valor)) {
+                    const chaveSegura = chave
+                        .replace(/[.#$\/\[\]]/g, "_");
+
+                    resultado[chaveSegura] =
+                        sanitizarChavesFirebase(conteudo);
+                }
+
+                return resultado;
+            }
+
+            return valor;
+        }
+
+        const dadosFirebase =
+            sanitizarChavesFirebase(dados);
+
         await db
             .ref("nexus/memoria")
-            .set(JSON.parse(memoria));
+            .set(dadosFirebase);
 
         console.log("Memória sincronizada com Firebase.");
     } catch(e) {
