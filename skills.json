@@ -1439,6 +1439,17 @@
         "validar skills",
         "auditar skills"
       ]
+    },
+    "verificar_ferramentas": {
+      "executor": "python",
+      "script": "nexus_tools/verificar_ferramentas.py",
+      "descricao": "Verifica a correspondência entre scripts Python e ferramentas registradas no Nexus",
+      "frases": [
+        "verificar ferramentas",
+        "verificar scripts",
+        "auditar ferramentas",
+        "verificar ferramentas registradas"
+      ]
     }
   },
   "listar_htmls": {
