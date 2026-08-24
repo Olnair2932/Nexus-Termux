@@ -60,6 +60,23 @@ def _normalizar_nome(nome):
     return nome
 
 
+def _chave_firebase(nome):
+    """Cria uma chave válida para o Firebase Realtime Database."""
+    nome = _normalizar_nome(nome)
+
+    chave = (
+        nome
+        .replace(".", "_")
+        .replace("#", "_")
+        .replace("$", "_")
+        .replace("[", "_")
+        .replace("]", "_")
+        .replace("/", "_")
+    )
+
+    return chave
+
+
 def salvar_arquivo(nome, conteudo):
     """Salva um arquivo no Firebase Realtime Database."""
     conectar_firebase()
@@ -75,7 +92,7 @@ def salvar_arquivo(nome, conteudo):
     }
 
     db.reference(
-        f"arquivos_nexus/{nome}"
+        f"arquivos_nexus/{_chave_firebase(nome)}"
     ).set(dados)
 
     return dados
@@ -88,7 +105,7 @@ def ler_arquivo(nome):
     nome = _normalizar_nome(nome)
 
     dados = db.reference(
-        f"arquivos_nexus/{nome}"
+        f"arquivos_nexus/{_chave_firebase(nome)}"
     ).get()
 
     if not dados:
@@ -104,7 +121,7 @@ def excluir_arquivo(nome):
     nome = _normalizar_nome(nome)
 
     db.reference(
-        f"arquivos_nexus/{nome}"
+        f"arquivos_nexus/{_chave_firebase(nome)}"
     ).delete()
 
 
