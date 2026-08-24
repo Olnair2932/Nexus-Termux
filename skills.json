@@ -1450,6 +1450,17 @@
         "auditar ferramentas",
         "verificar ferramentas registradas"
       ]
+    },
+    "auditar_ferramentas": {
+      "executor": "python",
+      "script": "nexus_tools/auditar_ferramentas.py",
+      "descricao": "Audita sintaxe, estrutura e imports das ferramentas Python do Nexus",
+      "frases": [
+        "auditar ferramentas",
+        "auditar ferramentas nexus",
+        "fazer auditoria das ferramentas",
+        "verificar qualidade das ferramentas"
+      ]
     }
   },
   "listar_htmls": {
