@@ -1406,6 +1406,17 @@
         "restaurar arquivo",
         "baixar arquivo do firebase"
       ]
+    },
+    "consolidar_memoria": {
+      "executor": "python",
+      "script": "nexus_tools/consolidar_memoria.py",
+      "descricao": "Analisa e consolida registros de memória duplicados sem alterar a memória original",
+      "frases": [
+        "consolidar memória",
+        "organizar memória",
+        "limpar memória duplicada",
+        "analisar memória"
+      ]
     }
   },
   "listar_htmls": {
