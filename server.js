@@ -2659,30 +2659,43 @@ app.post("/api/chat", async (req, res) => {
                 continue;
             }
 
-            const encontrouFrase = skill.frases.some(frase => {
-                const f = String(frase).toLowerCase().trim();
-                return f && entradaSkillDireta === f;
-            });
+        let fraseEncontrada = null;
 
-            if (encontrouFrase) {
-                intentSkillDireta = {
-                    acao: nomeSkill,
-                    params: "",
-                    executor: skill.executor || "python",
-                    autoBuild: false,
-                    msg: "Executando skill registrada diretamente."
-                };
+        for (const frase of skill.frases) {
+            const f = String(frase).toLowerCase().trim();
+            if (!f) continue;
 
-                console.log(
-                    "🎯 SKILL DIRETA:",
-                    entradaSkillDireta,
-                    "=>",
-                    nomeSkill
-                );
-
+            if (entradaSkillDireta === f || entradaSkillDireta.startsWith(f + " ")) {
+                fraseEncontrada = f;
                 break;
             }
         }
+
+        if (fraseEncontrada) {
+            const params = entradaSkillDireta
+                .slice(fraseEncontrada.length)
+                .trim();
+
+            intentSkillDireta = {
+                acao: nomeSkill,
+                params: params,
+                executor: skill.executor || "python",
+                autoBuild: false,
+                msg: "Executando skill registrada diretamente."
+            };
+
+            console.log(
+                "🎯 SKILL DIRETA:",
+                entradaSkillDireta,
+                "=>",
+                nomeSkill,
+                "PARAMS:",
+                params
+            );
+
+            break;
+        }
+            }
 
     } catch (e) {
         console.log(
@@ -2954,6 +2967,31 @@ if (!acoesValidas.has(intent.acao)) {
 // Lógica de Ação
 
 switch (intent.acao) {
+
+    case "github_search":
+        try {
+            const { execSync } = require("child_process");
+            const tema = String(intent.params || promptUsuario || "").trim();
+
+            if (!tema) {
+                respostaFinal = "Informe o tema da pesquisa no GitHub.";
+                break;
+            }
+
+            respostaFinal = execSync(
+                `python3 ${CONFIG.ROOT}/nexus_tools/pesquisar_github.py ${JSON.stringify(tema)}`,
+                {
+                    cwd: CONFIG.ROOT,
+                    encoding: "utf8",
+                    maxBuffer: 5 * 1024 * 1024
+                }
+            ).trim();
+
+        } catch (e) {
+            respostaFinal = "Erro na pesquisa do GitHub: " + e.message;
+        }
+        break;
+
 
     case "status_sistema":
         try {
