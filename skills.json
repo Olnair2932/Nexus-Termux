@@ -1417,6 +1417,17 @@
         "limpar memória duplicada",
         "analisar memória"
       ]
+    },
+    "diagnostico_nexus": {
+      "executor": "python",
+      "script": "nexus_tools/diagnostico_nexus.py",
+      "descricao": "Executa diagnóstico somente leitura da integridade do Nexus",
+      "frases": [
+        "diagnóstico do nexus",
+        "diagnosticar nexus",
+        "verificar saúde do nexus",
+        "verificar integridade do nexus"
+      ]
     }
   },
   "listar_htmls": {
