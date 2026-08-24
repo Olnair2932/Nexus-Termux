@@ -1428,6 +1428,17 @@
         "verificar saúde do nexus",
         "verificar integridade do nexus"
       ]
+    },
+    "verificar_skills": {
+      "executor": "python",
+      "script": "nexus_tools/verificar_skills.py",
+      "descricao": "Verifica a integridade das skills registradas no Nexus",
+      "frases": [
+        "verificar skills",
+        "verificar ferramentas registradas",
+        "validar skills",
+        "auditar skills"
+      ]
     }
   },
   "listar_htmls": {
