@@ -2672,9 +2672,18 @@ app.post("/api/chat", async (req, res) => {
         }
 
         if (fraseEncontrada) {
-            const params = entradaSkillDireta
+            let params = entradaSkillDireta
                 .slice(fraseEncontrada.length)
                 .trim();
+
+            if (nomeSkill === "github_search") {
+                params = params
+                    .replace(/^sobre\\s+/i, "")
+                    .split(/\\s+(?:e\\s+)?(?:analise|analisa|pesquise|pesquisar|produza|produzir|gere|gerar)\\b/i)[0]
+                    .trim()
+                    .replace(/[,.!?;:]+$/, "")
+                    .trim();
+            }
 
             intentSkillDireta = {
                 acao: nomeSkill,
