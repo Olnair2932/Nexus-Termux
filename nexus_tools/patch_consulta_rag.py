@@ -4,10 +4,14 @@ from pathlib import Path
 import shutil
 import sys
 
-SERVER = Path("/data/data/com.termux/files/home/sentinela_dev/server.js")
+# Descobre a raiz do projeto a partir deste próprio script.
+# Funciona tanto no Termux quanto no Render.
+BASE = Path(__file__).resolve().parent.parent
+SERVER = BASE / "server.js"
 
 if not SERVER.exists():
     print("ERRO: server.js não encontrado.")
+    print("Procurado em:", SERVER)
     sys.exit(1)
 
 backup = SERVER.with_suffix(".js.bak_consulta_rag")
