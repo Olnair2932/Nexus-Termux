@@ -402,6 +402,52 @@ def registrar_historico(
         )
 
 
+def normalizar_tema_github(tema):
+    """
+    Extrai somente o assunto principal de uma solicitação em linguagem natural.
+    Exemplo:
+    'sobre python fastapi, analise os 5 projetos...'
+    -> 'python fastapi'
+    """
+    import re
+
+    tema = str(tema or "").strip()
+
+    # Remove prefixos comuns de comandos do Nexus.
+    tema = re.sub(
+        r"^\s*(?:pesquise|pesquisar|pesquisa|busque|buscar|busca)"
+        r"(?:\s+no\s+github)?\s+",
+        "",
+        tema,
+        flags=re.IGNORECASE,
+    )
+
+    # Remove conectores que introduzem o assunto.
+    tema = re.sub(
+        r"^(?:sobre|acerca de|a respeito de)\s+",
+        "",
+        tema,
+        flags=re.IGNORECASE,
+    )
+
+    # Remove pontuação que normalmente introduz instruções adicionais.
+    partes = re.split(
+        r"\s*(?:,|;)\s*|\s+(?:e\s+)?"
+        r"(?:analise|analisa|pesquise|pesquisar|produza|produzir|"
+        r"gere|gerar|crie|criar|faça|faca|mostre|mostrar)\b",
+        tema,
+        maxsplit=1,
+        flags=re.IGNORECASE,
+    )
+
+    tema = partes[0].strip()
+
+    # Limpeza final.
+    tema = re.sub(r"^[\s,;:.-]+|[\s,;:.-]+$", "", tema)
+
+    return tema
+
+
 def main():
 
     if len(sys.argv) < 2:
@@ -413,7 +459,7 @@ def main():
         print()
         sys.exit(1)
 
-    tema = " ".join(sys.argv[1:]).strip()
+    tema = normalizar_tema_github(" ".join(sys.argv[1:]))
 
     if not tema:
         print("ERRO: tema vazio.")
