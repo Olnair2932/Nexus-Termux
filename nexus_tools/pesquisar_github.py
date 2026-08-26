@@ -450,16 +450,13 @@ def normalizar_tema_github(tema):
 
 def main():
 
-    if len(sys.argv) < 2:
-        print()
-        print(
-            "Uso: python3 "
-            "nexus_tools/pesquisar_github.py <tema>"
-        )
-        print()
-        sys.exit(1)
+    tema_bruto = " ".join(sys.argv[1:]).strip()
 
-    tema = normalizar_tema_github(" ".join(sys.argv[1:]))
+    if tema_bruto:
+        tema = normalizar_tema_github(tema_bruto)
+    else:
+        tema = "projetos populares no GitHub"
+        print("Tema não informado. Usando tema padrão:", tema)
 
     if not tema:
         tema = "projetos populares no GitHub"
