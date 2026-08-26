@@ -462,8 +462,8 @@ def main():
     tema = normalizar_tema_github(" ".join(sys.argv[1:]))
 
     if not tema:
-        print("ERRO: tema vazio.")
-        sys.exit(1)
+        tema = "projetos populares no GitHub"
+        print("Tema não informado. Usando tema padrão:", tema)
 
     print()
     print("==========================================")
