@@ -16,6 +16,10 @@ def executar(acao):
 
     print("ACTION:", acao)
 
+    # "conversar" é uma ação interna do Nexus, não uma skill executável.
+    if acao == "conversar":
+        return
+
     if acao not in SKILLS:
 
         encontrados = procurar(acao)
