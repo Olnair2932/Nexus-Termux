@@ -2652,7 +2652,16 @@ app.post("/api/chat", async (req, res) => {
             .replace(/nexus[,\\s:]*/g, "")
             .trim();
 
-        for (const nomeSkill of Object.keys(skillsDiretas)) {
+        // github_search deve ter prioridade sobre a skill genérica "github".
+        // Sem isso, "Github Python FastAPI" casa primeiro com "github"
+        // e o tema "Python FastAPI" é perdido.
+        const nomesSkillsOrdenados = Object.keys(skillsDiretas).sort((a, b) => {
+            if (a === "github_search") return -1;
+            if (b === "github_search") return 1;
+            return 0;
+        });
+
+        for (const nomeSkill of nomesSkillsOrdenados) {
             const skill = skillsDiretas[nomeSkill];
 
             if (!skill || !Array.isArray(skill.frases)) {
