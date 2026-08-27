@@ -1374,21 +1374,81 @@ async function processarIntencao(promptUsuario) {
         );
     }
 
-    // ========================================================
-    // NEXUS INTENT ROUTER
-    // ========================================================
-    //
-    // O Python classifica a intenção antes do processamento.
-    // Por enquanto apenas registra a decisão.
-    // O fluxo existente continua preservado.
-    //
+    // ============================================================
+    // NEXUS PYTHON -> ROTEADOR
+    // ============================================================
+    let intentPython = null;
+
     if (intentLocal && intentLocal.intencao) {
-        console.log(
-            "[NEXUS INTENT ROUTER]",
-            intentLocal.intencao,
-            "confianca=",
-            intentLocal.confianca
-        );
+        switch (intentLocal.intencao) {
+            case "criar_ferramenta":
+                intentPython = {
+                    acao: "gerar_ferramenta",
+                    params: intentLocal.pedido,
+                    autoBuild: true,
+                    msg: "Intenção Python: criar ferramenta."
+                };
+                break;
+
+            case "usar_ferramenta":
+                intentPython = {
+                    acao: "executar_ferramenta",
+                    params: intentLocal.pedido,
+                    msg: "Intenção Python: usar ferramenta."
+                };
+                break;
+
+            case "criar_script_python":
+                intentPython = {
+                    acao: "gerar_codigo",
+                    params: intentLocal.pedido,
+                    linguagem: "python",
+                    msg: "Intenção Python: criar script Python."
+                };
+                break;
+
+            case "criar_script_bash":
+                intentPython = {
+                    acao: "gerar_codigo",
+                    params: intentLocal.pedido,
+                    linguagem: "bash",
+                    msg: "Intenção Python: criar script Bash."
+                };
+                break;
+
+            case "executar_python":
+                intentPython = {
+                    acao: "executar_python",
+                    params: intentLocal.pedido,
+                    linguagem: "python",
+                    msg: "Intenção Python: executar Python."
+                };
+                break;
+
+            case "executar_bash":
+                intentPython = {
+                    acao: "executar_bash",
+                    params: intentLocal.pedido,
+                    linguagem: "bash",
+                    msg: "Intenção Python: executar Bash."
+                };
+                break;
+
+            case "consultar_conhecimento":
+                intentPython = {
+                    acao: "consultar_conhecimento",
+                    params: intentLocal.pedido,
+                    msg: "Intenção Python: consultar conhecimento."
+                };
+                break;
+        }
+
+        if (intentPython) {
+            console.log(
+                "[NEXUS PYTHON -> ROUTER]",
+                JSON.stringify(intentPython)
+            );
+        }
     }
 
     let contextoRAG = "";
@@ -2835,100 +2895,6 @@ app.post("/api/chat", async (req, res) => {
     const textoExecutarScript = textoNormalizado
         .match(/^executar[_\s]+script\s+(.+)$/i);
 
-    // ============================================================
-    // NEXUS INTENT ANALYZER -> ROTEADOR EXISTENTE
-    // ============================================================
-    //
-    // O Python classifica a intenção.
-    // Aqui convertemos somente as intenções reconhecidas
-    // em ações compatíveis com o roteador atual.
-    //
-    let intentPython = null;
-
-    if (intentLocal && intentLocal.intencao) {
-        switch (intentLocal.intencao) {
-
-            case "criar_ferramenta":
-                intentPython = {
-                    acao: "gerar_ferramenta",
-                    params: intentLocal.pedido,
-                    autoBuild: true,
-                    msg: "Intenção Python: criar ferramenta."
-                };
-                break;
-
-            case "usar_ferramenta":
-                intentPython = {
-                    acao: "executar_ferramenta",
-                    params: intentLocal.pedido,
-                    msg: "Intenção Python: usar ferramenta."
-                };
-                break;
-
-            case "criar_script_python":
-                intentPython = {
-                    acao: "gerar_codigo",
-                    params: intentLocal.pedido,
-                    linguagem: "python",
-                    msg: "Intenção Python: criar script Python."
-                };
-                break;
-
-            case "criar_script_bash":
-                intentPython = {
-                    acao: "gerar_codigo",
-                    params: intentLocal.pedido,
-                    linguagem: "bash",
-                    msg: "Intenção Python: criar script Bash."
-                };
-                break;
-
-            case "executar_python":
-                intentPython = {
-                    acao: "executar_python",
-                    params: intentLocal.pedido,
-                    linguagem: "python",
-                    msg: "Intenção Python: executar Python."
-                };
-                break;
-
-            case "executar_bash":
-                intentPython = {
-                    acao: "executar_bash",
-                    params: intentLocal.pedido,
-                    linguagem: "bash",
-                    msg: "Intenção Python: executar Bash."
-                };
-                break;
-
-            case "consultar_conhecimento":
-                intentPython = {
-                    acao: "consultar_conhecimento",
-                    params: intentLocal.pedido,
-                    msg: "Intenção Python: consultar conhecimento."
-                };
-                break;
-
-            case "conversar":
-                intentPython = null;
-                break;
-
-            default:
-                intentPython = null;
-        }
-
-        if (intentPython) {
-            console.log(
-                "[NEXUS PYTHON -> ROUTER]",
-                JSON.stringify(intentPython)
-            );
-        }
-    }
-
-    // ============================================================
-    // ROTEADOR DE NOVOS GATILHOS DE FERRAMENTAS
-    // Prioridade: gerar+executar > gerar > executar > gerador HTML
-    // ============================================================
     const intentGerarEExecutarFerramenta =
         detectarGerarEExecutarFerramenta(texto);
 
