@@ -2857,6 +2857,24 @@ app.post("/api/chat", async (req, res) => {
     }
 
 
+    // NORMALIZAÇÃO GITHUB
+    // A pesquisa GitHub deve usar github_search para preservar
+    // os parâmetros e permitir a sincronização do conhecimento.
+    if (
+        intent &&
+        intent.acao === "github" &&
+        intent.params &&
+        intent.params.trim()
+    ) {
+        console.log(
+            "🔀 NORMALIZAÇÃO GITHUB:",
+            intent.params,
+            "=> github_search"
+        );
+
+        intent.acao = "github_search";
+    }
+
     // RAG_FORCA_CONVERSA_FINAL
 
     if (
