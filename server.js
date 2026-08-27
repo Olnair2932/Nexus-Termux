@@ -1333,6 +1333,45 @@ function detectarGerarEExecutarFerramenta(prompt) {
 
 async function processarIntencao(promptUsuario) {
 
+    // NEXUS INTENT ANALYZER
+    // Primeiro classifica a intenção localmente.
+    // O Gemini continua disponível para a etapa seguinte.
+    try {
+        const { execFileSync } = require("child_process");
+
+        const resultadoIntent = execFileSync(
+            "python3",
+            [
+                `${CONFIG.ROOT}/nexus_tools/nexus_intent_analyzer.py`,
+                promptUsuario
+            ],
+            {
+                cwd: CONFIG.ROOT,
+                encoding: "utf8",
+                timeout: 5000,
+                maxBuffer: 1024 * 1024
+            }
+        ).trim();
+
+        if (resultadoIntent) {
+            const intentLocal = JSON.parse(resultadoIntent);
+
+            console.log(
+                "[NEXUS INTENT ANALYZER]",
+                JSON.stringify(intentLocal, null, 2)
+            );
+
+            // Guarda a classificação para o restante do processarIntencao.
+            promptUsuario = promptUsuario.trim();
+        }
+
+    } catch (e) {
+        console.log(
+            "[NEXUS INTENT ANALYZER] indisponível:",
+            e.message
+        );
+    }
+
     let contextoRAG = "";
 
     // AUTO_CONHECIMENTO_GENERATIVO
