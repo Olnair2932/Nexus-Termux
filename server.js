@@ -1336,6 +1336,8 @@ async function processarIntencao(promptUsuario) {
     // NEXUS INTENT ANALYZER
     // Primeiro classifica a intenção localmente.
     // O Gemini continua disponível para a etapa seguinte.
+    let intentLocal = null;
+
     try {
         const { execFileSync } = require("child_process");
 
@@ -1354,7 +1356,7 @@ async function processarIntencao(promptUsuario) {
         ).trim();
 
         if (resultadoIntent) {
-            const intentLocal = JSON.parse(resultadoIntent);
+            intentLocal = JSON.parse(resultadoIntent);
 
             console.log(
                 "[NEXUS INTENT ANALYZER]",
@@ -1369,6 +1371,23 @@ async function processarIntencao(promptUsuario) {
         console.log(
             "[NEXUS INTENT ANALYZER] indisponível:",
             e.message
+        );
+    }
+
+    // ========================================================
+    // NEXUS INTENT ROUTER
+    // ========================================================
+    //
+    // O Python classifica a intenção antes do processamento.
+    // Por enquanto apenas registra a decisão.
+    // O fluxo existente continua preservado.
+    //
+    if (intentLocal && intentLocal.intencao) {
+        console.log(
+            "[NEXUS INTENT ROUTER]",
+            intentLocal.intencao,
+            "confianca=",
+            intentLocal.confianca
         );
     }
 
