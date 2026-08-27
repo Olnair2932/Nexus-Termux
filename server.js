@@ -3007,7 +3007,7 @@ switch (intent.acao) {
     case "github_search":
         try {
             const { execSync } = require("child_process");
-            const tema = String(intent.params || promptUsuario || "").trim();
+            const tema = String(intent.params || texto || "").trim();
 
             if (!tema) {
                 respostaFinal = "Informe o tema da pesquisa no GitHub.";
