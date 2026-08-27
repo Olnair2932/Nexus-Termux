@@ -2996,6 +2996,36 @@ switch (intent.acao) {
                 }
             ).trim();
 
+            // SINCRONIZA CONHECIMENTO GITHUB COM FIREBASE
+            try {
+                const matchArquivo = respostaFinal.match(
+                    /Arquivo:\s*(.*\.md)/
+                );
+
+                if (matchArquivo) {
+                    const caminhoArquivo = matchArquivo[1].trim();
+
+                    await salvarConhecimentoFirebase(
+                        caminhoArquivo
+                    );
+
+                    console.log(
+                        "Conhecimento GitHub sincronizado com Firebase:",
+                        caminhoArquivo
+                    );
+                } else {
+                    console.log(
+                        "Pesquisa GitHub concluída, mas nenhum arquivo .md foi identificado."
+                    );
+                }
+
+            } catch (firebaseErro) {
+                console.log(
+                    "Falha ao sincronizar conhecimento GitHub com Firebase:",
+                    firebaseErro.message
+                );
+            }
+
         } catch (e) {
             respostaFinal = "Erro na pesquisa do GitHub: " + e.message;
         }
