@@ -1478,6 +1478,7 @@
       "script": "nexus_tools/pesquisar_github.py",
       "descricao": "Pesquisa projetos no GitHub, coleta README dos projetos mais relevantes e prepara contexto técnico para análise pelo Gemini.",
       "frases": [
+        "github",
         "pesquisar no github",
         "buscar no github",
         "pesquise no github",
