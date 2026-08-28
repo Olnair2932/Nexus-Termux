@@ -165,6 +165,77 @@
 
 </div>
 
+<div id="admin-area" style="
+    max-width:500px;
+    margin:20px auto 40px;
+    padding:20px;
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,.06);
+">
+
+    <button
+        id="btnGoogle"
+        type="button"
+        style="
+            width:100%;
+            padding:14px;
+            border:0;
+            border-radius:7px;
+            background:#4285f4;
+            color:white;
+            font-size:16px;
+            font-weight:bold;
+            cursor:pointer;
+        "
+    >
+        🔐 Acesso do administrador com Google
+    </button>
+
+    <div
+        id="admin-mensagem"
+        style="
+            margin-top:15px;
+            text-align:center;
+            font-weight:bold;
+        "
+    ></div>
+
+    <div id="admin-painel" style="display:none;">
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-top:20px;
+            margin-bottom:15px;
+        ">
+
+            <strong>Cadastros recebidos</strong>
+
+            <button
+                id="btnSair"
+                type="button"
+                style="
+                    padding:8px 12px;
+                    border:1px solid #ccc;
+                    border-radius:6px;
+                    background:#fff;
+                    cursor:pointer;
+                "
+            >
+                Sair
+            </button>
+
+        </div>
+
+        <div id="lista-cadastros"></div>
+
+    </div>
+
+</div>
+
 <script type="module">
 
 import { initializeApp }
@@ -175,8 +246,17 @@ import {
     ref,
     push,
     set,
-    serverTimestamp
+    serverTimestamp,
+    onValue
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
 const firebaseConfig = {
@@ -220,6 +300,249 @@ const mensagem =
 
 const btnSalvar =
     document.getElementById("btnSalvar");
+
+
+// =====================================================
+// ÁREA ADMINISTRATIVA
+// =====================================================
+
+const ADMIN_EMAIL = "olnairpereira@gmail.com";
+
+const auth = getAuth(app);
+
+const provider = new GoogleAuthProvider();
+
+const btnGoogle =
+    document.getElementById("btnGoogle");
+
+const btnSair =
+    document.getElementById("btnSair");
+
+const adminMensagem =
+    document.getElementById("admin-mensagem");
+
+const adminPainel =
+    document.getElementById("admin-painel");
+
+const listaCadastros =
+    document.getElementById("lista-cadastros");
+
+
+function mostrarMensagemAdmin(texto, cor) {
+
+    adminMensagem.textContent = texto;
+
+    adminMensagem.style.color = cor;
+
+}
+
+
+btnGoogle.addEventListener("click", async function() {
+
+    btnGoogle.disabled = true;
+
+    btnGoogle.textContent =
+        "Entrando...";
+
+    try {
+
+        const resultado =
+            await signInWithPopup(auth, provider);
+
+        const usuario =
+            resultado.user;
+
+        if (usuario.email !== ADMIN_EMAIL) {
+
+            await signOut(auth);
+
+            mostrarMensagemAdmin(
+                "Acesso não autorizado.",
+                "red"
+            );
+
+            return;
+        }
+
+        mostrarMensagemAdmin(
+            "Login realizado com sucesso.",
+            "green"
+        );
+
+    } catch (erro) {
+
+        console.error(
+            "Erro no login Google:",
+            erro
+        );
+
+        mostrarMensagemAdmin(
+            "Não foi possível realizar o login.",
+            "red"
+        );
+
+    } finally {
+
+        btnGoogle.disabled = false;
+
+        btnGoogle.textContent =
+            "🔐 Acesso do administrador com Google";
+
+    }
+
+});
+
+
+btnSair.addEventListener("click", async function() {
+
+    try {
+
+        await signOut(auth);
+
+        adminPainel.style.display = "none";
+
+        btnGoogle.style.display = "block";
+
+        listaCadastros.innerHTML = "";
+
+        mostrarMensagemAdmin(
+            "Sessão encerrada.",
+            "#555"
+        );
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao sair:",
+            erro
+        );
+
+    }
+
+});
+
+
+onAuthStateChanged(auth, function(usuario) {
+
+    if (!usuario) {
+
+        adminPainel.style.display = "none";
+
+        btnGoogle.style.display = "block";
+
+        return;
+    }
+
+
+    if (usuario.email !== ADMIN_EMAIL) {
+
+        adminPainel.style.display = "none";
+
+        btnGoogle.style.display = "block";
+
+        return;
+    }
+
+
+    btnGoogle.style.display = "none";
+
+    adminPainel.style.display = "block";
+
+    carregarCadastros();
+
+});
+
+
+function carregarCadastros() {
+
+    const cadastrosRef =
+        ref(db, "nexus/cadastros");
+
+
+    onValue(
+        cadastrosRef,
+        function(snapshot) {
+
+            listaCadastros.innerHTML = "";
+
+            if (!snapshot.exists()) {
+
+                listaCadastros.innerHTML =
+                    "<p>Nenhum cadastro encontrado.</p>";
+
+                return;
+            }
+
+
+            const dados =
+                snapshot.val();
+
+            const registros =
+                Object.entries(dados).reverse();
+
+
+            registros.forEach(
+                function([id, cadastro]) {
+
+                    const card =
+                        document.createElement("div");
+
+                    card.style.cssText = `
+                        border:1px solid #ddd;
+                        border-radius:8px;
+                        padding:15px;
+                        margin-bottom:10px;
+                        background:#fafafa;
+                    `;
+
+
+                    const nome =
+                        document.createElement("strong");
+
+                    nome.textContent =
+                        cadastro.nome || "Sem nome";
+
+
+                    const info =
+                        document.createElement("div");
+
+                    info.style.marginTop = "8px";
+
+                    info.innerHTML = `
+                        WhatsApp:
+                        <strong>${cadastro.whatsapp || ""}</strong><br>
+                        Endereço:
+                        ${cadastro.endereco || ""}<br>
+                        Cidade:
+                        ${cadastro.cidade || ""}
+                    `;
+
+
+                    card.appendChild(nome);
+
+                    card.appendChild(info);
+
+                    listaCadastros.appendChild(card);
+
+                }
+            );
+
+        },
+        function(erro) {
+
+            console.error(
+                "Erro ao carregar cadastros:",
+                erro
+            );
+
+            listaCadastros.innerHTML =
+                "<p style='color:red'>Erro ao carregar os cadastros.</p>";
+
+        }
+    );
+
+}
+
 
 
 whatsapp.addEventListener("input", function() {
