@@ -4123,13 +4123,20 @@ default:
                         }
                     );
 
-                    chave = novaTool;
-                    intent.acao = novaTool;
-
                     console.log(
                         "✅ Ferramenta criada:",
                         novaTool
                     );
+
+                    respostaFinal =
+                        "Ferramenta criada com sucesso: " + novaTool +
+                        "\n\nPara executar, informe os argumentos necessários.\n" +
+                        "Exemplo: executar a ferramenta " + novaTool + " 10 20 30";
+
+                    intent.acao = "gerar_ferramenta";
+                    intent.params = novaTool;
+
+                    break;
 
                 } catch(e) {
 
