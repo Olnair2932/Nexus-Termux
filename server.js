@@ -4073,7 +4073,7 @@ default:
                     const novaTool = normalizar_nome_tool(
                         matchNomeTool
                             ? matchNomeTool[1]
-                            : texto.split(/\\s+/)[0]
+                            : texto.split(/\s+/)[0]
                     );
 
                     if (!novaTool) {
