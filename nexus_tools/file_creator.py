@@ -501,6 +501,23 @@ def criar_tool(
 
         return False
 
+    # Garantia mínima: o Gemini precisa entregar código Python real.
+    codigo_limpo = codigo_python.strip()
+
+    if not codigo_limpo:
+        print("❌ Gemini retornou código vazio.")
+        return False
+
+    linhas = [
+        linha.strip()
+        for linha in codigo_limpo.splitlines()
+        if linha.strip() and not linha.strip().startswith("#")
+    ]
+
+    if len(linhas) <= 1 and linhas and linhas[0].startswith("print("):
+        print("❌ Ferramenta rejeitada: implementação contém apenas print().")
+        return False
+
     # Primeira validação.
     valido, mensagem = validar_codigo(
         codigo_python
@@ -539,6 +556,26 @@ def criar_tool(
             resultado
         )
 
+        return False
+
+    # ============================================================
+    # FIREBASE — PERSISTÊNCIA DA FERRAMENTA VALIDADA
+    # ============================================================
+    try:
+        salvar_arquivo(
+            f"nexus_tools/{nome}.py",
+            codigo_python
+        )
+        print(
+            "☁️ Ferramenta persistida no Firebase:",
+            nome
+        )
+    except Exception as erro:
+        print(
+            "⚠️ Ferramenta criada e validada no Render, "
+            "mas não foi possível salvar no Firebase:",
+            erro
+        )
         return False
 
     registrar_skill(
