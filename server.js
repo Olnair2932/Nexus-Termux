@@ -4076,11 +4076,36 @@ default:
                         novaTool
                     );
 
+                    const especificacaoTool = [
+                        "Crie uma ferramenta Python funcional.",
+                        "Objetivo solicitado pelo usuário:",
+                        texto,
+                        "",
+                        "A ferramenta deve implementar de verdade o objetivo solicitado.",
+                        "Não crie apenas um arquivo com print().",
+                        "Use bibliotecas Python apropriadas quando necessário.",
+                        "A ferramenta deve receber os argumentos necessários pela linha de comando.",
+                        "Produza uma implementação utilizável e coerente com o pedido.",
+                        "Mantenha compatibilidade com o sistema Nexus existente."
+                    ].join("\n");
+
                     execSync(
-                        `python3 ${CONFIG.ROOT}/nexus_tools/file_creator.py criar_tool ${novaTool} "Ferramenta criada automaticamente pelo Nexus" "${texto}" "print('Ferramenta ${novaTool} criada automaticamente pelo Nexus')"`,
+                        "python3 " +
+                        JSON.stringify(`${CONFIG.ROOT}/nexus_tools/file_creator.py`) +
+                        " criar_tool " +
+                        JSON.stringify(novaTool) +
+                        " " +
+                        JSON.stringify(
+                            "Ferramenta Python criada pelo Nexus para: " + especificacaoTool
+                        ) +
+                        " " +
+                        JSON.stringify("gerar automaticamente") +
+                        " " +
+                        JSON.stringify("__GERAR_COM_GEMINI__"),
                         {
                             cwd: CONFIG.ROOT,
-                            encoding: "utf8"
+                            encoding: "utf8",
+                            maxBuffer: 1024 * 1024
                         }
                     );
 
