@@ -2985,46 +2985,102 @@ app.post("/api/chat", async (req, res) => {
             intent.params,
             "=> github_search"
         );
-
         intent.acao = "github_search";
     }
 
-    // RAG_FORCA_CONVERSA_FINAL
+    // ============================================================
+    // TOOL INTENT LOCK
+    // ============================================================
+    // Se o detector local identificou explicitamente uma criação
+    // de ferramenta, essa intenção tem prioridade sobre RAG/Gemini.
+    //
+    // O RAG pode fornecer conhecimento para a geração, mas não
+    // pode transformar:
+    //
+    //     gerar_ferramenta
+    //
+    // em:
+    //
+    //     auto_aprender
+    //     conversar
+    //     qualquer outra ação
+    //
+    // Isso mantém o fluxo:
+    //
+    // usuário
+    //   ↓
+    // detectarGerarFerramenta()
+    //   ↓
+    // gerar_ferramenta
+    //   ↓
+    // file_creator.py
+    //   ↓
+    // validação
+    //   ↓
+    // Firebase
+    // ============================================================
 
-    if (
-        intent &&
-        intent.msg &&
+    const ferramentaExplicitamenteSolicitada =
+        !!intentGerarFerramenta ||
         (
-            intent.msg.includes("NEXUS CONHECIMENTO CONSOLIDADO") ||
-            intent.msg.includes("CONHECIMENTO APRENDIDO") ||
-            intent.msg.includes("DOCUMENTAÇÃO NEXUS")
-        )
-    ) {
-
-        console.log(
-            "RAG local encontrado. Bloqueando AutoBuild."
+            intent &&
+            intent.acao === "gerar_ferramenta"
         );
 
-        intent.acao = "conversar";
-        intent.autoBuild = false;
-
-    }
-
-
-    // RAG_INTENT_FINAL_FIX
-
-    if (
-        intent &&
-        intent.ragLocal === true
-    ) {
-
+    if (ferramentaExplicitamenteSolicitada) {
         console.log(
-            "RAG local detectado. Forçando conversa."
+            "🔒 TOOL INTENT LOCK: criação de ferramenta protegida contra alteração pelo RAG."
         );
 
-        intent.acao = "conversar";
-        intent.autoBuild = false;
+        // Preserva o detector local como autoridade para a ação.
+        if (intentGerarFerramenta) {
+            intent = {
+                ...intentGerarFerramenta,
+                acao: "gerar_ferramenta",
+                autoBuild: true,
+                ragLocal: false
+            };
+        } else {
+            intent.acao = "gerar_ferramenta";
+            intent.autoBuild = true;
+            intent.ragLocal = false;
+        }
+    } else {
 
+        // ========================================================
+        // RAG_FORCA_CONVERSA_FINAL
+        // ========================================================
+        if (
+            intent &&
+            intent.msg &&
+            (
+                intent.msg.includes("NEXUS CONHECIMENTO CONSOLIDADO") ||
+                intent.msg.includes("CONHECIMENTO APRENDIDO") ||
+                intent.msg.includes("DOCUMENTAÇÃO NEXUS")
+            )
+        ) {
+            console.log(
+                "RAG local encontrado. Bloqueando AutoBuild."
+            );
+
+            intent.acao = "conversar";
+            intent.autoBuild = false;
+        }
+
+        // ========================================================
+        // RAG_INTENT_FINAL_FIX
+        // ========================================================
+        if (
+            intent &&
+            intent.ragLocal === true
+        ) {
+            console.log(
+                "RAG local detectado. Forçando conversa."
+            );
+
+            intent.acao = "conversar";
+            intent.autoBuild = false;
+        }
     }
 
     console.log("========== DEBUG ==========");
