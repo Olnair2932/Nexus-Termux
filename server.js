@@ -1333,6 +1333,37 @@ function detectarGerarEExecutarFerramenta(prompt) {
 
 async function processarIntencao(promptUsuario) {
 
+    // ============================================================
+    // EXECUÇÃO EXPLÍCITA DE FERRAMENTA — PRIORIDADE MÁXIMA
+    // ============================================================
+    // Se o usuário disser "executar a ferramenta X", essa intenção
+    // não pode ser reinterpretada pelo RAG/Gemini como aprendizado.
+    // ============================================================
+    const execucaoFerramentaMatch = String(promptUsuario || "").match(
+        /^\s*executar\s+(?:a\s+)?ferramenta\s+([a-zA-Z0-9_-]+)(?:\s+(.*))?\s*$/i
+    );
+
+    if (execucaoFerramentaMatch) {
+        const nomeFerramenta = execucaoFerramentaMatch[1];
+        const argumentosFerramenta = (execucaoFerramentaMatch[2] || "").trim();
+
+        console.log(
+            "🔒 TOOL EXECUTION LOCK:",
+            nomeFerramenta,
+            argumentosFerramenta
+        );
+
+        return {
+            acao: "executar_script",
+            params: [nomeFerramenta, argumentosFerramenta]
+                .filter(Boolean)
+                .join(" "),
+            msg: "Executando a ferramenta " + nomeFerramenta + ".",
+            autoBuild: false,
+            ragLocal: false
+        };
+    }
+
     // NEXUS INTENT ANALYZER
     // Primeiro classifica a intenção localmente.
     // O Gemini continua disponível para a etapa seguinte.
