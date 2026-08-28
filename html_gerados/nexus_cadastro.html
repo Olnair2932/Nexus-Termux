@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: #ffffff;
+            color: #222;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+        }
+
+        .formulario {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin: 16px 0 6px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        .whatsapp {
+            display: flex;
+            gap: 8px;
+        }
+
+        .codigo {
+            width: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .whatsapp input {
+            flex: 1;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: 0;
+            border-radius: 7px;
+            background: #111;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: .6;
+        }
+
+        #mensagem {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="formulario">
+
+        <h1>Cadastro</h1>
+
+        <form id="cadastroForm">
+
+            <label for="nome">Nome</label>
+
+            <input
+                id="nome"
+                type="text"
+                placeholder="Digite seu nome"
+                maxlength="120"
+                required
+            >
+
+            <label for="whatsapp">WhatsApp</label>
+
+            <div class="whatsapp">
+
+                <div class="codigo">55</div>
+
+                <input
+                    id="whatsapp"
+                    type="tel"
+                    inputmode="numeric"
+                    maxlength="11"
+                    placeholder="DDD + número"
+                    required
+                >
+
+            </div>
+
+            <label for="endereco">Endereço</label>
+
+            <input
+                id="endereco"
+                type="text"
+                placeholder="Digite seu endereço"
+                maxlength="200"
+                required
+            >
+
+            <label for="cidade">Cidade</label>
+
+            <input
+                id="cidade"
+                type="text"
+                placeholder="Digite sua cidade"
+                maxlength="100"
+                required
+            >
+
+            <button id="btnSalvar" type="submit">
+                Salvar cadastro
+            </button>
+
+            <div id="mensagem"></div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp }
+    from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+import {
+    getDatabase,
+    ref,
+    push,
+    set,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-database.js";
+
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyB0Tr9Dsy-Pn8WSPUmxTsx5j2S8Sc4xIDg",
+
+    authDomain:
+        "finance-master-629d1.firebaseapp.com",
+
+    databaseURL:
+        "https://finance-master-629d1-default-rtdb.firebaseio.com",
+
+    projectId:
+        "finance-master-629d1",
+
+    storageBucket:
+        "finance-master-629d1.firebasestorage.app",
+
+    messagingSenderId:
+        "411976359484",
+
+    appId:
+        "1:411976359484:web:eeee1000da6c1335326d39"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
+
+
+const form =
+    document.getElementById("cadastroForm");
+
+const whatsapp =
+    document.getElementById("whatsapp");
+
+const mensagem =
+    document.getElementById("mensagem");
+
+const btnSalvar =
+    document.getElementById("btnSalvar");
+
+
+whatsapp.addEventListener("input", function() {
+
+    this.value =
+        this.value
+            .replace(/\D/g, "")
+            .slice(0, 11);
+
+});
+
+
+form.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+
+    const nome =
+        document.getElementById("nome")
+            .value.trim();
+
+    const numero =
+        whatsapp.value
+            .replace(/\D/g, "");
+
+    const endereco =
+        document.getElementById("endereco")
+            .value.trim();
+
+    const cidade =
+        document.getElementById("cidade")
+            .value.trim();
+
+
+    if (!nome || !numero || !endereco || !cidade) {
+
+        mensagem.textContent =
+            "Preencha todos os campos.";
+
+        mensagem.style.color = "red";
+
+        return;
+    }
+
+
+    if (numero.length !== 10 &&
+        numero.length !== 11) {
+
+        mensagem.textContent =
+            "Digite um WhatsApp válido com DDD.";
+
+        mensagem.style.color = "red";
+
+        return;
+    }
+
+
+    btnSalvar.disabled = true;
+
+    btnSalvar.textContent =
+        "Salvando...";
+
+    mensagem.textContent = "";
+
+
+    try {
+
+        const cadastroRef =
+            push(ref(db, "nexus/cadastros"));
+
+
+        await set(cadastroRef, {
+
+            nome: nome,
+
+            whatsapp: "55" + numero,
+
+            endereco: endereco,
+
+            cidade: cidade,
+
+            criadoEm: serverTimestamp()
+
+        });
+
+
+        mensagem.textContent =
+            "Cadastro salvo com sucesso!";
+
+        mensagem.style.color =
+            "green";
+
+
+        form.reset();
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao salvar:",
+            erro
+        );
+
+
+        mensagem.textContent =
+            "Erro ao salvar o cadastro. Verifique as regras do Firebase.";
+
+        mensagem.style.color =
+            "red";
+
+
+    } finally {
+
+        btnSalvar.disabled = false;
+
+        btnSalvar.textContent =
+            "Salvar cadastro";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
