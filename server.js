@@ -3055,8 +3055,11 @@ try {
         Object.keys(dadosSkills.skills || {})
     );
 
-    // Ação interna de conversa
+    // Ações internas do roteador, independentes do skills.json
     acoesValidas.add("conversar");
+    acoesValidas.add("executar_script");
+    acoesValidas.add("executar_comando");
+    acoesValidas.add("gerar_ferramenta");
 
     console.log(
         `✅ Ações carregadas dinamicamente: ${acoesValidas.size}`
