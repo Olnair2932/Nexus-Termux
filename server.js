@@ -4163,7 +4163,16 @@ intent.acao = chave;
               // 🧠 NEXUS LEARNING MEMORY
             try {
                 execSync(
-                    `python3 -c "from nexus_tools.learning_memory import registrar_acerto; registrar_acerto('${texto.replace("'", "\\'")}', '${chave}')"` ,
+                    "python3 -c " +
+                    JSON.stringify(
+                        "from nexus_tools.learning_memory import registrar_acerto; " +
+                        "import sys; " +
+                        "registrar_acerto(sys.argv[1], sys.argv[2])"
+                    ) +
+                    " " +
+                    JSON.stringify(texto) +
+                    " " +
+                    JSON.stringify(chave),
                     {
                         cwd: CONFIG.ROOT,
                         encoding: "utf8"
