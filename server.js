@@ -4067,7 +4067,7 @@ default:
                             .replace(/^_+|_+$/g, "");
 
                     const matchNomeTool = texto.match(
-                        /(?:chamada|chamado|nome(?:\s+da)?|ferramenta(?:\s+chamada)?)\s+["“']?([a-zA-Z0-9_-]+)["”']?/i
+                        /(?:chamada|chamado|nome(?:\s+da)?|ferramenta\s+chamada)\s+["“']?([a-zA-Z0-9_-]+)["”']?/i
                     );
 
                     const novaTool = normalizar_nome_tool(
