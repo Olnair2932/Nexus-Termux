@@ -4066,10 +4066,21 @@ default:
                             .replace(/[^a-z0-9_]/g, "_")
                             .replace(/^_+|_+$/g, "");
 
-                    const novaTool =
-                        normalizar_nome_tool(
-                            texto
+                    const matchNomeTool = texto.match(
+                        /(?:chamada|chamado|nome(?:\s+da)?|ferramenta(?:\s+chamada)?)\s+["“']?([a-zA-Z0-9_-]+)["”']?/i
+                    );
+
+                    const novaTool = normalizar_nome_tool(
+                        matchNomeTool
+                            ? matchNomeTool[1]
+                            : texto.split(/\\s+/)[0]
+                    );
+
+                    if (!novaTool) {
+                        throw new Error(
+                            "Não foi possível identificar um nome válido para a ferramenta."
                         );
+                    }
 
                     console.log(
                         "🔧 Criando ferramenta automática:",
