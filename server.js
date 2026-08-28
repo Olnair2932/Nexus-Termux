@@ -4184,10 +4184,15 @@ default:
                         novaTool
                     );
 
+                    const ferramentaSemArgumentos =
+                        /(?:hora|data|sistema|status|tempo|vers[aã]o|hostname|uptime)/i.test(novaTool);
+
                     respostaFinal =
                         "Ferramenta criada com sucesso: " + novaTool +
-                        "\n\nPara executar, informe os argumentos necessários.\n" +
-                        "Exemplo: executar a ferramenta " + novaTool + " 10 20 30";
+                        (ferramentaSemArgumentos
+                            ? "\n\nPara executar:\nexecutar a ferramenta " + novaTool
+                            : "\n\nPara executar, informe os argumentos necessários.\n" +
+                              "Exemplo: executar a ferramenta " + novaTool + " 10 20 30");
 
                     intent.acao = "gerar_ferramenta";
                     intent.params = novaTool;
